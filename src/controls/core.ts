@@ -1,23 +1,10 @@
-import * as fs from "fs";
-import * as util from "util";
-import { GenericConsts } from "../consts/generic.consts";
-import { ICore } from "../interfaces/icore";
+import * as fs from "fs-extra";
+export class Core {
+    public static ethereum_modules = "ethereum_modules";
 
-export class Core implements ICore {
+    constructor() { }
 
-    constructor() {
+    public validateEthereumModulesExist() {
         
-    }
-
-    public async packages() {
-        const JSONPackageDetails = await this.readPackageJson();
-
-        return JSONPackageDetails.dependencies;
-    }
-
-    public async readPackageJson() {        
-        const readFile = util.promisify(fs.readFile);
-        const data = await readFile(GenericConsts.ethereumPMJsonName);
-        return JSON.parse(data.toString());
     }
 }
