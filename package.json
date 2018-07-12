@@ -1,5 +1,5 @@
 {
-  "name": "ethereum-pm",
+  "name": "epm",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/joshstevens19/ethereumPM.git",
@@ -9,6 +9,7 @@
     "co": "^4.6.0",
     "co-prompt": "^1.0.0",
     "commander": "^2.16.0",
+    "fs-extra": "^6.0.1",
     "gulp": "^3.9.1",
     "progress": "^2.0.0"
   },
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@types/chalk": "^2.2.0",
     "@types/commander": "^2.12.2",
+    "@types/fs-extra": "^5.0.4",
     "@types/node": "^10.5.1",
     "@types/progress": "^2.0.1",
     "typescript": "^2.9.2",
