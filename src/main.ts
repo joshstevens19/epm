@@ -3,9 +3,7 @@
 // import * as ProcessBar from "process";
 // import * as program from "commander";
 
-
 const program = require("commander");
-import { Init, LS, Install, Audit, Build, Login, Logout, Outdated, Owner, Ping, Profile, Repo, Search, Star, Uninstall, Upgrade, Upload, Version, WhoAmI } from "./controls";
 import { PackageDescriptionsConsts } from "./consts/packages-descriptions.consts";
 import * as chalk from "chalk";
 import { InitialiseControls } from "./common/initialiseControls";
@@ -19,7 +17,7 @@ program
   .version("0.0.1")
   .description('Welcome to ethereum package manager...')
   .option('-p, --', '')
-  .usage("ethereumpm [options] [arguments]")
+  .usage("epm [arguments] [options]")
   .parse(process.argv);
 
 program
@@ -34,19 +32,24 @@ program
   .description(PackageDescriptionsConsts.ls)
   .action(() => {
     controls.lsControl.dependencies()
-    .then(res => console.log(res))
-    .catch(err => console.error(err));
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
   });
 
-program 
-  .command('install <packageName>')
-  .option('-v, --version', '<packageVersion>')
+program
+  .command('install [packageName]')
   .alias('i')
+  .option('--no-save', 'Prevents it saving into your dependencies')
+  .option('--save-dev', 'Package will appear in your devDependencies')
+  .option('--save', 'Package will appear in your dependencies')
   .description(PackageDescriptionsConsts.install)
-  .action((packageName: string, packageVersion: string) => {
-    controls.installControl.installPackage("test", "1.0.0")
-                           .catch(err => console.log(err));
-
+  .action((packageName: string) => {
+    if (packageName) {
+      controls.installControl.installPackage(packageName)
+        .catch(err => console.log(err));
+    } else {
+      controls.installControl.installPackages();
+    }
   });
 
 program
@@ -55,7 +58,7 @@ program
   .option('-u, --username <username>', 'The user to authenticate as')
   .option('-p, --password <password>', 'The user\'s password')
   .action(() => {
-      console.log('user: %s pass: %s file: %s',
+    console.log('user: %s pass: %s file: %s',
       program.username, program.password);
   })
   .parse(process.argv);
@@ -65,7 +68,7 @@ program
   .description(PackageDescriptionsConsts.audit)
   .action(() => {
 
-  });    
+  });
 
 //   // .action(() => {
 //   //   console.log(program.username);

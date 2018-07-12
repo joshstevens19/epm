@@ -8,6 +8,7 @@ export { Install } from "./install";
 export { LS } from "./ls";
 export { Outdated } from "./outdated";
 export { Owner } from "./owner";
+export { Package } from "./package";
 export { Ping } from "./ping";
 export { Profile } from "./profile";
 export { Repo } from "./repo";

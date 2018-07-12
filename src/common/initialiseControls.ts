@@ -1,6 +1,6 @@
 import { 
         Audit, Build, Init, LS, Install, Login, Logout, Outdated, Owner, Ping, Profile, 
-        Repo, Search, Star, Uninstall, Upgrade, Version, WhoAmI, Core 
+        Repo, Search, Star, Uninstall, Upgrade, Version, WhoAmI, Core, Package 
        } from "../controls";
 
 export class InitialiseControls {
@@ -14,6 +14,7 @@ export class InitialiseControls {
     private static _lsControl: LS;
     private static _outdatedControl: Outdated;
     private static _ownerControl: Owner;
+    private static _packageControl: Package;
     private static _pingControl: Ping;
     private static _profileControl: Profile;
     private static _repoControl: Repo;
@@ -63,7 +64,7 @@ export class InitialiseControls {
             return InitialiseControls._installControl;
         }
 
-        return InitialiseControls._installControl = new Install(new Core());
+        return InitialiseControls._installControl = new Install(new Package());
     }
 
     public get loginControl(): Login {

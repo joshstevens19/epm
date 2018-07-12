@@ -2,7 +2,7 @@ export class PackageDescriptionsConsts {
     public static audit: string = "Audits the dependencies for any security";
     public static build: string = "Builds the project";
     public static init: string = "Create a ethereum.json file";
-    public static install: string = "Installs a package";
+    public static install: string = "Installs package(s)";
     public static login: string = "Logs the user in to ethereum-pm";
     public static logout: string = "Logs the user out of the ethereum-pm";
     public static ls: string = "Gives a list of the installed packages";
