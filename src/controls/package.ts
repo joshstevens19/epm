@@ -17,7 +17,7 @@ export class Package {
 
     public async readPackageJson() {
         const readFile = util.promisify(fs.readFile);
-        const data = await readFile(GenericConsts.ethereumPMJsonName);
+        const data = await readFile(GenericConsts.epmJsonName);
         return JSON.parse(data.toString());
     }
 

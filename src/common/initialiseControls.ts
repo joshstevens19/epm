@@ -64,7 +64,7 @@ export class InitialiseControls {
             return InitialiseControls._installControl;
         }
 
-        return InitialiseControls._installControl = new Install(new Package());
+        return InitialiseControls._installControl = new Install(this.packageControl, this.initControl);
     }
 
     public get loginControl(): Login {
@@ -97,6 +97,14 @@ export class InitialiseControls {
         }
 
         return InitialiseControls._ownerControl = new Owner();
+    }
+
+    public get packageControl(): Package {
+        if (InitialiseControls._packageControl) {
+            return InitialiseControls._packageControl;
+        }
+
+        return InitialiseControls._packageControl = new Package();
     }
 
     public get pingControl(): Ping {

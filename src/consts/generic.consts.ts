@@ -1,3 +1,4 @@
 export class GenericConsts {
-    public static ethereumPMJsonName: string = "ethereum-pm.json";
+    public static epmJsonName: string = "ethereum-pm.json";
+    public static epmModulesFolderName: string = "ethereum_modules";
 }

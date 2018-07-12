@@ -46,7 +46,9 @@ program
   .action((packageName: string) => {
     if (packageName) {
       controls.installControl.installPackage(packageName)
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(chalk.default.bold.redBright(err.message));
+        });
     } else {
       controls.installControl.installPackages();
     }
