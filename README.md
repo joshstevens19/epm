@@ -1,4 +1,4 @@
-# ethereumPM
+# epm
 ethereum package manager to share solidity contracts.
 
 # introduction
