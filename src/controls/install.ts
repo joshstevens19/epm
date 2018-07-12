@@ -25,7 +25,7 @@ export class Install {
             // just getting the concept there first
             if (!this.versionAlreadyInstalled(packageNameAndVersion)) {
                 let source = Package.tempPackageLocation + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version
-                let destination = "ethereum_modules\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version;
+                let destination = GenericConsts.epmModulesFolderName + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version;
 
                 fs.copy(source, destination)
                     .then(() => console.log('Copy completed!'))
@@ -33,8 +33,8 @@ export class Install {
                         console.log('An error occured while copying the folder.')
                         return console.error(err)
                     })
-            }
-            
+            };
+
         } else {
             return Promise.reject(new Error(InitErrorMessages.notInitalised));
         }
@@ -63,7 +63,7 @@ export class Install {
     // going to change this so it has a parent property and no versions in the ethereum_modules
     public versionAlreadyInstalled(packageNameAndVersion: IPackageNameAndVersion): boolean {
         if (packageNameAndVersion.version) {
-            return fs.existsSync("ethereum_modules\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version);
+            return fs.existsSync(GenericConsts.epmModulesFolderName + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version);
         } else {
             return false;
         }
