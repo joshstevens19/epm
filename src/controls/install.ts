@@ -24,8 +24,18 @@ export class Install {
             // WILL RESOLVE TO USE PATH FOR LINX BOXES AND __dirname - do not worry 
             // just getting the concept there first
             if (!this.versionAlreadyInstalled(packageNameAndVersion)) {
-                let source = Package.tempPackageLocation + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version
-                let destination = GenericConsts.epmModulesFolderName + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version;
+                // if package is not defined then get the latest one
+                if (!packageNameAndVersion.version) {
+                    try {
+                        packageNameAndVersion.version = await this._packageControl.getLatestVersionForPackage(packageNameAndVersion.name);
+                    } catch(error) {
+                        console.log(error);
+                        return Promise.reject("COULD NOT FIND ANY PACKAGES");
+                    }
+                }
+
+                const source = this._packageControl.buildTempPackagePathWithVersion(packageNameAndVersion);
+                const destination = GenericConsts.epmModulesFolderName + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version;
 
                 fs.copy(source, destination)
                     .then(() => console.log('Copy completed!'))
@@ -33,7 +43,12 @@ export class Install {
                         console.log('An error occured while copying the folder.')
                         return console.error(err)
                     })
-            };
+            }
+
+            // if version has alreay been installed make it look like it has installed it
+            // again - version will not be able to edited once submitted, to edit the 
+            // codebase you have to go up a version therefore to avoid confusion throwing
+            // a error here just make it look like it has been successful
 
         } else {
             return Promise.reject(new Error(InitErrorMessages.notInitalised));
@@ -53,7 +68,7 @@ export class Install {
             fs.mkdirSync(GenericConsts.epmModulesFolderName);
         }
 
-        const packageDir = GenericConsts.epmModulesFolderName + "//" + packageName;
+        const packageDir = this._packageControl.buildEthereumModulesPackagePath(packageName);
 
         if (!fs.existsSync(packageDir)) {
             fs.mkdirSync(packageDir)

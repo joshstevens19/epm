@@ -36,15 +36,43 @@ export class Package {
         }
     }
 
-    public async getAllVersionPackages(packageName: string): Promise<string[]> {
+    public getAllVersionPackages(packageName: string): string[] {
         // this logic will get replaced by a database once database decision is made 
         // for now its reading from a folder instead 
-
-        const readDirectories = util.promisify(fs.readdir);
-        return await readDirectories(Package.tempPackageLocation + "\\" + packageName) || [];
+        return fs.readdirSync(this.buildTempPackagePath(packageName)) || [];
     }
 
-    public packageVersionExists(packageName: string, version: string): boolean {
-        return fs.existsSync(Package.tempPackageLocation + "\\" + packageName + "\\" + version);
+    public packageVersionExists(packageNameAndVersion: IPackageNameAndVersion): boolean {
+        if (!packageNameAndVersion.version) {
+            throw new Error("you must supply a version");
+        }
+
+        return fs.existsSync(this.buildTempPackagePathWithVersion(packageNameAndVersion));
+    }
+
+    public getLatestVersionForPackage(packageName: string): string {
+        const allPackages = this.getAllVersionPackages(packageName);
+        console.log(allPackages);
+        if (allPackages.length > 0) {
+            console.log(allPackages);
+            return allPackages[allPackages.length -1];
+        } else {
+            throw new Error("ERROR FOR NOW");
+        }
+    }
+
+    public buildTempPackagePath(packageName: string) {
+        return Package.tempPackageLocation + "\\" + packageName;
+    }
+
+    public buildTempPackagePathWithVersion(packageNameAndVersion: IPackageNameAndVersion) {
+        if (!packageNameAndVersion.version) {
+            throw new Error("you must supply a version");
+        }
+        return Package.tempPackageLocation + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version
+    }
+
+    public buildEthereumModulesPackagePath(packageName: string) {
+        return GenericConsts.epmModulesFolderName + "//" + packageName;
     }
 }
