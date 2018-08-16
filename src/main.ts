@@ -50,7 +50,10 @@ program
           console.log(chalk.default.bold.redBright(err.message));
         });
     } else {
-      controls.installControl.installPackages();
+      controls.installControl.installPackages()
+      .catch(err => {
+        console.log(chalk.default.bold.redBright(err.message));
+      });
     }
   });
 
