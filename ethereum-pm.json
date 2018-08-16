@@ -1,1 +1,10 @@
-{"name":"/Users/joshstevens/Documents/repos/ethereumPM/dist/controls","version":"","repository":"","license":"","dependencies":{"test1":"1.1.1","test2":"1.1.1"}}
+{
+    "name":"C:\\Users\\Josh\\repos\\epm\\dist\\controls",
+    "version":"",
+    "repository":"",
+    "license":"",
+    "dependencies":{
+        "ownerable":"1.1.1",
+        "quickmaths":"1.1.1"
+    }
+}
