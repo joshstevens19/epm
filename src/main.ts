@@ -7,6 +7,8 @@ import * as program from "commander"
 import { PackageDescriptionsConsts } from "./consts/packages-descriptions.consts";
 import * as chalk from "chalk";
 import { InitialiseControls } from "./common/initialise-controls";
+
+// find TS library as we want the entire library to be in TS
 const ProgressBar = require('progress');
 const co = require('co');
 const prompt = require('co-prompt');
