@@ -3,7 +3,7 @@
 // import * as ProcessBar from "process";
 // import * as program from "commander";
 
-const program = require("commander");
+import * as program from "commander"
 import { PackageDescriptionsConsts } from "./consts/packages-descriptions.consts";
 import * as chalk from "chalk";
 import { InitialiseControls } from "./common/initialise-controls";
