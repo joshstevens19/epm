@@ -1,3 +1,4 @@
 export class InitErrorMessages {
-    public static notInitalised = "Project has not been initialised. \n\ Please use `epm init`"
+    public static notInitalised = "Project has not been initialised, use `epm init`"
+    public static alreadyInitalised = "EPM has already been initialised";
 }
