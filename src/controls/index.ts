@@ -1,6 +1,8 @@
 export { Audit } from "./audit";
 export { Build } from "./build";
 export { Core } from "./core";
+export { EthereumPmJson } from "./ethereum-pm-json";
+export { EthereumModules } from "./ethereum-modules";
 export { Init } from "./init";
 export { Login }  from "./login";
 export { Logout } from "./logout";
