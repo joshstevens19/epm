@@ -3,23 +3,13 @@ import * as util from "util";
 import { GenericConsts } from "../consts/generic.consts";
 import { IPackageNameAndVersion } from "../interfaces/ipackage-name-and-version";
 
+// CURRENTLY DONE FOR DEV REASON, WILL BE MOVING OVER TO A API WHICH HOLDS 
+// ALL THE INFO ABOUT THE PACKAGES
 export class Package {
 
     public static tempPackageLocation = "test-packages";
 
     constructor() { }
-
-    public async alreadyInstalledPackages() {
-        const JSONPackageDetails = await this.readPackageJson();
-
-        return JSONPackageDetails.dependencies;
-    }
-
-    public async readPackageJson() {
-        const readFile = util.promisify(fs.readFile);
-        const data = await readFile(GenericConsts.epmJsonName);
-        return JSON.parse(data.toString());
-    }
 
     public getPackageNameAndVersion(packageName: string): IPackageNameAndVersion {
         const splitNameAndVersion = packageName.split("@");
@@ -70,9 +60,5 @@ export class Package {
             throw new Error("you must supply a version");
         }
         return Package.tempPackageLocation + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version
-    }
-
-    public buildEthereumModulesPackagePath(packageName: string) {
-        return GenericConsts.epmModulesFolderName + "//" + packageName;
     }
 }
