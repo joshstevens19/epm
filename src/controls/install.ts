@@ -1,14 +1,17 @@
 import * as fs from "fs-extra";
 import { IPackageNameAndVersion } from "../interfaces/ipackage-name-and-version";
-import { Init, Package } from ".";
+import { Init, Package, EthereumPmJson, EthereumModules } from ".";
 import { InitErrorMessages } from "../error-messages/init-error-messages";
 import { GenericConsts } from "../consts/generic.consts";
 import { IEthereumPMJson } from "../interfaces/iethereum-pm-json";
+import { Locations } from "../common/locations";
 
 export class Install {
     constructor(
         private _packageControl: Package,
-        private _initControl: Init
+        private _initControl: Init,
+        private _ethereumPmJson: EthereumPmJson,
+        private _ethereumModules: EthereumModules
     ) { }
 
     /**
@@ -24,11 +27,11 @@ export class Install {
 
             // make sure all the folders are created if it is a first install 
             // of this package
-            this.createModulesFolders(packageNameAndVersion.name);
+            this._ethereumModules.createEthereumModulePackageFolder(packageNameAndVersion.name);
 
             // WILL RESOLVE TO USE PATH FOR LINX BOXES AND __dirname - do not worry 
             // just getting the concept there first
-            if (!this.versionAlreadyInstalled(packageNameAndVersion)) {
+            if (!(await this._ethereumModules.versionAlreadyInstalled(packageNameAndVersion))) {
                 // if package is not defined then get the latest one
                 if (!packageNameAndVersion.version) {
                     try {
@@ -40,15 +43,15 @@ export class Install {
                 }
 
                 const source = this._packageControl.buildTempPackagePathWithVersion(packageNameAndVersion);
-                const destination = GenericConsts.epmModulesFolderName + "\\" + packageNameAndVersion.name;
+                const destination = Locations.epmModulesPackageLocation(packageNameAndVersion.name);
 
                 try {
                     await fs.copy(source, destination);
                 } catch(err) {
-                    console.log('An error occured while copying the folder.')
                     console.error(err)
                 }
 
+                await this._ethereumPmJson.addDependency(packageNameAndVersion);
                 await this.installDependenciesFromEthereumPm(source + "\\" + GenericConsts.epmJsonName);
             }
 
@@ -63,41 +66,21 @@ export class Install {
     }
 
     /**
-     * Installs all the packages from ethereum-pm and dependencies
+     * Installs all the packages from ethereum-pm.json and it's dependencies
      */
     public async installPackages(): Promise<void> {
         if (this._initControl.hasBeenInitialised) {
-            await this.installDependenciesFromEthereumPm(".\\" + GenericConsts.epmJsonName);
+            await this.installDependenciesFromEthereumPm(Locations.epmPackageJsonLocation);
         } else {
             return Promise.reject(new Error(InitErrorMessages.notInitalised));
         }
     }
 
     /**
-     * For proof of concept will change to API call
-     * @param packageName 
+     * Installs the dependencies from the ethereum-pm.json 
+     * executes when user calls epm install 
+     * @param location The location of the ethereum-pm.json file (it could be in ethereum_modules)
      */
-    public createModulesFolders(packageName: string): void {
-        if (!fs.existsSync(GenericConsts.epmModulesFolderName)) {
-            fs.mkdirSync(GenericConsts.epmModulesFolderName);
-        }
-
-        const packageDir = this._packageControl.buildEthereumModulesPackagePath(packageName);
-
-        if (!fs.existsSync(packageDir)) {
-            fs.mkdirSync(packageDir)
-        }
-    }
-
-    // going to change this so it has a parent property and no versions in the ethereum_modules
-    public versionAlreadyInstalled(packageNameAndVersion: IPackageNameAndVersion): boolean {
-        if (packageNameAndVersion.version) {
-            return fs.existsSync(GenericConsts.epmModulesFolderName + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version);
-        } else {
-            return false;
-        }
-    }
-
     private async installDependenciesFromEthereumPm(location: string): Promise<void> {
         const ethereumPmJson: IEthereumPMJson = JSON.parse(await fs.readFile(location, 'utf8'));
 
