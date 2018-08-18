@@ -1,30 +1,31 @@
-import * as fs from "fs-extra";
-import * as util from "util";
-import * as path from "path";
 import { Iinit } from "../interfaces/iinit";
-import { GenericConsts } from "../consts/generic.consts";
-import { IEthereumPMJson } from "../interfaces/iethereum-pm-json";
+import { EthereumPmJson } from "./ethereum-pm-json";
+import { InitErrorMessages } from "../error-messages/init-error-messages";
 
 export class Init implements Iinit {
-    private _basicEpmJson: IEthereumPMJson = require('../../json/basic-ethereum-pm.json');
+    constructor(
+        private _ethereumPmJson: EthereumPmJson,
+    ) { }
 
-    constructor() { }
-
-    public async initialiseProject() {
-        try {
-            await fs.writeFile(GenericConsts.epmJsonName, this.basicEthereumPmJson);
-        } catch(err) {
-            throw new Error(err);
+    /**
+     * Initialises the project
+     */
+    public async initialiseProject(): Promise<void> {
+        if (!this.hasBeenInitialised) {
+            try {
+                await this._ethereumPmJson.createEthereumPmJson();
+            } catch (err) {
+                throw new Error(err);
+            }
+        } else {
+            throw new Error(InitErrorMessages.alreadyInitalised);
         }
     }
 
-    public get basicEthereumPmJson() {
-        const projectName = path.resolve(__dirname);
-        this._basicEpmJson.name = projectName;
-        return JSON.stringify(this._basicEpmJson);
-    }
-
+    /**
+     * Checks to see if the project has already been initialised
+     */
     public get hasBeenInitialised() {
-        return fs.existsSync("./" + GenericConsts.epmJsonName)
+        return this._ethereumPmJson.ethereumPmJsonExists()
     }
 }
