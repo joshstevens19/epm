@@ -41,9 +41,6 @@ program
 program
   .command('install [packageName]')
   .alias('i')
-  .option('--no-save', 'Prevents it saving into your dependencies')
-  .option('--save-dev', 'Package will appear in your devDependencies')
-  .option('--save', 'Package will appear in your dependencies')
   .description(PackageDescriptionsConsts.install)
   .action((packageName: string) => {
     if (packageName) {
@@ -53,9 +50,24 @@ program
         });
     } else {
       controls.installControl.installPackages()
-      .catch(err => {
-        console.log(chalk.default.bold.redBright(err.message));
-      });
+        .catch(err => {
+          console.log(chalk.default.bold.redBright(err.message));
+        });
+    }
+  });
+
+program
+  .command('uninstall [packageName]')
+  .alias('u')
+  .description(PackageDescriptionsConsts.uninstall)
+  .action((packageName: string) => {
+    if (!packageName) {
+      console.error("please supply a package name to uninstall")
+    } else {
+      controls.uninstallControl.uninstallPackage(packageName)
+        .catch(err => {
+          console.log(chalk.default.bold.redBright(err.message));
+        });
     }
   });
 
