@@ -1,9 +1,7 @@
 import * as fs from "fs-extra";
-import * as util from "util";
 import { IPackageNameAndVersion } from "../interfaces/ipackage-name-and-version";
 import { Init, Package } from ".";
 import { InitErrorMessages } from "../error-messages/init-error-messages";
-import { InstallErrorMessages } from "../error-messages/install-error-messages";
 import { GenericConsts } from "../consts/generic.consts";
 import { IEthereumPMJson } from "../interfaces/iethereum-pm-json";
 
