@@ -1,12 +1,15 @@
 import { 
-        Audit, Build, Init, LS, Install, Login, Logout, Outdated, Owner, Ping, Profile, 
-        Repo, Search, Star, Uninstall, Upgrade, Version, WhoAmI, Core, Package 
+        Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
+        Owner, Ping, Profile, Repo, Search, Star, Uninstall, Upgrade, Version, 
+        WhoAmI, Core, Package, EthereumModules 
        } from "../controls";
 
 export class InitialiseControls {
     private static _auditControl: Audit;
     private static _buildControl: Build;
     private static _coreControl: Core;
+    private static _ethereumPmJson: EthereumPmJson;
+    private static _ethereumModules: EthereumModules;
     private static _initControl: Init;
     private static _installControl: Install;
     private static _loginControl: Login;
@@ -51,12 +54,28 @@ export class InitialiseControls {
         return InitialiseControls._coreControl = new Core();
     }
 
+    public get ethereumPmJson(): EthereumPmJson {
+        if (InitialiseControls._ethereumPmJson) {
+            return InitialiseControls._ethereumPmJson;
+        }
+
+        return InitialiseControls._ethereumPmJson = new EthereumPmJson();
+    }
+
+    public get ethereumModules(): EthereumModules {
+        if (InitialiseControls._ethereumModules) {
+            return InitialiseControls._ethereumModules;
+        }
+
+        return InitialiseControls._ethereumModules = new EthereumModules(this.ethereumPmJson);
+    }
+
     public get initControl(): Init {
         if (InitialiseControls._initControl) {
             return InitialiseControls._initControl;
         }
 
-        return InitialiseControls._initControl = new Init();
+        return InitialiseControls._initControl = new Init(this.ethereumPmJson);
     }
 
     public get installControl(): Install {
@@ -64,7 +83,11 @@ export class InitialiseControls {
             return InitialiseControls._installControl;
         }
 
-        return InitialiseControls._installControl = new Install(this.packageControl, this.initControl);
+        return InitialiseControls._installControl = new Install(this.packageControl,
+                                                                this.initControl,
+                                                                this.ethereumPmJson,
+                                                                this.ethereumModules
+                                                            );
     }
 
     public get loginControl(): Login {
@@ -152,7 +175,7 @@ export class InitialiseControls {
             return InitialiseControls._uninstallControl;
         }
 
-        return InitialiseControls._uninstallControl = new Uninstall();
+        return InitialiseControls._uninstallControl = new Uninstall(this.ethereumModules, this.ethereumPmJson);
     }
 
     public get upgradeControl(): Upgrade {
