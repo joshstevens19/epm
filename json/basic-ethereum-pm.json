@@ -3,9 +3,6 @@
   "version": "",
   "repository": "",
   "license": "",
-  "dependencies": {
-    "test1": "1.1.1",
-    "test2": "1.1.1"
-  }
+  "dependencies": {}
 }
   
