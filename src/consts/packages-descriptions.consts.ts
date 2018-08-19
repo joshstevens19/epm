@@ -14,7 +14,7 @@ export class PackageDescriptionsConsts {
     public static search: string = "Search a package on ethereumpm";
     public static star: string = "Star a package (have to be logged in to do so)";
     public static uninstall: string = "Uninstalls a package from project";
-    public static upgrade: string = "Upgrades a package";
+    public static update: string = "Upates a package";
     public static upload: string = "Uploads a package";
     public static version: string = "Updates the version of the package";
     public static whoami: string = "Returns the current user logged into ethereum-pm"
