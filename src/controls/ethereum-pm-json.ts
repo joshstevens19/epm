@@ -97,8 +97,10 @@ export class EthereumPmJson {
     public async addDependency(packageNameAndVersion: IPackageNameAndVersion): Promise<void> {
         const ethereumPmJson: IEthereumPMJson = await this.getEthereumPmJsonFile();
 
-        // check to make sure package object name does not already exist in the file
-        if (!ethereumPmJson.dependencies[packageNameAndVersion.name]) {
+        // check to make sure package object name + version does not already exist in the file
+        if (!ethereumPmJson.dependencies[packageNameAndVersion.name]
+            || (ethereumPmJson.dependencies[packageNameAndVersion.name] 
+                && ethereumPmJson.dependencies[packageNameAndVersion.name] !== packageNameAndVersion.version)) {
             ethereumPmJson.dependencies[packageNameAndVersion.name] = packageNameAndVersion.version;
             await this.saveEthereumPm(ethereumPmJson);
         }
