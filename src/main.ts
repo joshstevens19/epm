@@ -72,6 +72,31 @@ program
   });
 
 program
+  .command('update [packageName]')
+  .alias('up')
+  .alias('upgrade')
+  .description(PackageDescriptionsConsts.update)
+  .action((packageName: string) => {
+    if (!packageName) {
+      console.error("please supply a package name to update")
+    } else {
+      controls.updateControl.updatePackage(packageName)
+        .catch(err => {
+          console.log(chalk.default.bold.redBright(err.message));
+        });
+    }
+  });
+
+program
+  .command('outdated')
+  .description(PackageDescriptionsConsts.outdated)
+  .action(() => {
+    controls.outdatedControl.checkForOutdatedPackages()
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
+  });
+
+program
   .command("login")
   .description(PackageDescriptionsConsts.login)
   .option('-u, --username <username>', 'The user to authenticate as')
