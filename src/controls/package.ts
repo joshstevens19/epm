@@ -1,6 +1,4 @@
-import * as fs from "fs";
-import * as util from "util";
-import { GenericConsts } from "../consts/generic.consts";
+import * as fs from "fs-extra";
 import { IPackageNameAndVersion } from "../interfaces/ipackage-name-and-version";
 
 // CURRENTLY DONE FOR DEV REASON, WILL BE MOVING OVER TO A API WHICH HOLDS 
