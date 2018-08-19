@@ -18,7 +18,7 @@ export class Outdated {
         const outdatedPackages: IPackageNameAndVersion[] = [];
 
         for (const dependency in dependencies) {
-            const latestVersion = this._packageControl.getLatestVersionForPackage(dependency);
+            const latestVersion = await this._packageControl.getLatestVersionForPackage(dependency);
             if (latestVersion !== dependencies[dependency])
             outdatedPackages.push({
                 name: dependency,
