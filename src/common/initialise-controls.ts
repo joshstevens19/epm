@@ -1,6 +1,6 @@
 import { 
         Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
-        Owner, Ping, Profile, Repo, Search, Star, Uninstall, Upgrade, Version, 
+        Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, 
         WhoAmI, Core, Package, EthereumModules 
        } from "../controls";
 
@@ -24,7 +24,7 @@ export class InitialiseControls {
     private static _searchControl: Search;
     private static _starControl: Star;
     private static _uninstallControl: Uninstall;
-    private static _upgradeControl: Upgrade;
+    private static _updateControl: Update;
     private static _versionControl: Version;
     private static _whoAmiIControl: WhoAmI;
 
@@ -178,12 +178,12 @@ export class InitialiseControls {
         return InitialiseControls._uninstallControl = new Uninstall(this.ethereumModules, this.ethereumPmJson);
     }
 
-    public get upgradeControl(): Upgrade {
-        if (InitialiseControls._upgradeControl) {
-            return InitialiseControls._upgradeControl;
+    public get upgradeControl(): Update {
+        if (InitialiseControls._updateControl) {
+            return InitialiseControls._updateControl;
         }
 
-        return InitialiseControls._upgradeControl = new Upgrade();
+        return InitialiseControls._updateControl = new Update();
     }
 
     public get versionControl(): Version {

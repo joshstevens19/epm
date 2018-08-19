@@ -17,7 +17,7 @@ export { Repo } from "./repo";
 export { Search } from "./search";
 export { Star } from "./star";
 export { Uninstall } from "./uninstall";
-export { Upgrade } from "./upgrade";
+export { Update } from "./update";
 export { Upload } from "./upload";
 export { Version } from "./version";
 export { WhoAmI } from "./whoami";
