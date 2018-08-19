@@ -65,7 +65,7 @@ export class EthereumModules {
      * --- maybe make async later on
      * @param path The path to the folder
      */
-    private deleteEthereumModuleFolderItems(path: string) {
+    private deleteEthereumModuleFolderItems(path: string): void {
         if (fs.existsSync(path)) {
             fs.readdirSync(path).forEach((file, index) => {
                 const curPath = path + "/" + file;
