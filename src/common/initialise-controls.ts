@@ -1,13 +1,12 @@
 import { 
         Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
         Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, 
-        WhoAmI, Core, Package, EthereumModules 
+        WhoAmI, Package, EthereumModules 
        } from "../controls";
 
 export class InitialiseControls {
     private static _auditControl: Audit;
     private static _buildControl: Build;
-    private static _coreControl: Core;
     private static _ethereumPmJson: EthereumPmJson;
     private static _ethereumModules: EthereumModules;
     private static _initControl: Init;
@@ -46,15 +45,7 @@ export class InitialiseControls {
         return InitialiseControls._buildControl = new Build();
     }
 
-    public get coreControl(): Core {
-        if (InitialiseControls._coreControl) {
-            return InitialiseControls._coreControl;
-        }
-        
-        return InitialiseControls._coreControl = new Core();
-    }
-
-    public get ethereumPmJson(): EthereumPmJson {
+    public get ethereumPmJsonControl(): EthereumPmJson {
         if (InitialiseControls._ethereumPmJson) {
             return InitialiseControls._ethereumPmJson;
         }
@@ -62,12 +53,12 @@ export class InitialiseControls {
         return InitialiseControls._ethereumPmJson = new EthereumPmJson();
     }
 
-    public get ethereumModules(): EthereumModules {
+    public get ethereumModulesControl(): EthereumModules {
         if (InitialiseControls._ethereumModules) {
             return InitialiseControls._ethereumModules;
         }
 
-        return InitialiseControls._ethereumModules = new EthereumModules(this.ethereumPmJson);
+        return InitialiseControls._ethereumModules = new EthereumModules(this.ethereumPmJsonControl);
     }
 
     public get initControl(): Init {
@@ -75,7 +66,7 @@ export class InitialiseControls {
             return InitialiseControls._initControl;
         }
 
-        return InitialiseControls._initControl = new Init(this.ethereumPmJson);
+        return InitialiseControls._initControl = new Init(this.ethereumPmJsonControl);
     }
 
     public get installControl(): Install {
@@ -85,8 +76,8 @@ export class InitialiseControls {
 
         return InitialiseControls._installControl = new Install(this.packageControl,
                                                                 this.initControl,
-                                                                this.ethereumPmJson,
-                                                                this.ethereumModules
+                                                                this.ethereumPmJsonControl,
+                                                                this.ethereumModulesControl
                                                             );
     }
 
@@ -111,7 +102,7 @@ export class InitialiseControls {
             return InitialiseControls._outdatedControl;
         }
 
-        return InitialiseControls._outdatedControl = new Outdated();
+        return InitialiseControls._outdatedControl = new Outdated(this.ethereumPmJsonControl, this.packageControl);
     }
 
     public get ownerControl(): Owner {
@@ -175,15 +166,18 @@ export class InitialiseControls {
             return InitialiseControls._uninstallControl;
         }
 
-        return InitialiseControls._uninstallControl = new Uninstall(this.ethereumModules, this.ethereumPmJson);
+        return InitialiseControls._uninstallControl = new Uninstall(this.ethereumModulesControl, this.ethereumPmJsonControl);
     }
 
-    public get upgradeControl(): Update {
+    public get updateControl(): Update {
         if (InitialiseControls._updateControl) {
             return InitialiseControls._updateControl;
         }
 
-        return InitialiseControls._updateControl = new Update();
+        return InitialiseControls._updateControl = new Update(this.packageControl,
+                                                              this.installControl,
+                                                              this.ethereumPmJsonControl
+                                                            );
     }
 
     public get versionControl(): Version {
