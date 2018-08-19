@@ -5,6 +5,8 @@ import { InitErrorMessages } from "../error-messages/init-error-messages";
 import { GenericConsts } from "../consts/generic.consts";
 import { IEthereumPMJson } from "../interfaces/iethereum-pm-json";
 import { Locations } from "../common/locations";
+import * as rp from "request-promise";
+import { IPackageFile } from "../interfaces/ipackage-file";
 
 export class Install {
     constructor(
@@ -36,24 +38,22 @@ export class Install {
                 if (!packageNameAndVersion.version) {
                     try {
                         packageNameAndVersion.version = await this._packageControl.getLatestVersionForPackage(packageNameAndVersion.name);
-                    } catch(error) {
-                        console.log(error);
+                    } catch (error) {
                         return Promise.reject("COULD NOT FIND ANY PACKAGES");
                     }
                 }
 
-                const source = this._packageControl.buildTempPackagePathWithVersion(packageNameAndVersion);
+                // const destination = Locations.epmModulesPackageLocation(packageNameAndVersion.name);
+                const packageFiles: IPackageFile[] = await this._packageControl.getPackageFiles(packageNameAndVersion);
                 const destination = Locations.epmModulesPackageLocation(packageNameAndVersion.name);
 
-                try {
-                    await fs.copy(source, destination);
-                } catch(err) {
-                    console.error(err)
+                for (let p = 0; p < packageFiles.length; p++) {
+                    const file = await rp.get(packageFiles[p].fileUrl);
+                    await fs.writeFile(`${destination}\\${packageFiles[p].locationInPackage}`, file);
                 }
 
-              
                 await this._ethereumPmJsonControl.addDependency(packageNameAndVersion);
-                await this.installDependenciesFromEthereumPm(source + "\\" + GenericConsts.epmJsonName);
+                await this.installDependenciesFromEthereumPm(destination + "\\" + GenericConsts.epmJsonName);
             } else {
                 // still want to add the dependency as they may have it installed 
                 // but removed it out of their ethereum-pm.json file
@@ -92,6 +92,6 @@ export class Install {
         for (const dependency in ethereumPmJson.dependencies) {
             const packageName = dependency + "@" + ethereumPmJson.dependencies[dependency];
             await this.installPackage(packageName);
-        } 
+        }
     }
 }
