@@ -1,14 +1,27 @@
-import * as fs from "fs-extra";
+import * as rp from "request-promise";
 import { IPackageNameAndVersion } from "../interfaces/ipackage-name-and-version";
+import { IPackageFile } from "../interfaces/ipackage-file";
 
 // CURRENTLY DONE FOR DEV REASON, WILL BE MOVING OVER TO A API WHICH HOLDS 
 // ALL THE INFO ABOUT THE PACKAGES
 export class Package {
 
-    public static tempPackageLocation = "test-packages";
+    // will go into a config eventually at the moment it is 
+    // the port i have running for epm-api
+    // MAYBE MOVE THESE ENDPOINTS!! - MAYBE SOME STATIC BUILDERS TO BUILD THEM UP ;)
+    public static API_ROOT = "http://localhost:49936/api";
+    public static API_VERSIONS = '/versions';
+    public static API_PACKAGES = '/packages';
+
+    public static API_VERSIONS_ENDPOINT = Package.API_ROOT + Package.API_VERSIONS;
+    public static API_PACKAGES_ENDPOINT = Package.API_ROOT + Package.API_PACKAGES;
 
     constructor() { }
 
+    /**
+     * Maybe needs renaming - splits packageName into a IPackageNameAndVersion
+     * @param packageName The package encoded name i.e. ownerable@1.1.1 or ownerable
+     */
     public getPackageNameAndVersion(packageName: string): IPackageNameAndVersion {
         const splitNameAndVersion = packageName.split("@");
 
@@ -24,39 +37,25 @@ export class Package {
         }
     }
 
-    public getAllVersionPackages(packageName: string): string[] {
-        // this logic will get replaced by a database once database decision is made 
-        // for now its reading from a folder instead 
-        return fs.readdirSync(this.buildTempPackagePath(packageName)) || [];
+    /**
+     * Gets the lastest version for the package
+     * @param packageName The package name
+     */
+    public async getLatestVersionForPackage(packageName: string): Promise<string> {
+        const version = JSON.parse(await rp.get(`${Package.API_VERSIONS_ENDPOINT}/${packageName}/latest`));
+        return version.latestVersion;
     }
 
-    public packageVersionExists(packageNameAndVersion: IPackageNameAndVersion): boolean {
+    /**
+     * Gets the package files from s3 bucket
+     * @param packageNameAndVersion The package name and version
+     */
+    public async getPackageFiles(packageNameAndVersion: IPackageNameAndVersion): Promise<IPackageFile[]> {
         if (!packageNameAndVersion.version) {
             throw new Error("you must supply a version");
         }
 
-        return fs.existsSync(this.buildTempPackagePathWithVersion(packageNameAndVersion));
-    }
-
-    public getLatestVersionForPackage(packageName: string): string {
-        const allPackages = this.getAllVersionPackages(packageName);
-        console.log(allPackages);
-        if (allPackages.length > 0) {
-            console.log(allPackages);
-            return allPackages[allPackages.length -1];
-        } else {
-            throw new Error("ERROR FOR NOW");
-        }
-    }
-
-    public buildTempPackagePath(packageName: string) {
-        return Package.tempPackageLocation + "\\" + packageName;
-    }
-
-    public buildTempPackagePathWithVersion(packageNameAndVersion: IPackageNameAndVersion) {
-        if (!packageNameAndVersion.version) {
-            throw new Error("you must supply a version");
-        }
-        return Package.tempPackageLocation + "\\" + packageNameAndVersion.name + "\\" + packageNameAndVersion.version
+        const packageFiles = JSON.parse(await rp.get(`${Package.API_PACKAGES_ENDPOINT}/${packageNameAndVersion.name}/latest`)) as IPackageFile[];
+        return packageFiles;
     }
 }
