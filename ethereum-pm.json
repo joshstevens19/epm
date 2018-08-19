@@ -4,6 +4,7 @@
     "repository": "",
     "license": "",
     "dependencies": {
+        "quickmaths": "1.1.1",
         "ownerable": "1.1.1"
     }
 }
