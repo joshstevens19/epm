@@ -10,8 +10,8 @@ export class Install {
     constructor(
         private _packageControl: Package,
         private _initControl: Init,
-        private _ethereumPmJson: EthereumPmJson,
-        private _ethereumModules: EthereumModules
+        private _ethereumPmJsonControl: EthereumPmJson,
+        private _ethereumModulesControl: EthereumModules
     ) { }
 
     /**
@@ -27,11 +27,11 @@ export class Install {
 
             // make sure all the folders are created if it is a first install 
             // of this package
-            this._ethereumModules.createEthereumModulePackageFolder(packageNameAndVersion.name);
+            this._ethereumModulesControl.createEthereumModulePackageFolder(packageNameAndVersion.name);
 
             // WILL RESOLVE TO USE PATH FOR LINX BOXES AND __dirname - do not worry 
             // just getting the concept there first
-            if (!(await this._ethereumModules.versionAlreadyInstalled(packageNameAndVersion))) {
+            if (!(await this._ethereumModulesControl.versionAlreadyInstalled(packageNameAndVersion))) {
                 // if package is not defined then get the latest one
                 if (!packageNameAndVersion.version) {
                     try {
@@ -51,8 +51,13 @@ export class Install {
                     console.error(err)
                 }
 
-                await this._ethereumPmJson.addDependency(packageNameAndVersion);
+              
+                await this._ethereumPmJsonControl.addDependency(packageNameAndVersion);
                 await this.installDependenciesFromEthereumPm(source + "\\" + GenericConsts.epmJsonName);
+            } else {
+                // still want to add the dependency as they may have it installed 
+                // but removed it out of their ethereum-pm.json file
+                await this._ethereumPmJsonControl.addDependency(packageNameAndVersion);
             }
 
             // if version has alreay been installed make it look like it has installed it
