@@ -2,7 +2,7 @@ import * as rp from "request-promise";
 import { CommonPropertiesApi } from "./common.api";
 
 export class PingApi {
-    public static ENDPOINT = "/Ping";
+    public static ENDPOINT = "/ping";
 
     /**
      * Sees if epm server is alive
@@ -13,7 +13,7 @@ export class PingApi {
         } catch(error) {
             return false;
         }
-        
+
         return true;
     }
 }
