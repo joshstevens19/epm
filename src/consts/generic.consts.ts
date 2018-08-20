@@ -1,5 +1,5 @@
 export class GenericConsts {
-    public static epmJsonName: string = "ethereum-pm.json";
-    public static epmModulesFolderName: string = "ethereum_modules";
-    public static root: string = "./"
+    public static readonly epmJsonName: string = "ethereum-pm.json";
+    public static readonly epmModulesFolderName: string = "ethereum_modules";
+    public static readonly root: string = "./"
 }
