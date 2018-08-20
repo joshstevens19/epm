@@ -74,6 +74,15 @@ export class EthereumPmJson {
     }
 
     /**
+     * Gest the dependencies for a ethereum module package
+     * @param packageName The package name
+     */
+    public async getEthereumModulePackageDependencies(packageName: string): Promise<any> {
+        const ethereumPmJson: IEthereumPMJson = await this.getEthereumModulesPackageEthereumJsonFile(packageName);
+        return ethereumPmJson.dependencies;
+    }
+
+    /**
      * Gets the dependencies for the packages and 
      * complies them into a package string
      */
