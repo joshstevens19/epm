@@ -33,8 +33,8 @@ program
   .command('ls')
   .description(PackageDescriptionsConsts.ls)
   .action(() => {
-    controls.lsControl.dependencies()
-      .then(res => console.log(res))
+    controls.lsControl.installedDependencies()
+      .then(d => console.log(JSON.stringify(d)))
       .catch(err => console.error(err));
   });
 
@@ -94,6 +94,21 @@ program
     controls.outdatedControl.checkForOutdatedPackages()
       .then(res => console.log(res))
       .catch(err => console.error(err));
+  });
+
+program
+  .command('ping')
+  .description(PackageDescriptionsConsts.ping)
+  .action(() => {
+    controls.pingControl.alive()
+      .then(result => {
+        if (result) {
+          console.log('server is alive')
+        } else {
+          console.error("no response from the server.. it could be down")
+        }
+      })
+      .catch(err => console.error(err))
   });
 
 program
