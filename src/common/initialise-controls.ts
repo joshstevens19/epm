@@ -120,7 +120,7 @@ export class InitialiseControls {
             return InitialiseControls._packageControl;
         }
 
-        return InitialiseControls._packageControl = new Package();
+        return InitialiseControls._packageControl = new Package(InitialiseApis.packageApi, InitialiseApis.versionApi);
     }
 
     public get pingControl(): Ping {
