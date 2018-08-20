@@ -4,6 +4,8 @@ import {
         WhoAmI, Package, EthereumModules 
        } from "../controls";
 
+import { InitialiseApis } from "./initialise-apis";
+
 export class InitialiseControls {
     private static _auditControl: Audit;
     private static _buildControl: Build;
@@ -126,7 +128,7 @@ export class InitialiseControls {
             return InitialiseControls._pingControl;
         }
 
-        return InitialiseControls._pingControl = new Ping();
+        return InitialiseControls._pingControl = new Ping(InitialiseApis.pingApi);
     }
 
     public get profileControl(): Profile {
@@ -201,6 +203,6 @@ export class InitialiseControls {
             return InitialiseControls._lsControl;
         } 
 
-        return InitialiseControls._lsControl = new LS();
+        return InitialiseControls._lsControl = new LS(this.ethereumPmJsonControl, this.ethereumModulesControl);
     }
 }
