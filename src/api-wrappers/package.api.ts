@@ -5,7 +5,6 @@ import { CommonPropertiesApi } from "./common.api";
 
 export class PackageApi {
     public static ENDPOINT = "/packages";
-    public static LATEST_VERSION_ENDPOINT = "/latest";
 
     /**
      * Gets the package files from the package name and version passed in
@@ -25,7 +24,7 @@ export class PackageApi {
      * @param packageName The package name
      */
     private latestPackageEndPoint(packageName: string): string {
-        const endpointPath: string = `${PackageApi.ENDPOINT}/${packageName}/${PackageApi.LATEST_VERSION_ENDPOINT}`
+        const endpointPath: string = `${PackageApi.ENDPOINT}/${packageName}`
         return CommonPropertiesApi.buildApiUrlEndpoint(endpointPath)
     }
 
