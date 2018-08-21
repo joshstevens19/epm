@@ -1,5 +1,5 @@
 import * as rp from "request-promise";
-import { CommonPropertiesApi } from "./common.api";
+import { CommonApi } from "./common.api";
 
 export class PingApi {
     public static ENDPOINT = "/ping";
@@ -9,7 +9,7 @@ export class PingApi {
      */
     public async alive(): Promise<boolean> {
         try {
-            await rp.get(CommonPropertiesApi.buildApiUrlEndpoint(PingApi.ENDPOINT));
+            await rp.get(CommonApi.buildApiUrlEndpoint(PingApi.ENDPOINT));
         } catch(error) {
             return false;
         }
