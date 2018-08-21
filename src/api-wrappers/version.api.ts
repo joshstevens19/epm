@@ -1,8 +1,8 @@
 import * as rp from "request-promise";
-import { CommonPropertiesApi } from "./common.api";
+import { CommonApi } from "./common.api";
 
 export class VersionApi {
-    
+
     public static ENDPOINT = "/versions";
     public static LATEST_VERSION_ENDPOINT = "/latest";
 
@@ -21,6 +21,6 @@ export class VersionApi {
      */
     private latestVersionPackageEndPoint(packageName: string): string {
         const endpointPath: string = `${VersionApi.ENDPOINT}/${packageName}/${VersionApi.LATEST_VERSION_ENDPOINT}`
-        return CommonPropertiesApi.buildApiUrlEndpoint(endpointPath)
+        return CommonApi.buildApiUrlEndpoint(endpointPath)
     }
 }
