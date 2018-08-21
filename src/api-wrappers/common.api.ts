@@ -1,8 +1,8 @@
-export class CommonPropertiesApi {
+export class CommonApi {
     // read from a config file in once live
     private static readonly API_ROOT = "http://localhost:49936/api";
     private static readonly VERSION_1 = "/v1";
-    private static readonly LATEST_VERSION = CommonPropertiesApi.VERSION_1;
+    private static readonly LATEST_VERSION = CommonApi.VERSION_1;
 
     /**
      * Gets the api root api endpoint
