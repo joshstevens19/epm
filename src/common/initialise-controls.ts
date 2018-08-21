@@ -96,7 +96,7 @@ export class InitialiseControls {
             return InitialiseControls._logoutControl;
         }
 
-        return InitialiseControls._logoutControl = new Logout();
+        return InitialiseControls._logoutControl = new Logout(InitialiseApis.authenticationApi);
     }
 
     public get outdatedControl(): Outdated {
