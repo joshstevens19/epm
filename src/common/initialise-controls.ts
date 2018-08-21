@@ -88,7 +88,7 @@ export class InitialiseControls {
             return InitialiseControls._loginControl;
         }
 
-        return InitialiseControls._loginControl = new Login();
+        return InitialiseControls._loginControl = new Login(InitialiseApis.authenticationApi);
     }
 
     public get logoutControl(): Logout {
