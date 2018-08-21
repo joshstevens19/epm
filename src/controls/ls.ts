@@ -19,9 +19,9 @@ export class LS {
         for (const dependency in dependencies) {
             if (this._ethereumModulesControl.ethereumModulePackageFolderExists(dependency)) {
                 listDependencies.push({
-                    "version": dependencies[dependency],
-                    "packageName": dependency,
-                    "dependencies": new Array(),
+                    version: dependencies[dependency],
+                    packageName: dependency,
+                    dependencies: new Array(),
                 });
 
                 await this.installedModuleDependencies(dependency, listDependencies);
@@ -46,9 +46,9 @@ export class LS {
             for (const dependency in dependencies) {
                 if (this._ethereumModulesControl.ethereumModulePackageFolderExists(dependency)) {
                     resultObjectToPush.dependencies.push({
-                        "version": dependencies[dependency],
-                        "packageName": dependency,
-                        "dependencies": new Array(),
+                        version: dependencies[dependency],
+                        packageName: dependency,
+                        dependencies: new Array(),
                     });
 
                     await this.installedModuleDependencies(dependency, listDependencies);
