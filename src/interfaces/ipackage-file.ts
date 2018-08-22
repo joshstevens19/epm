@@ -1,4 +1,4 @@
 export interface IPackageFile {
-    fileUrl: string;
-    locationInPackage: string;
+    fileName: string;
+    fileContent: string;
 }
