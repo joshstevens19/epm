@@ -1,8 +1,7 @@
-import { Iinit } from "../interfaces/iinit";
 import { EthereumPmJson } from "./ethereum-pm-json";
 import { InitErrorMessages } from "../error-messages/init-error-messages";
 
-export class Init implements Iinit {
+export class Init {
     constructor(
         private _ethereumPmJson: EthereumPmJson,
     ) { }
