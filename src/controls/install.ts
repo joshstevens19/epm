@@ -48,8 +48,7 @@ export class Install {
                 const destination = Locations.epmModulesPackageLocation(packageNameAndVersion.name);
 
                 for (let p = 0; p < packageFiles.length; p++) {
-                    const file = await rp.get(packageFiles[p].fileUrl);
-                    await fs.writeFile(`${destination}\\${packageFiles[p].locationInPackage}`, file);
+                    await fs.writeFile(`${destination}\\${packageFiles[p].fileName}`, packageFiles[p].fileContent);
                 }
 
                 await this._ethereumPmJsonControl.addDependency(packageNameAndVersion);
