@@ -1,4 +1,3 @@
-import * as rp from "request-promise";
 import { PingApi } from "../api-wrappers/ping.api";
 
 export class Ping {
