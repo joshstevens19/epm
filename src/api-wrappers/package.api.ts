@@ -2,11 +2,16 @@ import * as rp from "request-promise";
 import { IPackageFile } from "../interfaces/ipackage-file";
 import { IPackageNameAndVersion } from "../interfaces/ipackage-name-and-version";
 import { CommonApi } from "./common.api";
+import { HttpRequest } from "./http-request";
 
 export class PackageApi {
     private static ENDPOINT = "/packages";
     private static OWNER_ENDPOINT = "/owner"
     private static IS_OWNER_ENDPOINT = "/isowner"
+
+    constructor(
+        private _httpRequest: HttpRequest,
+    ) { }
 
     /**
      * Gets the package files from the package name and version passed in
@@ -16,9 +21,9 @@ export class PackageApi {
         if (!packageNameAndVersion.version) {
             throw new Error("you must supply a version");
         }
-        // need to start using version for API calls as well as latest
-        const packageFiles = JSON.parse(await rp.get(this.latestPackageEndPoint(packageNameAndVersion.name))) as IPackageFile[];
-        return packageFiles;
+
+        const uri = this.latestPackageEndPoint(packageNameAndVersion.name);
+        return await this._httpRequest.get<IPackageFile[]>(uri, true);
     }
 
     /**
@@ -26,30 +31,17 @@ export class PackageApi {
      * Should return profile details of the user i think 
      * once that has been completed 
      */
-    public async packageOwner(packageName: string, jwtToken: string): Promise<string> {
-        const options = {
-            uri: this.ownerOfPackageEndPoint(packageName),
-            qa: {
-                jwtToken,
-            }
-        }
-        
-        return await rp.get(options);
+    public async packageOwner(packageName: string): Promise<string> {
+        const uri = this.ownerOfPackageEndPoint(packageName);
+        return await this._httpRequest.get<string>(uri, true);
     }
 
     /**
      * Checks if the package is owned by the authenticated user
-     * @param jwtToken The JWT token
      */
-    public async isPackageOwner(packageName: string, jwtToken: string): Promise<boolean> {
-        const options = {
-            uri: this.isOwnerOfPackageEndPoint(packageName),
-            qs: {
-                jwtToken,
-            }
-        }
-
-        return await rp.get(options);
+    public async isPackageOwner(packageName: string): Promise<boolean> {
+        const uri = this.isOwnerOfPackageEndPoint(packageName);
+        return await this._httpRequest.get<boolean>(uri, true);
     }
 
     private ownerOfPackageEndPoint(packageName: string): string {
