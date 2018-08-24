@@ -1,5 +1,6 @@
 import * as rp from "request-promise";
 import { CommonApi } from "./common.api";
+import { HttpRequest } from "./http-request";
 
 export class AuthenticationApi {
     private static readonly ENDPOINT = "/authentication";
@@ -9,6 +10,10 @@ export class AuthenticationApi {
     // this should be moved to the profile API
     private static readonly WHO_AM_I = "/whoami";
 
+    constructor(
+        private _httpRequest: HttpRequest,
+    ) { }
+
     /**
      * Logins the user into epm
      * This will return a token at some point which will be stored
@@ -17,16 +22,12 @@ export class AuthenticationApi {
      * @param password The password
      */
     public async login(username: string, password: string): Promise<void> {
-        const options = {
-            method: 'POST',
-            uri: this.loginEndPoint,
-            body: {
-                username,
-                password
-            }
-        }
+        const body = {
+            username,
+            password
+        };
 
-        await rp.post(options);
+        await this._httpRequest.postVoid(this.loginEndPoint, body, true);
     }
 
     /**
