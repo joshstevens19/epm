@@ -1,6 +1,8 @@
-import { AuthenticationApi, PingApi, PackageApi, VersionApi } from "../api-wrappers";
+import { AuthenticationApi, PingApi, PackageApi, VersionApi, HttpRequest } from "../api-wrappers";
 
 export class InitialiseApis {
+    private static _httpRequest: HttpRequest;
+
     private static _authenticationApi: AuthenticationApi;
     private static _pingApi: PingApi;
     private static _packageApi: PackageApi;
@@ -11,7 +13,7 @@ export class InitialiseApis {
             return InitialiseApis._authenticationApi;
         }
 
-        return InitialiseApis._authenticationApi = new AuthenticationApi();
+        return InitialiseApis._authenticationApi = new AuthenticationApi(this.httpRequest);
     }
 
     public static get pingApi(): PingApi {
@@ -19,7 +21,7 @@ export class InitialiseApis {
             return InitialiseApis._pingApi;
         }
 
-        return InitialiseApis._pingApi = new PingApi();
+        return InitialiseApis._pingApi = new PingApi(this.httpRequest);
     }
 
     public static get packageApi(): PackageApi {
@@ -27,7 +29,7 @@ export class InitialiseApis {
             return InitialiseApis._packageApi;
         }
 
-        return InitialiseApis._packageApi = new PackageApi();
+        return InitialiseApis._packageApi = new PackageApi(this.httpRequest);
     }
 
     public static get versionApi(): VersionApi {
@@ -35,6 +37,14 @@ export class InitialiseApis {
             return InitialiseApis._versionApi;
         }
 
-        return InitialiseApis._versionApi = new VersionApi();
+        return InitialiseApis._versionApi = new VersionApi(this.httpRequest);
+    }
+
+    public static get httpRequest(): HttpRequest {
+        if (InitialiseApis._httpRequest) {
+            return InitialiseApis._httpRequest;
+        }
+
+        return InitialiseApis._httpRequest = new HttpRequest();
     }
 }
