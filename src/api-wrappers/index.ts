@@ -7,3 +7,4 @@ export * from "./profile.api";
 export * from "./search.api";
 export * from "./star.api";
 export * from "./team.api";
+export * from "./http-request";
