@@ -18,8 +18,7 @@ export class StarApi {
         const body = {
             package: packageName
         }
-
-
+        
         await this._httpRequest.postVoid(uri, body, true);
     }
 
