@@ -1,18 +1,23 @@
 import * as rp from "request-promise";
 import { CommonApi } from "./common.api";
+import { HttpRequest } from "./http-request";
 
 export class VersionApi {
 
     public static ENDPOINT = "/versions";
     public static LATEST_VERSION_ENDPOINT = "/latest";
 
+    constructor(
+        private _httpRequest: HttpRequest,
+    ) {}
+
     /**
      * Gets the latest version for a package
      * @param packageName The package name
      */
     public async getLatestVersionForPackage(packageName: string): Promise<string> {
-        const version = JSON.parse(await rp.get(this.latestVersionPackageEndPoint(packageName)));
-        return version.latestVersion;
+        const uri = this.latestVersionPackageEndPoint(packageName);
+        return await this._httpRequest.get<string>(uri, true);
     }
 
     /**
