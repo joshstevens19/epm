@@ -20,14 +20,21 @@ export class AuthenticationApi {
      * in the users files to authenticate for a certain amount of time
      * @param username The username
      * @param password The password
+     * @param rememberMe This will make the token last for a year on the users computer
      */
-    public async login(username: string, password: string): Promise<void> {
+    public async login(username: string, password: string, rememberMe = false): Promise<string> {
         const body = {
             username,
-            password
+            password,
+            expiry: 30
         };
 
-        await this._httpRequest.postVoid(this.loginEndPoint, body, true);
+        if (rememberMe) {
+            body.expiry = (60 * 24) * 365; // makes the token expiry minutes a year
+        }
+
+        const jwtToken = await this._httpRequest.post<string>(this.loginEndPoint, body, true);
+        return jwtToken;
     }
 
     /**
