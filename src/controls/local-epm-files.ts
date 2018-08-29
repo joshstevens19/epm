@@ -4,20 +4,15 @@ import { Locations } from "../common/locations";
 export class LocalEpmFiles {
 
     public async saveAuthenticationToken(jwtToken: string): Promise<void> {
+        // create epm authenticaton folder if it does not exist
+        this.createEpmLocalAuthenticationFolder();
 
-        try {
-            // create epm authenticaton folder if it does not exist
-            this.createEpmLocalAuthenticationFolder();
-
-            const authenticationBody = {
-                jwtToken,
-                createdOn: new Date(),
-            }
-
-            await fs.writeFile(Locations.epmUserHomeAuthenticationFileLocation, JSON.stringify(authenticationBody, null, 4));
-        } catch (error) {
-            console.error(error);
+        const authenticationBody = {
+            jwtToken,
+            createdOn: new Date(),
         }
+
+        await fs.writeFile(Locations.epmUserHomeAuthenticationFileLocation, JSON.stringify(authenticationBody, null, 4));
     }
 
     /**
@@ -41,6 +36,3 @@ export class LocalEpmFiles {
         }
     }
 }
-
-const test = new LocalEpmFiles();
-test.saveAuthenticationToken("TESTFAKETOKEN");
