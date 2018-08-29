@@ -1,7 +1,7 @@
 import { 
         Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
         Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, 
-        WhoAmI, Package, EthereumModules 
+        WhoAmI, Package, EthereumModules, LocalEpmFiles 
        } from "../controls";
 
 import { InitialiseApis } from "./initialise-apis";
@@ -13,6 +13,7 @@ export class InitialiseControls {
     private static _ethereumModules: EthereumModules;
     private static _initControl: Init;
     private static _installControl: Install;
+    private static _localEpmFiles: LocalEpmFiles;
     private static _loginControl: Login;
     private static _logoutControl: Logout;
     private static _lsControl: LS;
@@ -81,6 +82,14 @@ export class InitialiseControls {
                                                                 this.ethereumPmJsonControl,
                                                                 this.ethereumModulesControl
                                                             );
+    }
+
+    public get localEpmFilesControl(): LocalEpmFiles {
+        if (InitialiseControls._localEpmFiles) {
+            return InitialiseControls._localEpmFiles;
+        }
+
+        return InitialiseControls._localEpmFiles = new LocalEpmFiles();
     }
 
     public get loginControl(): Login {
