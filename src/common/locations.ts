@@ -1,4 +1,5 @@
 import { GenericConsts } from "../consts/generic.consts";
+import * as os from "os";
 
 export class Locations {
 
@@ -33,4 +34,25 @@ export class Locations {
     public static epmModulePackageEthereumPmJson(packageName: string): string {
         return `${this.epmModulesLocation}\\${packageName}\\${GenericConsts.epmJsonName}`;
     }
-}
+
+    /**
+     * Gets the epm home dir location for the user
+     */
+    public static get epmUserHomeDir(): string {
+        return `${os.homedir()}\\.epm`;
+    }
+
+    /**
+     * Gets the epm home dir authentication folder for the user
+     */
+    public static get epmUserHomeDirAuthenticationLocation(): string {
+        return `${this.epmUserHomeDir}\\authentication`;
+    }
+
+    /**
+     * Gets the authentication file location
+     */
+    public static get epmUserHomeAuthenticationFileLocation(): string {
+        return `${this.epmUserHomeDirAuthenticationLocation}\\${GenericConsts.jwtLocalFileName}`; 
+    }
+ }
