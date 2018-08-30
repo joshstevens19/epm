@@ -80,7 +80,8 @@ export class InitialiseControls {
         return InitialiseControls._installControl = new Install(this.packageControl,
                                                                 this.initControl,
                                                                 this.ethereumPmJsonControl,
-                                                                this.ethereumModulesControl
+                                                                this.ethereumModulesControl,
+                                                                this.localEpmFilesControl,
                                                             );
     }
 
