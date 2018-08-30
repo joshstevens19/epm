@@ -114,13 +114,20 @@ program
 program
   .command("login")
   .description(PackageDescriptionsConsts.login)
-  .option('-u, --username <username>', 'The user to authenticate as')
-  .option('-p, --password <password>', 'The user\'s password')
-  .action(() => {
-    console.log('user: %s pass: %s file: %s',
-      program.username, program.password);
+  .option('--username <username>', 'The user to authenticate as')
+  .option('--password <password>', 'The user\'s password')
+  .action((dir, cmd) => {
+    const username = dir.username;
+    const password = dir.password;
+
+    if(username || password) {
+      controls.loginControl.authenticate(username, password)
+                           .catch(err => console.log(err));
+    } else {
+      console.log("please supply and username or password")
+    }
   })
-  .parse(process.argv);
+  
 
 program
   .command("audit")
