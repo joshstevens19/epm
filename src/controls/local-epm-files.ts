@@ -1,10 +1,14 @@
 import * as fs from "fs-extra";
 import { Locations } from "../common/locations";
+import { IPackageFile } from "../interfaces/ipackage-file";
 
 export class LocalEpmFiles {
 
+    /**
+     * Saves the authentication token locally in `.epm` within the home dir
+     * @param jwtToken 
+     */
     public async saveAuthenticationToken(jwtToken: string): Promise<void> {
-        // create epm authenticaton folder if it does not exist
         this.createEpmLocalAuthenticationFolder();
 
         const authenticationBody = {
@@ -13,6 +17,22 @@ export class LocalEpmFiles {
         }
 
         await fs.writeFile(Locations.epmUserHomeAuthenticationFileLocation, JSON.stringify(authenticationBody, null, 4));
+    }
+
+    /**
+     * Saves the packages locally in `.epm` within the home dir
+     * @param packageFiles The package files
+     * @param packageName The package name
+     */
+    public async savePackageFilesToLocal(packageFiles: IPackageFile[], packageName: string): Promise<void> {
+        this.createEpmLocalPackagesFolder();
+
+        for (let p = 0; p < packageFiles.length; p++) {
+            this.createEpmLocalPackageFolder(packageName);
+
+            const location = `${Locations.epmUserHomeLocalPackageLocation(packageName)}\\${packageFiles[p].fileName}`;
+            await fs.writeFile(location, packageFiles[p].fileContent);
+        }
     }
 
     /**
@@ -32,7 +52,33 @@ export class LocalEpmFiles {
         this.createEpmLocalFolder();
         const epmAuthenticationFolder = Locations.epmUserHomeDirAuthenticationLocation;
         if (!fs.existsSync(epmAuthenticationFolder)) {
-            fs.mkdirpSync(epmAuthenticationFolder);
+            fs.mkdirSync(epmAuthenticationFolder);
+        }
+    }
+
+    /**
+     * Creates the epm local packages folder (if it does not already exist)
+     */
+    private createEpmLocalPackagesFolder(): void {
+        const localPackageLocation = Locations.epmUserHomeLocalPackagesLocation;
+
+        if (!fs.existsSync(localPackageLocation)) {
+            fs.mkdirSync(localPackageLocation);
+        }
+    }
+
+    /**
+     * Creates the epm local package folder (if it does not already exist)
+     * @param packageName The package name
+     */
+    private createEpmLocalPackageFolder(packageName: string): void {
+        // make sure the local packages folder has been created 
+        this.createEpmLocalPackagesFolder();
+
+        const location = Locations.epmUserHomeLocalPackageLocation(packageName);
+
+        if (!fs.existsSync(location)) {
+            fs.mkdirSync(location);
         }
     }
 }
