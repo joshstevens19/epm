@@ -70,4 +70,13 @@ export class Locations {
     public static epmUserHomeLocalPackageLocation(packageName: string): string {
         return `${this.epmUserHomeLocalPackagesLocation}\\${packageName}`;
     }
+
+    /**
+     * Gets the locally store package version location
+     * @param packageName 
+     * @param packageVersion 
+     */
+    public static epmUserHomeLocalPackageVersionLocation(packageName: string, packageVersion: string): string {
+        return `${Locations.epmUserHomeLocalPackageLocation(packageName)}\\${packageVersion}`;
+    }
  }
