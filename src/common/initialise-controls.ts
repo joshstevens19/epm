@@ -98,7 +98,7 @@ export class InitialiseControls {
             return InitialiseControls._loginControl;
         }
 
-        return InitialiseControls._loginControl = new Login(InitialiseApis.authenticationApi);
+        return InitialiseControls._loginControl = new Login(InitialiseApis.authenticationApi, this.localEpmFilesControl);
     }
 
     public get logoutControl(): Logout {
