@@ -5,7 +5,7 @@ export class Login {
     constructor(
         private _authenticationApi: AuthenticationApi,
         private _localEpmFiles: LocalEpmFiles
-    ) {}
+    ) { }
 
     /**
      * Authenticates the user
