@@ -55,4 +55,19 @@ export class Locations {
     public static get epmUserHomeAuthenticationFileLocation(): string {
         return `${this.epmUserHomeDirAuthenticationLocation}\\${GenericConsts.jwtLocalFileName}`; 
     }
+
+    /**
+     * Gets the locally stored packages location
+     */
+    public static get epmUserHomeLocalPackagesLocation(): string {
+        return `${this.epmUserHomeDir}\\packages`;
+    }
+
+    /**
+     * Gets the locally stored package location
+     * @param packageName The package name
+     */
+    public static epmUserHomeLocalPackageLocation(packageName: string): string {
+        return `${this.epmUserHomeLocalPackagesLocation}\\${packageName}`;
+    }
  }
