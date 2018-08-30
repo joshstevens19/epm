@@ -1,7 +1,7 @@
 import { IPackageNameAndVersion } from "../interfaces/ipackage-name-and-version";
-import { IPackageFile } from "../interfaces/ipackage-file";
 import { PackageApi } from "../api-wrappers/package.api";
 import { VersionApi } from "../api-wrappers/version.api";
+import { IPackageFiles } from "../interfaces/ipackage-files";
 
 export class Package {
 
@@ -41,7 +41,7 @@ export class Package {
      * Gets the package files from s3 bucket
      * @param packageNameAndVersion The package name and version
      */
-    public async getPackageFiles(packageNameAndVersion: IPackageNameAndVersion): Promise<IPackageFile[]> {
+    public async getPackageFiles(packageNameAndVersion: IPackageNameAndVersion): Promise<IPackageFiles> {
         return await this._packageApi.packageFiles(packageNameAndVersion);
     }
 }
