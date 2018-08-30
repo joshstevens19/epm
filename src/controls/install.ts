@@ -5,8 +5,9 @@ import { InitErrorMessages } from "../error-messages/init-error-messages";
 import { GenericConsts } from "../consts/generic.consts";
 import { IEthereumPMJson } from "../interfaces/iethereum-pm-json";
 import { Locations } from "../common/locations";
-import { IPackageFile } from "../interfaces/ipackage-file";
 import { LocalEpmFiles } from "./local-epm-files";
+import { IPackageFiles } from "../interfaces/ipackage-files";
+import { IPackageFile } from "../interfaces/ipackage-file";
 
 export class Install {
     constructor(
@@ -26,33 +27,41 @@ export class Install {
     public async installPackage(packageName: string): Promise<void> {
         if (this._initControl.hasBeenInitialised) {
             const packageNameAndVersion: IPackageNameAndVersion = this._packageControl.getPackageNameAndVersion(packageName);
-            // console.log(__dirname);
 
             // make sure all the folders are created if it is a first install 
             // of this package
             this._ethereumModulesControl.createEthereumModulePackageFolder(packageNameAndVersion.name);
 
             // WILL RESOLVE TO USE PATH FOR LINX BOXES AND __dirname - do not worry 
-            // just getting the concept there first
+            // just getting the concept first
             if (!(await this._ethereumModulesControl.versionAlreadyInstalled(packageNameAndVersion))) {
                 // if package is not defined then get the latest one
                 if (!packageNameAndVersion.version) {
                     try {
                         packageNameAndVersion.version = await this._packageControl.getLatestVersionForPackage(packageNameAndVersion.name);
                     } catch (error) {
-                        return Promise.reject("COULD NOT FIND ANY PACKAGES");
+                        return Promise.reject("Could not find any package");
                     }
                 }
 
-                // const destination = Locations.epmModulesPackageLocation(packageNameAndVersion.name);
-                const packageFiles: IPackageFile[] = await this._packageControl.getPackageFiles(packageNameAndVersion);
                 const destination = Locations.epmModulesPackageLocation(packageNameAndVersion.name);
 
-                for (let p = 0; p < packageFiles.length; p++) {
-                    await fs.writeFile(`${destination}\\${packageFiles[p].fileName}`, packageFiles[p].fileContent);
-                    
-                    // do not await this as we do not care if it happens behind the screens :)
-                    this._localEpmFiles.savePackageFilesToLocal(packageFiles, packageNameAndVersion.name);
+                // package version is always defined now as we have either been supplied it
+                // or gone and got the latest version
+                // check to see if we have these packages stored locally if so just copy them to where we want them
+                // offline support here ;) (if the user supplies the version)  
+                if (this._localEpmFiles.packageVersionAlreadyInstalledLocally(packageNameAndVersion.name, packageNameAndVersion.version)) {
+                    await fs.copy(Locations.epmUserHomeLocalPackageVersionLocation(packageNameAndVersion.name, packageNameAndVersion.version), destination);
+                } else {
+                    const packageFilesDetails: IPackageFiles = await this._packageControl.getPackageFiles(packageNameAndVersion);
+                    const packageFiles: IPackageFile[] = packageFilesDetails.files;
+
+                    for (let p = 0; p < packageFiles.length; p++) {
+                        await fs.writeFile(`${destination}\\${packageFiles[p].fileName}`, packageFiles[p].fileContent);
+                        
+                        // do not await this as we do not care if it happens behind the screens :)
+                        this._localEpmFiles.savePackageFilesToLocal(packageFiles, packageFilesDetails.packageName, packageFilesDetails.version);
+                    }
                 }
 
                 await this._ethereumPmJsonControl.addDependency(packageNameAndVersion);
@@ -93,7 +102,7 @@ export class Install {
         const ethereumPmJson: IEthereumPMJson = JSON.parse(await fs.readFile(location, 'utf8'));
 
         for (const dependency in ethereumPmJson.dependencies) {
-            const packageName = dependency + "@" + ethereumPmJson.dependencies[dependency];
+            const packageName = `${dependency}@${ethereumPmJson.dependencies[dependency]}`;
             await this.installPackage(packageName);
         }
     }
