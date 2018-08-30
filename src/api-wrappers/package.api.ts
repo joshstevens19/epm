@@ -1,8 +1,7 @@
-import * as rp from "request-promise";
-import { IPackageFile } from "../interfaces/ipackage-file";
 import { IPackageNameAndVersion } from "../interfaces/ipackage-name-and-version";
 import { CommonApi } from "./common.api";
 import { HttpRequest } from "./http-request";
+import { IPackageFiles } from "../interfaces/ipackage-files";
 
 export class PackageApi {
     private static ENDPOINT = "/packages";
@@ -17,13 +16,13 @@ export class PackageApi {
      * Gets the package files from the package name and version passed in
      * @param packageNameAndVersion The package name and version
      */
-    public async packageFiles(packageNameAndVersion: IPackageNameAndVersion): Promise<IPackageFile[]> {
+    public async packageFiles(packageNameAndVersion: IPackageNameAndVersion): Promise<IPackageFiles> {
         if (!packageNameAndVersion.version) {
             throw new Error("you must supply a version");
         }
 
         const uri = this.latestPackageEndPoint(packageNameAndVersion.name);
-        return await this._httpRequest.get<IPackageFile[]>(uri, true);
+        return await this._httpRequest.get<IPackageFiles>(uri, true);
     }
 
     /**
