@@ -5,15 +5,16 @@ import { InitErrorMessages } from "../error-messages/init-error-messages";
 import { GenericConsts } from "../consts/generic.consts";
 import { IEthereumPMJson } from "../interfaces/iethereum-pm-json";
 import { Locations } from "../common/locations";
-import * as rp from "request-promise";
 import { IPackageFile } from "../interfaces/ipackage-file";
+import { LocalEpmFiles } from "./local-epm-files";
 
 export class Install {
     constructor(
         private _packageControl: Package,
         private _initControl: Init,
         private _ethereumPmJsonControl: EthereumPmJson,
-        private _ethereumModulesControl: EthereumModules
+        private _ethereumModulesControl: EthereumModules,
+        private _localEpmFiles: LocalEpmFiles,
     ) { }
 
     /**
@@ -49,6 +50,9 @@ export class Install {
 
                 for (let p = 0; p < packageFiles.length; p++) {
                     await fs.writeFile(`${destination}\\${packageFiles[p].fileName}`, packageFiles[p].fileContent);
+                    
+                    // do not await this as we do not care if it happens behind the screens :)
+                    this._localEpmFiles.savePackageFilesToLocal(packageFiles, packageNameAndVersion.name);
                 }
 
                 await this._ethereumPmJsonControl.addDependency(packageNameAndVersion);
