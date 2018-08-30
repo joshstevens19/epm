@@ -24,15 +24,26 @@ export class LocalEpmFiles {
      * @param packageFiles The package files
      * @param packageName The package name
      */
-    public async savePackageFilesToLocal(packageFiles: IPackageFile[], packageName: string): Promise<void> {
-        this.createEpmLocalPackagesFolder();
+    public async savePackageFilesToLocal(packageFiles: IPackageFile[], packageName: string, version: string): Promise<void> {
+        if (!this.packageVersionAlreadyInstalledLocally(packageName,version)) {
+            this.createEpmLocalPackagesFolder();
+            this.createEpmLocalPackageFolderAndVersion(packageName, version);
 
-        for (let p = 0; p < packageFiles.length; p++) {
-            this.createEpmLocalPackageFolder(packageName);
+            for (let p = 0; p < packageFiles.length; p++) {
+                const location = `${Locations.epmUserHomeLocalPackageVersionLocation(packageName, version)}\\${packageFiles[p].fileName}`;
+                await fs.writeFile(location, packageFiles[p].fileContent);
+            }
+        }   
+    }
 
-            const location = `${Locations.epmUserHomeLocalPackageLocation(packageName)}\\${packageFiles[p].fileName}`;
-            await fs.writeFile(location, packageFiles[p].fileContent);
-        }
+    /**
+     * Checks to see if a package already exists in the local files (we do not want to touch API if we do not have too)
+     * @param packageName The package name
+     * @param packageVersion The package version 
+     */
+    public packageVersionAlreadyInstalledLocally(packageName: string, packageVersion: string): boolean {
+        const location = `${Locations.epmUserHomeLocalPackageVersionLocation(packageName, packageVersion)}`;
+        return fs.existsSync(location);
     }
 
     /**
@@ -71,14 +82,20 @@ export class LocalEpmFiles {
      * Creates the epm local package folder (if it does not already exist)
      * @param packageName The package name
      */
-    private createEpmLocalPackageFolder(packageName: string): void {
+    private createEpmLocalPackageFolderAndVersion(packageName: string, packageVersion: string): void {
         // make sure the local packages folder has been created 
         this.createEpmLocalPackagesFolder();
 
-        const location = Locations.epmUserHomeLocalPackageLocation(packageName);
+        const packageLocation = Locations.epmUserHomeLocalPackageLocation(packageName);
 
-        if (!fs.existsSync(location)) {
-            fs.mkdirSync(location);
+        if (!fs.existsSync(packageLocation)) {
+            fs.mkdirSync(packageLocation);
+        }
+
+        const versionLocation = Locations.epmUserHomeLocalPackageVersionLocation(packageName, packageVersion);
+
+        if (!fs.existsSync(versionLocation)) {
+            fs.mkdirSync(versionLocation);
         }
     }
 }
