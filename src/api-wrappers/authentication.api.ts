@@ -33,7 +33,7 @@ export class AuthenticationApi {
             body.expiryMinutes = (60 * 24) * 365; // makes the token expiry minutes a year
         }
 
-        const jwtToken = await this._httpRequest.post<string>(this.loginEndPoint, body, true);
+        const jwtToken = await this._httpRequest.post<string>(this.loginEndPoint, body);
         return jwtToken;
     }
 

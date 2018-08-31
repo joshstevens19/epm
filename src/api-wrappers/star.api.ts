@@ -1,4 +1,3 @@
-import * as rp from "request-promise";
 import { CommonApi } from "./common.api";
 import { HttpRequest } from "./http-request";
 export class StarApi {
@@ -19,7 +18,7 @@ export class StarApi {
             package: packageName
         }
         
-        await this._httpRequest.postVoid(uri, body, true);
+        await this._httpRequest.postVoid(uri, body);
     }
 
     /**

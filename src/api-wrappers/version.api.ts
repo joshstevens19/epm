@@ -1,4 +1,3 @@
-import * as rp from "request-promise";
 import { CommonApi } from "./common.api";
 import { HttpRequest } from "./http-request";
 
@@ -17,7 +16,7 @@ export class VersionApi {
      */
     public async getLatestVersionForPackage(packageName: string): Promise<string> {
         const uri = this.latestVersionPackageEndPoint(packageName);
-        return await this._httpRequest.get<string>(uri, true);
+        return await this._httpRequest.get<string>(uri);
     }
 
     /**

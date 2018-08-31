@@ -9,7 +9,7 @@ export class ProfileApi {
      * The details for the logged in users profile
      * @param jwtToken The JWT authentication token
      */
-    public async details(jwtToken: string): Promise<IProfile> {
+    public async details(): Promise<IProfile> {
         const endpoint: string = CommonApi.buildApiUrlEndpoint(ProfileApi.ENDPOINT);
         return JSON.parse(await rp.get(endpoint)) as IProfile;
     }
@@ -19,7 +19,7 @@ export class ProfileApi {
      * @param profile The profile details to update too
      * @param jwtToken The JWT authentication token
      */
-    public async updateDetails(profile: IProfile, jwtToken: string): Promise<void> {
+    public async updateDetails(profile: IProfile): Promise<void> {
         // to do
     }
 }

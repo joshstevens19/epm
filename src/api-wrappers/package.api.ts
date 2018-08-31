@@ -22,7 +22,7 @@ export class PackageApi {
         }
 
         const uri = this.latestPackageEndPoint(packageNameAndVersion.name);
-        return await this._httpRequest.get<IPackageFiles>(uri, true);
+        return await this._httpRequest.get<IPackageFiles>(uri);
     }
 
     /**
@@ -32,7 +32,7 @@ export class PackageApi {
      */
     public async packageOwner(packageName: string): Promise<string> {
         const uri = this.ownerOfPackageEndPoint(packageName);
-        return await this._httpRequest.get<string>(uri, true);
+        return await this._httpRequest.get<string>(uri);
     }
 
     /**
@@ -40,7 +40,7 @@ export class PackageApi {
      */
     public async isPackageOwner(packageName: string): Promise<boolean> {
         const uri = this.isOwnerOfPackageEndPoint(packageName);
-        return await this._httpRequest.get<boolean>(uri, true);
+        return await this._httpRequest.get<boolean>(uri);
     }
 
     private ownerOfPackageEndPoint(packageName: string): string {
