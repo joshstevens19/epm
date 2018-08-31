@@ -3,5 +3,5 @@ export enum HttpVerb {
     GET = "GET",
     DELETE = "DELETE",
     PUT = "PUT",
-    PATH = "PACTH"
+    PATCH = "PATCH"
 }
