@@ -3,6 +3,7 @@ import { GenericConsts } from "../consts/generic.consts";
 import { Locations } from "../common/locations";
 import { EthereumPmJson } from ".";
 import { IPackageNameAndVersion } from "../interfaces/ipackage-name-and-version";
+import { Helpers } from "../common/helpers";
 
 export class EthereumModules {
 
@@ -66,17 +67,7 @@ export class EthereumModules {
      * @param path The path to the folder
      */
     private deleteEthereumModuleFolderItems(path: string): void {
-        if (fs.existsSync(path)) {
-            fs.readdirSync(path).forEach((file, index) => {
-                const curPath = path + "/" + file;
-                if (fs.lstatSync(curPath).isDirectory()) {
-                    this.deleteEthereumModuleFolderItems(curPath);
-                } else {
-                    fs.unlinkSync(curPath);
-                }
-            });
-            fs.rmdirSync(path);
-        }
+        Helpers.deleteFolderItems(path);
     }
 
     /**
