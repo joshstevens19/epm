@@ -15,9 +15,9 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async get<T>(uri: string, queryParameters: any = null): Promise<T> {
-        const options = await this.buildGetOptions(uri, queryParameters);
+        const options = await this.buildGetOptions(queryParameters);
 
-        const response = JSON.parse(await rp.get(options)) as T
+        const response = JSON.parse(await rp.get(uri, options)) as T
         return response;
     }
 
@@ -28,9 +28,9 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async post<T>(uri: string, body: any): Promise<T> {
-        const options = await this.buildPostOptions(uri, body);
+        const options = await this.buildPostOptions(body);
         
-        const response = await rp.post(options) as T;
+        const response = await rp.post(uri, options) as T;
         return response;
     }
 
@@ -41,8 +41,8 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async postVoid(uri: string, body: any): Promise<void> {
-        const options = await this.buildPostOptions(uri, body);
-        await rp.post(options);
+        const options = await this.buildPostOptions(body);
+        await rp.post(uri, options);
     }
 
     /**
@@ -52,9 +52,9 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async put<T>(uri: string, body: any): Promise<T> {
-       const options = await this.buildPutOptions(uri, body);
+       const options = await this.buildPutOptions(body);
 
-       const response = JSON.parse(await rp.put(options)) as T;
+       const response = JSON.parse(await rp.put(uri, options)) as T;
        return response;
     }
 
@@ -65,8 +65,8 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async putVoid(uri: string, body: any): Promise<void> {
-        const options = await this.buildPutOptions(uri, body);
-        await rp.put(options);
+        const options = await this.buildPutOptions(body);
+        await rp.put(uri, options);
     }
 
     /**
@@ -76,9 +76,9 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async delete<T>(uri: string, body: any): Promise<T> {
-        const options = await this.buildDeleteOptions(uri, body);
+        const options = await this.buildDeleteOptions(body);
 
-        const response = JSON.parse(await rp.delete(options)) as T;
+        const response = JSON.parse(await rp.delete(uri, options)) as T;
         return response;
     }
 
@@ -89,8 +89,8 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async deleteVoid(uri: string, body: any): Promise<void> {
-        const options = await this.buildDeleteOptions(uri, body);
-        await rp.delete(options);
+        const options = await this.buildDeleteOptions(body);
+        await rp.delete(uri, options);
     }
 
     /**
@@ -100,9 +100,9 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async patch<T>(uri: string, body: any): Promise<T> {
-        const options = await this.buildPatchOptions(uri, body);
+        const options = await this.buildPatchOptions(body);
 
-        const response = JSON.parse(await rp.patch(options)) as T;
+        const response = JSON.parse(await rp.patch(uri, options)) as T;
         return response;
     }
 
@@ -113,8 +113,8 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async patchVoid(uri: string, body: any): Promise<void> {
-        const options = await this.buildPatchOptions(uri, body);
-        await rp.patch(options);
+        const options = await this.buildPatchOptions(body);
+        await rp.patch(uri, options);
     }
 
     /**
@@ -138,10 +138,9 @@ export class HttpRequest {
      * @param uri The URI
      * @param passTokenToRequest If the request should contain the JWT token
      */
-    private async buildGetOptions(uri: string, queryParameters: any) {
+    private async buildGetOptions(queryParameters: any) {
         const options: any = {
             method: HttpVerb.GET,
-            uri
         }
 
         if (queryParameters) {
@@ -157,10 +156,9 @@ export class HttpRequest {
      * @param body The body
      * @param passTokenToRequest If the request should contain the JWT token 
      */
-    private async buildPostOptions(uri: string, body: any) {
+    private async buildPostOptions(body: any) {
         const options: any = {
             method: HttpVerb.POST,
-            uri,
             body,
         }
 
@@ -173,10 +171,9 @@ export class HttpRequest {
      * @param body The body
      * @param passTokenToRequest If the request should contain the JWT token
      */
-    private async buildPutOptions(uri: string, body: any) {
+    private async buildPutOptions(body: any) {
         const options: any = {
             method: HttpVerb.PUT,
-            uri,
             body,
         }
 
@@ -189,10 +186,9 @@ export class HttpRequest {
      * @param body The body
      * @param passTokenToRequest If the request should contain the JWT token
      */
-    private async buildDeleteOptions(uri: string, body: any) {
+    private async buildDeleteOptions(body: any) {
         const options: any = {
             method: HttpVerb.DELETE,
-            uri,
             body,
         }
 
@@ -205,10 +201,9 @@ export class HttpRequest {
      * @param body The body
      * @param passTokenToRequest If the request should contain the JWT token
      */
-    private async buildPatchOptions(uri: string, body: any) {
+    private async buildPatchOptions(body: any) {
         const options: any = {
             method: HttpVerb.PATCH,
-            uri,
             body,
         }
 
