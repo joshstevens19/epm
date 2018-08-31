@@ -30,7 +30,7 @@ export class HttpRequest {
     public async post<T>(uri: string, body: any): Promise<T> {
         const options = await this.buildPostOptions(uri, body);
         
-        const response = JSON.parse(await rp.post(options)) as T;
+        const response = await rp.post(options) as T;
         return response;
     }
 

@@ -1,6 +1,7 @@
 import * as rp from "request-promise";
 import { CommonApi } from "./common.api";
 import { HttpRequest } from "./http-request";
+import { ILoginResponse } from "../interfaces/api-reponses/ilogin-response";
 
 export class AuthenticationApi {
     private static readonly ENDPOINT = "/authentication";
@@ -22,7 +23,7 @@ export class AuthenticationApi {
      * @param password The password
      * @param rememberMe This will make the token last for a year on the users computer
      */
-    public async login(username: string, password: string, rememberMe = false): Promise<string> {
+    public async login(username: string, password: string, rememberMe = false): Promise<ILoginResponse> {
         const body = {
             username,
             password,
@@ -33,8 +34,8 @@ export class AuthenticationApi {
             body.expiryMinutes = (60 * 24) * 365; // makes the token expiry minutes a year
         }
 
-        const jwtToken = await this._httpRequest.post<string>(this.loginEndPoint, body);
-        return jwtToken;
+        const loginResponse = await this._httpRequest.post<ILoginResponse>(this.loginEndPoint, body);
+        return loginResponse;
     }
 
     /**
