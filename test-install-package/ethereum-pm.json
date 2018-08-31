@@ -1,0 +1,12 @@
+{
+    "name": "test-install-packages",
+    "version": "",
+    "repository": "",
+    "license": "",
+    "dependencies": {
+        "quickmaths": "1.1.1",
+        "ownerable": {
+            "latestVersion": "1.1.1"
+        }
+    }
+}
