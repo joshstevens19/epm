@@ -1,7 +1,7 @@
 import { 
         Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
         Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, 
-        WhoAmI, Package, EthereumModules, LocalEpmFiles 
+        WhoAmI, Package, EthereumModules, LocalEpmFiles, Upload 
        } from "../controls";
 
 import { InitialiseApis } from "./initialise-apis";
@@ -29,6 +29,7 @@ export class InitialiseControls {
     private static _starControl: Star;
     private static _uninstallControl: Uninstall;
     private static _updateControl: Update;
+    private static _uploadControl: Upload;
     private static _versionControl: Version;
     private static _whoAmiIControl: WhoAmI;
 
@@ -200,6 +201,14 @@ export class InitialiseControls {
                                                               this.installControl,
                                                               this.ethereumPmJsonControl
                                                             );
+    }
+
+    public static get uploadControl(): Upload {
+        if (InitialiseControls._uploadControl) {
+            return InitialiseControls._uploadControl;
+        }
+
+        return InitialiseControls._uploadControl = new Upload();
     }
 
     public static get versionControl(): Version {
