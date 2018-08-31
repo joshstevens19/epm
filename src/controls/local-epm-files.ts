@@ -1,6 +1,7 @@
 import * as fs from "fs-extra";
 import { Locations } from "../common/locations";
 import { IPackageFile } from "../interfaces/ipackage-file";
+import { IJwtDetails } from "../interfaces/ijwt-details";
 
 export class LocalEpmFiles {
 
@@ -11,12 +12,20 @@ export class LocalEpmFiles {
     public async saveAuthenticationToken(jwtToken: string): Promise<void> {
         this.createEpmLocalAuthenticationFolder();
 
-        const authenticationBody = {
+        const authenticationBody: IJwtDetails = {
             jwtToken,
             createdOn: new Date(),
         }
 
         await fs.writeFile(Locations.epmUserHomeAuthenticationFileLocation, JSON.stringify(authenticationBody, null, 4));
+    }
+
+    /**
+     * Returns if the authentication file exists 
+     */
+    public authenticationFileExists(): Boolean {
+        const location = Locations.epmUserHomeAuthenticationFileLocation;
+        return fs.existsSync(location);
     }
 
     /**
