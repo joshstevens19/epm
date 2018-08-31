@@ -1,4 +1,6 @@
 import { AuthenticationApi } from "../api-wrappers";
+import { Helpers } from "../common/helpers";
+import { Locations } from "../common/locations";
 
 export class Logout {
 
@@ -12,9 +14,7 @@ export class Logout {
      * you need to be logged in for will now ask for
      * authentication
      */
-    public unauth(): void {
-        // need to clear the token stored on the users profile
-        // not sure if we should invalidate the token we created 
-        // for them as it is short living anyway?!
+    public unauthenticate(): void {
+        Helpers.deleteFolderItems(Locations.epmUserHomeDirAuthenticationLocation);
     }
 }
