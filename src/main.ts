@@ -124,15 +124,22 @@ program
     } else {
       console.log("please supply and username or password")
     }
-  })
-  
+  });
 
 program
-  .command("audit")
-  .description(PackageDescriptionsConsts.audit)
-  .action(() => {
+    .command("logout")
+    .description(PackageDescriptionsConsts.logout)
+    .action(() => {
+      InitialiseControls.logoutControl.unauthenticate();
+    });
 
-  });
+program 
+    .command("upload")
+    .description(PackageDescriptionsConsts.upload)
+    .action(() => {
+      InitialiseControls.uploadControl.uploadPackage();
+    });
+  
 
 //   // .action(() => {
 //   //   console.log(program.username);
@@ -160,28 +167,5 @@ program
 
 //   // })
 // })
-
-// program
-//   .command('install <packageName> <packageVersion>')
-//   .alias('i')
-//   .description(PackageDescriptionsConsts.install)
-//   .action((packageName: string, packageVersion: string) => {
-//     console.log(packageName);
-//     console.log(packageVersion);
-//   });
-
-// program
-//   .command('addContact <firstame> <lastname> <phone> <email>')
-//   .alias('a')
-//   .description('Add a contact')
-//   .action((firstname, lastname, phone, email) => {
-//     addContact({firstname, lastname, phone, email});
-//   });
-
-// program
-//   .command('getContact <name>')
-//   .alias('r')
-//   .description('Get contact')
-//   .action(name => getContact(name));
 
 program.parse(process.argv);
