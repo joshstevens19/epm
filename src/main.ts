@@ -13,8 +13,6 @@ const ProgressBar = require('progress');
 const co = require('co');
 const prompt = require('co-prompt');
 
-const controls = new InitialiseControls();
-
 program
   .version("0.0.1")
   .description('Welcome to ethereum package manager...')
@@ -26,14 +24,14 @@ program
   .command('init')
   .description(PackageDescriptionsConsts.init)
   .action(() => {
-    controls.initControl.initialiseProject();
+    InitialiseControls.initControl.initialiseProject();
   });
 
 program
   .command('ls')
   .description(PackageDescriptionsConsts.ls)
   .action(() => {
-    controls.lsControl.installedDependencies()
+    InitialiseControls.lsControl.installedDependencies()
       .then(d => console.log(JSON.stringify(d)))
       .catch(err => console.error(err));
   });
@@ -44,12 +42,12 @@ program
   .description(PackageDescriptionsConsts.install)
   .action((packageName: string) => {
     if (packageName) {
-      controls.installControl.installPackage(packageName)
+      InitialiseControls.installControl.installPackage(packageName)
         .catch(err => {
           console.log(chalk.default.bold.redBright(err.message));
         });
     } else {
-      controls.installControl.installPackages()
+      InitialiseControls.installControl.installPackages()
         .catch(err => {
           console.log(chalk.default.bold.redBright(err.message));
         });
@@ -64,7 +62,7 @@ program
     if (!packageName) {
       console.error("please supply a package name to uninstall")
     } else {
-      controls.uninstallControl.uninstallPackage(packageName)
+      InitialiseControls.uninstallControl.uninstallPackage(packageName)
         .catch(err => {
           console.log(chalk.default.bold.redBright(err.message));
         });
@@ -80,7 +78,7 @@ program
     if (!packageName) {
       console.error("please supply a package name to update")
     } else {
-      controls.updateControl.updatePackage(packageName)
+      InitialiseControls.updateControl.updatePackage(packageName)
         .catch(err => {
           console.log(chalk.default.bold.redBright(err.message));
         });
@@ -91,7 +89,7 @@ program
   .command('outdated')
   .description(PackageDescriptionsConsts.outdated)
   .action(() => {
-    controls.outdatedControl.checkForOutdatedPackages()
+    InitialiseControls.outdatedControl.checkForOutdatedPackages()
       .then(res => console.log(res))
       .catch(err => console.error(err));
   });
@@ -100,7 +98,7 @@ program
   .command('ping')
   .description(PackageDescriptionsConsts.ping)
   .action(() => {
-    controls.pingControl.alive()
+    InitialiseControls.pingControl.alive()
       .then(result => {
         if (result) {
           console.log('server is alive')
@@ -121,7 +119,7 @@ program
     const password = dir.password;
 
     if(username || password) {
-      controls.loginControl.authenticate(username, password)
+      InitialiseControls.loginControl.authenticate(username, password)
                            .catch(err => console.log(err));
     } else {
       console.log("please supply and username or password")

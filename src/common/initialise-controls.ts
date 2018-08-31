@@ -5,6 +5,7 @@ import {
        } from "../controls";
 
 import { InitialiseApis } from "./initialise-apis";
+import { Jwt } from "../controls/jwt";
 
 export class InitialiseControls {
     private static _auditControl: Audit;
@@ -13,6 +14,7 @@ export class InitialiseControls {
     private static _ethereumModules: EthereumModules;
     private static _initControl: Init;
     private static _installControl: Install;
+    private static _jwtControl: Jwt;
     private static _localEpmFiles: LocalEpmFiles;
     private static _loginControl: Login;
     private static _logoutControl: Logout;
@@ -32,7 +34,7 @@ export class InitialiseControls {
 
     constructor() { }
 
-    public get auditControl(): Audit {
+    public static get auditControl(): Audit {
         if (InitialiseControls._auditControl) {
             return InitialiseControls._auditControl;
         }
@@ -40,7 +42,7 @@ export class InitialiseControls {
         return InitialiseControls._auditControl = new Audit();
     }
 
-    public get buildControl(): Build {
+    public static get buildControl(): Build {
         if (InitialiseControls._buildControl) {
             return InitialiseControls._buildControl;
         }
@@ -48,7 +50,7 @@ export class InitialiseControls {
         return InitialiseControls._buildControl = new Build();
     }
 
-    public get ethereumPmJsonControl(): EthereumPmJson {
+    public static get ethereumPmJsonControl(): EthereumPmJson {
         if (InitialiseControls._ethereumPmJson) {
             return InitialiseControls._ethereumPmJson;
         }
@@ -56,7 +58,7 @@ export class InitialiseControls {
         return InitialiseControls._ethereumPmJson = new EthereumPmJson();
     }
 
-    public get ethereumModulesControl(): EthereumModules {
+    public static get ethereumModulesControl(): EthereumModules {
         if (InitialiseControls._ethereumModules) {
             return InitialiseControls._ethereumModules;
         }
@@ -64,7 +66,7 @@ export class InitialiseControls {
         return InitialiseControls._ethereumModules = new EthereumModules(this.ethereumPmJsonControl);
     }
 
-    public get initControl(): Init {
+    public static get initControl(): Init {
         if (InitialiseControls._initControl) {
             return InitialiseControls._initControl;
         }
@@ -72,7 +74,7 @@ export class InitialiseControls {
         return InitialiseControls._initControl = new Init(this.ethereumPmJsonControl);
     }
 
-    public get installControl(): Install {
+    public static get installControl(): Install {
         if (InitialiseControls._installControl) {
             return InitialiseControls._installControl;
         }
@@ -85,7 +87,15 @@ export class InitialiseControls {
                                                             );
     }
 
-    public get localEpmFilesControl(): LocalEpmFiles {
+    public static get jwtControl(): Jwt {
+        if (InitialiseControls._jwtControl) {
+            return InitialiseControls._jwtControl;
+        }
+
+        return InitialiseControls._jwtControl = new Jwt(this.localEpmFilesControl);
+    }
+
+    public static get localEpmFilesControl(): LocalEpmFiles {
         if (InitialiseControls._localEpmFiles) {
             return InitialiseControls._localEpmFiles;
         }
@@ -93,7 +103,7 @@ export class InitialiseControls {
         return InitialiseControls._localEpmFiles = new LocalEpmFiles();
     }
 
-    public get loginControl(): Login {
+    public static get loginControl(): Login {
         if (InitialiseControls._loginControl) {
             return InitialiseControls._loginControl;
         }
@@ -101,7 +111,7 @@ export class InitialiseControls {
         return InitialiseControls._loginControl = new Login(InitialiseApis.authenticationApi, this.localEpmFilesControl);
     }
 
-    public get logoutControl(): Logout {
+    public static get logoutControl(): Logout {
         if (InitialiseControls._logoutControl) {
             return InitialiseControls._logoutControl;
         }
@@ -109,7 +119,7 @@ export class InitialiseControls {
         return InitialiseControls._logoutControl = new Logout(InitialiseApis.authenticationApi);
     }
 
-    public get outdatedControl(): Outdated {
+    public static get outdatedControl(): Outdated {
         if (InitialiseControls._outdatedControl) {
             return InitialiseControls._outdatedControl;
         }
@@ -117,7 +127,7 @@ export class InitialiseControls {
         return InitialiseControls._outdatedControl = new Outdated(this.ethereumPmJsonControl, this.packageControl);
     }
 
-    public get ownerControl(): Owner {
+    public static get ownerControl(): Owner {
         if (InitialiseControls._ownerControl) {
             return InitialiseControls._ownerControl;
         }
@@ -125,7 +135,7 @@ export class InitialiseControls {
         return InitialiseControls._ownerControl = new Owner();
     }
 
-    public get packageControl(): Package {
+    public static get packageControl(): Package {
         if (InitialiseControls._packageControl) {
             return InitialiseControls._packageControl;
         }
@@ -133,7 +143,7 @@ export class InitialiseControls {
         return InitialiseControls._packageControl = new Package(InitialiseApis.packageApi, InitialiseApis.versionApi);
     }
 
-    public get pingControl(): Ping {
+    public static get pingControl(): Ping {
         if (InitialiseControls._pingControl) {
             return InitialiseControls._pingControl;
         }
@@ -141,7 +151,7 @@ export class InitialiseControls {
         return InitialiseControls._pingControl = new Ping(InitialiseApis.pingApi);
     }
 
-    public get profileControl(): Profile {
+    public static get profileControl(): Profile {
         if (InitialiseControls._profileControl) {
             return InitialiseControls._profileControl;
         }
@@ -149,7 +159,7 @@ export class InitialiseControls {
         return InitialiseControls._profileControl = new Profile();
     }
 
-    public get repoControl(): Repo {
+    public static get repoControl(): Repo {
         if (InitialiseControls._repoControl) {
             return InitialiseControls._repoControl;
         }
@@ -157,7 +167,7 @@ export class InitialiseControls {
         return InitialiseControls._repoControl = new Repo();
     }
 
-    public get searchControl(): Search {
+    public static get searchControl(): Search {
         if (InitialiseControls._searchControl) {
             return InitialiseControls._searchControl;
         }
@@ -165,7 +175,7 @@ export class InitialiseControls {
         return InitialiseControls._searchControl = new Search();
     }
 
-    public get starControl(): Star {
+    public static get starControl(): Star {
         if (InitialiseControls._starControl) {
             return InitialiseControls._starControl;
         }
@@ -173,7 +183,7 @@ export class InitialiseControls {
         return InitialiseControls._starControl = new Star();
     }
 
-    public get uninstallControl(): Uninstall {
+    public static get uninstallControl(): Uninstall {
         if (InitialiseControls._uninstallControl) {
             return InitialiseControls._uninstallControl;
         }
@@ -181,7 +191,7 @@ export class InitialiseControls {
         return InitialiseControls._uninstallControl = new Uninstall(this.ethereumModulesControl, this.ethereumPmJsonControl);
     }
 
-    public get updateControl(): Update {
+    public static get updateControl(): Update {
         if (InitialiseControls._updateControl) {
             return InitialiseControls._updateControl;
         }
@@ -192,7 +202,7 @@ export class InitialiseControls {
                                                             );
     }
 
-    public get versionControl(): Version {
+    public static get versionControl(): Version {
         if (InitialiseControls._versionControl) {
             return InitialiseControls._versionControl;
         }
@@ -200,7 +210,7 @@ export class InitialiseControls {
         return InitialiseControls._versionControl = new Version();
     }
 
-    public get whoAmIControl(): WhoAmI {
+    public static get whoAmIControl(): WhoAmI {
         if (InitialiseControls._whoAmiIControl) {
             return InitialiseControls._whoAmiIControl;
         }
@@ -208,7 +218,7 @@ export class InitialiseControls {
         return InitialiseControls._whoAmiIControl = new WhoAmI();
     }
 
-    public get lsControl(): LS {
+    public static get lsControl(): LS {
         if (InitialiseControls._lsControl) {
             return InitialiseControls._lsControl;
         } 
