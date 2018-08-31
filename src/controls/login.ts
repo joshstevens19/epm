@@ -15,6 +15,6 @@ export class Login {
     public async authenticate(username: string, password: string, rememberMe = false): Promise<void> {
         const jwtToken = await this._authenticationApi.login(username, password, rememberMe);
     
-        this._localEpmFiles.saveAuthenticationToken(jwtToken);
+        await this._localEpmFiles.saveAuthenticationToken(jwtToken);
     }
 }
