@@ -1,4 +1,5 @@
 import { AuthenticationApi, PingApi, PackageApi, VersionApi, HttpRequest } from "../api-wrappers";
+import { InitialiseControls } from "./initialise-controls";
 
 export class InitialiseApis {
     private static _httpRequest: HttpRequest;
@@ -45,6 +46,6 @@ export class InitialiseApis {
             return InitialiseApis._httpRequest;
         }
 
-        return InitialiseApis._httpRequest = new HttpRequest();
+        return InitialiseApis._httpRequest = new HttpRequest(InitialiseControls.jwtControl);
     }
 }
