@@ -1,7 +1,7 @@
 import { 
         Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
         Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, 
-        WhoAmI, Package, EthereumModules, LocalEpmFiles, Upload 
+        WhoAmI, Package, EthereumModules, LocalEpmFiles, Upload, Register 
        } from "../controls";
 
 import { InitialiseApis } from "./initialise-apis";
@@ -24,6 +24,7 @@ export class InitialiseControls {
     private static _packageControl: Package;
     private static _pingControl: Ping;
     private static _profileControl: Profile;
+    private static _registerControl: Register;
     private static _repoControl: Repo;
     private static _searchControl: Search;
     private static _starControl: Star;
@@ -158,6 +159,14 @@ export class InitialiseControls {
         }
 
         return InitialiseControls._profileControl = new Profile();
+    }
+
+    public static get registerControl(): Register {
+        if (InitialiseControls._registerControl) {
+            return InitialiseControls._registerControl;
+        }
+
+        return InitialiseControls._registerControl = new Register(InitialiseApis.authenticationApi, this.localEpmFilesControl);
     }
 
     public static get repoControl(): Repo {
