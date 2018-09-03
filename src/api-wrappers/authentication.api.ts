@@ -2,11 +2,14 @@ import * as rp from "request-promise";
 import { CommonApi } from "./common.api";
 import { HttpRequest } from "./http-request";
 import { ILoginResponse } from "../interfaces/api-reponses/ilogin-response";
+import { IRegister } from "../interfaces/iregister";
+import { IRegisterResponse } from "../interfaces/api-reponses/iregister-response";
 
 export class AuthenticationApi {
     private static readonly ENDPOINT = "/authentication";
     private static readonly LOGIN_ENDPOINT = "/login";
     private static readonly LOGOUT_ENDPOINT = "/logout";
+    private static readonly REGISTER_ENDPOINT = "/register";
     
     // this should be moved to the profile API
     private static readonly WHO_AM_I = "/whoami";
@@ -49,10 +52,29 @@ export class AuthenticationApi {
     }
 
     /**
+     * Registers a user to epom
+     * @param user The users details
+     */
+    public async register(user: IRegister): Promise<IRegisterResponse> {
+        const body = user;
+
+        const registerResponse = await this._httpRequest.post<IRegisterResponse>(this.registerEndPoint, body)
+        return registerResponse;
+    }
+
+    /**
      * Builds login endpoint 
      */
     private get loginEndPoint(): string {
         const endpointPath = `${AuthenticationApi.ENDPOINT}${AuthenticationApi.LOGIN_ENDPOINT}`;
+        return CommonApi.buildApiUrlEndpoint(endpointPath);
+    }
+
+    /**
+     * Builds register endpoint
+     */
+    private get registerEndPoint(): string {
+        const endpointPath = `${AuthenticationApi.ENDPOINT}${AuthenticationApi.REGISTER_ENDPOINT}`;
         return CommonApi.buildApiUrlEndpoint(endpointPath);
     }
 }
