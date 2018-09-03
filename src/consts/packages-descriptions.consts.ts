@@ -10,6 +10,7 @@ export class PackageDescriptionsConsts {
     public static readonly owner: string = "The owner"
     public static readonly ping: string = "Ping ethereumpm to make sure it is alive";
     public static readonly profile: string = "Shows the user basic profile details";
+    public static readonly register: string = "Registers a user details to epm";
     public static readonly repo: string = "The repo details";
     public static readonly search: string = "Search a package on ethereumpm";
     public static readonly star: string = "Star a package (have to be logged in to do so)";
