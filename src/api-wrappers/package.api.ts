@@ -6,7 +6,7 @@ import { IPackageFiles } from "../interfaces/ipackage-files";
 export class PackageApi {
     private static ENDPOINT = "/packages";
     private static OWNER_ENDPOINT = "/owner"
-    private static IS_OWNER_ENDPOINT = "/isowner"
+    private static IS_OWNER_ENDPOINT = "/isowner";
 
     constructor(
         private _httpRequest: HttpRequest,
@@ -23,6 +23,21 @@ export class PackageApi {
 
         const uri = this.latestPackageEndPoint(packageNameAndVersion.name);
         return await this._httpRequest.get<IPackageFiles>(uri);
+    }
+
+    /**
+     * Uploads a package 
+     * @param packageFiles The package files
+     */
+    public async uploadPackage(packageFiles: IPackageFiles): Promise<void> {
+        const uri: string = this.rootPackageEndPoint;
+        const body = {
+            packageName: packageFiles.packageName,
+            packageVersion: packageFiles.version,
+            packageFiles: packageFiles.files,
+        }
+        
+        await this._httpRequest.postVoid(uri, body);
     }
 
     /**
@@ -74,5 +89,12 @@ export class PackageApi {
     private versionPackageEndPoint(packageNameAndVersion: IPackageNameAndVersion): string {
         const endpointPath: string = `${PackageApi.ENDPOINT}/${packageNameAndVersion.name}/${packageNameAndVersion.version}`;
         return CommonApi.buildApiUrlEndpoint(endpointPath);
+    }
+
+    /**
+     * Builds the package upload endpoint 
+     */
+    private get rootPackageEndPoint(): string {
+        return CommonApi.buildApiUrlEndpoint(PackageApi.ENDPOINT);
     }
 }
