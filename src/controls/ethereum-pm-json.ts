@@ -48,6 +48,23 @@ export class EthereumPmJson {
     }
 
     /**
+     * Validates if the ethereum-pm.json has all the correct fields inserted 
+     * @param ethereumPmJson The ethereum pm json 
+     */
+    public ethereumPmJsonHasMandatoryFieldsValues(ethereumPmJson: IEthereumPMJson): boolean {
+        // not sure why typescript moaned about just returning here
+        // looks easier read this way anyway 
+        if (ethereumPmJson.name &&
+            ethereumPmJson.name.length > 0 &&
+            ethereumPmJson.version &&
+            ethereumPmJson.version.length > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Gets the ethereum-pm json file from ethereum_modules for a package
      * @param packageName The package name
      */
@@ -108,7 +125,7 @@ export class EthereumPmJson {
 
         // check to make sure package object name + version does not already exist in the file
         if (!ethereumPmJson.dependencies[packageNameAndVersion.name]
-            || (ethereumPmJson.dependencies[packageNameAndVersion.name] 
+            || (ethereumPmJson.dependencies[packageNameAndVersion.name]
                 && ethereumPmJson.dependencies[packageNameAndVersion.name] !== packageNameAndVersion.version)) {
             ethereumPmJson.dependencies[packageNameAndVersion.name] = packageNameAndVersion.version;
             await this.saveEthereumPm(ethereumPmJson);
