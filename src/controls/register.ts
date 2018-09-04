@@ -6,7 +6,7 @@ import { LocalEpmFiles } from ".";
 export class Register {
     constructor(
         private _authenticationApi: AuthenticationApi,
-        private _localEpmFiles: LocalEpmFiles
+        private _localEpmFilesControl: LocalEpmFiles
     ) { }
 
     /**
@@ -16,6 +16,6 @@ export class Register {
     public async createUser(user: IRegister): Promise<void> {
         const registerResponse: IRegisterResponse = await this._authenticationApi.register(user);
 
-        await this._localEpmFiles.saveAuthenticationToken(registerResponse.token);
+        await this._localEpmFilesControl.saveAuthenticationToken(registerResponse.token);
     }
 }
