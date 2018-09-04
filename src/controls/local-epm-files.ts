@@ -23,7 +23,7 @@ export class LocalEpmFiles {
     /**
      * Returns if the authentication file exists 
      */
-    public authenticationFileExists(): Boolean {
+    public authenticationFileExists(): boolean {
         const location = Locations.epmUserHomeAuthenticationFileLocation;
         return fs.existsSync(location);
     }
