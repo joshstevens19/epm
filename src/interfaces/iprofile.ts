@@ -3,4 +3,5 @@ export interface IProfile {
     firstName: string;
     lastName: string;
     totalPackages: number;
+    introduction: string;
 }
