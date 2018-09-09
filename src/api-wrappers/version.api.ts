@@ -1,5 +1,6 @@
 import { CommonApi } from "./common.api";
 import { HttpRequest } from "./http-request";
+import { ILatestVersionReponse } from "../interfaces/api-reponses/ilatest-version.response";
 
 export class VersionApi {
 
@@ -16,7 +17,9 @@ export class VersionApi {
      */
     public async getLatestVersionForPackage(packageName: string): Promise<string> {
         const uri = this.latestVersionPackageEndPoint(packageName);
-        return await this._httpRequest.get<string>(uri);
+        const response = await this._httpRequest.get<ILatestVersionReponse>(uri);
+
+        return response.latestVersion;
     }
 
     /**
