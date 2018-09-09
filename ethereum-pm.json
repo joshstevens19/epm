@@ -5,6 +5,7 @@
     "license": "",
     "dependencies": {
         "quickmaths": "1.1.1",
-        "ownerable": "1.1.1"
+        "ownerable": "1.1.1",
+        "test-install-packages": "1.0.0"
     }
 }
