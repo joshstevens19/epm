@@ -1,12 +1,13 @@
-import { AuthenticationApi, PingApi, PackageApi, VersionApi, HttpRequest } from "../api-wrappers";
+import { AuthenticationApi, PingApi, PackageApi, VersionApi, HttpRequest, ProfileApi } from "../api-wrappers";
 import { InitialiseControls } from "./initialise-controls";
 
 export class InitialiseApis {
     private static _httpRequest: HttpRequest;
 
     private static _authenticationApi: AuthenticationApi;
-    private static _pingApi: PingApi;
     private static _packageApi: PackageApi;
+    private static _pingApi: PingApi;
+    private static _profileApi: ProfileApi;
     private static _versionApi: VersionApi;
 
     public static get authenticationApi(): AuthenticationApi {
@@ -17,6 +18,14 @@ export class InitialiseApis {
         return InitialiseApis._authenticationApi = new AuthenticationApi(this.httpRequest);
     }
 
+    public static get packageApi(): PackageApi {
+        if (InitialiseApis._packageApi) {
+            return InitialiseApis._packageApi;
+        }
+
+        return InitialiseApis._packageApi = new PackageApi(this.httpRequest);
+    }
+
     public static get pingApi(): PingApi {
         if (InitialiseApis._pingApi) {
             return InitialiseApis._pingApi;
@@ -25,12 +34,12 @@ export class InitialiseApis {
         return InitialiseApis._pingApi = new PingApi(this.httpRequest);
     }
 
-    public static get packageApi(): PackageApi {
-        if (InitialiseApis._packageApi) {
-            return InitialiseApis._packageApi;
+    public static get profileApi(): ProfileApi {
+        if (InitialiseApis._profileApi) {
+            return InitialiseApis._profileApi;
         }
 
-        return InitialiseApis._packageApi = new PackageApi(this.httpRequest);
+        return InitialiseApis._profileApi = new ProfileApi(this.httpRequest);
     }
 
     public static get versionApi(): VersionApi {
