@@ -167,7 +167,7 @@ export class InitialiseControls {
             return InitialiseControls._profileControl;
         }
 
-        return InitialiseControls._profileControl = new Profile();
+        return InitialiseControls._profileControl = new Profile(InitialiseApis.profileApi, this.localEpmFilesControl);
     }
 
     public static get registerControl(): Register {
