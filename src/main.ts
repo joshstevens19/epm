@@ -202,6 +202,14 @@ program
     }
   })
 
+  program
+    .command("whoami")
+    .description(PackageDescriptionsConsts.profile)
+    .action(async() => {
+      const profile = await InitialiseControls.profileControl.details()
+      console.log(profile);
+    })
+
 //   // .action(() => {
 //   //   console.log(program.username);
 //   //   co(function *() {
