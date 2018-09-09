@@ -1,3 +1,3 @@
-export class Docotor {
+export class Doctor {
     
 }
