@@ -21,5 +21,4 @@ export { Uninstall } from "./uninstall";
 export { Update } from "./update";
 export { Upload } from "./upload";
 export { Version } from "./version";
-export { WhoAmI } from "./whoami";
 export { LocalEpmFiles } from "./local-epm-files";
