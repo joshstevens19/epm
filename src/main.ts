@@ -8,6 +8,7 @@ import { PackageDescriptionsConsts } from "./consts/packages-descriptions.consts
 import * as chalk from "chalk";
 import { InitialiseControls } from "./common/initialise-controls";
 import { IRegister } from "./interfaces/iregister";
+import { IUpdateProfileDetailsRequest } from "./interfaces/api-requests/iupdate-profile-details.request";
 
 // find TS library as we want the entire library to be in TS
 const ProgressBar = require('progress');
@@ -119,9 +120,9 @@ program
     const username = dir.username;
     const password = dir.password;
 
-    if(username && password) {
+    if (username && password) {
       InitialiseControls.loginControl.authenticate(username, password)
-                           .catch(err => console.log(err));
+        .catch(err => console.log(err));
     } else {
       console.log("please supply and username or password")
     }
@@ -141,10 +142,10 @@ program
     const firstName = dir.firstName;
     const lastName = dir.lastName;
     const introduction = dir.introduction || null;
-    
+
     if (username && password && firstName && lastName) {
       const user: IRegister = {
-        emailAddress: username,
+        username,
         password,
         firstName,
         lastName,
@@ -152,8 +153,8 @@ program
       };
 
       InitialiseControls.registerControl.createUser(user)
-                                        .then(() => console.log("User registered"))
-                                        .catch((error: any) => console.error(error))
+        .then(() => console.log("User registered"))
+        .catch((error: any) => console.error(error))
 
     } else {
       console.log("Please supply a username, password, firstname and lastname");
@@ -162,19 +163,44 @@ program
   })
 
 program
-    .command("logout")
-    .description(PackageDescriptionsConsts.logout)
-    .action(() => {
-      InitialiseControls.logoutControl.unauthenticate();
-    });
+  .command("logout")
+  .description(PackageDescriptionsConsts.logout)
+  .action(() => {
+    InitialiseControls.logoutControl.unauthenticate();
+  });
 
-program 
-    .command("upload")
-    .description(PackageDescriptionsConsts.upload)
-    .action(() => {
-      InitialiseControls.uploadControl.uploadPackage();
-    });
-  
+program
+  .command("upload")
+  .description(PackageDescriptionsConsts.upload)
+  .action(() => {
+    InitialiseControls.uploadControl.uploadPackage();
+  });
+
+program
+  .command("profile")
+  .option('--firstName <firstName>', 'The users first name')
+  .option('--lastName <lastName>', 'The users lastname')
+  .option('--introduction <introudction>', 'The users introduction to show on the profile')
+  .description(PackageDescriptionsConsts.profile)
+  .action(async (dir, cmd) => {
+
+    const firstName: string = dir.firstName || null;
+    const lastName: string = dir.lastName || null;
+    const introduction: string = dir.introduction || null;
+
+    if (!firstName && !lastName && !introduction) {
+      const profile = await InitialiseControls.profileControl.details()
+      console.log(profile);
+    } else {
+      const newProfileDetails: IUpdateProfileDetailsRequest = {
+        firstName,
+        lastName,
+        introduction
+      }
+
+      await InitialiseControls.profileControl.updateDetails(newProfileDetails);
+    }
+  })
 
 //   // .action(() => {
 //   //   console.log(program.username);
