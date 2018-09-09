@@ -29,7 +29,7 @@ export class HttpRequest {
      */
     public async post<T>(uri: string, body: any): Promise<T> {
         const options = await this.buildPostOptions(uri, body);
-        
+
         const response = await rp.post(options) as T;
 
         return response;
@@ -53,10 +53,14 @@ export class HttpRequest {
      * @param passTokenToRequest If you want the JWT token to be passed through to the request
      */
     public async put<T>(uri: string, body: any): Promise<T> {
-       const options = await this.buildPutOptions(uri, body);
+        const options = await this.buildPutOptions(uri, body);
 
-       const response = JSON.parse(await rp.put(options)) as T;
-       return response;
+        const putResponse = await rp.put(options);
+
+        // not sure why i have to stringify it as i have put `json: true` 
+        // in request :S 
+        const response = JSON.parse(JSON.stringify(putResponse)) as T;
+        return response;
     }
 
     /**
