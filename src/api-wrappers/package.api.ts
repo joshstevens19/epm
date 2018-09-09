@@ -17,11 +17,14 @@ export class PackageApi {
      * @param packageNameAndVersion The package name and version
      */
     public async packageFiles(packageNameAndVersion: IPackageNameAndVersion): Promise<IPackageFiles> {
+        let uri = null;
+
         if (!packageNameAndVersion.version) {
-            throw new Error("you must supply a version");
+            uri = this.latestPackageEndPoint(packageNameAndVersion.name);
+        } else {
+            uri = this.versionPackageEndPoint(packageNameAndVersion);
         }
 
-        const uri = this.latestPackageEndPoint(packageNameAndVersion.name);
         return await this._httpRequest.get<IPackageFiles>(uri);
     }
 
