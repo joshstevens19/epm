@@ -44,4 +44,12 @@ export class Package {
     public async getPackageFiles(packageNameAndVersion: IPackageNameAndVersion): Promise<IPackageFiles> {
         return await this._packageApi.packageFiles(packageNameAndVersion);
     }
+
+    /**
+     * Add admin user to package
+     * @param packageName 
+     */
+    public async addAdmin(packageName: string, username: string): Promise<void> {
+        return await this._packageApi.addAdminToPackage(packageName, username);
+    } 
 }
