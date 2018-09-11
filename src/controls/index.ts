@@ -17,6 +17,7 @@ export { Profile } from "./profile";
 export { Repo } from "./repo";
 export { Search } from "./search";
 export { Star } from "./star";
+export { Team } from "./team";
 export { Uninstall } from "./uninstall";
 export { Update } from "./update";
 export { Upload } from "./upload";
