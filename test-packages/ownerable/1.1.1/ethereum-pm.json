@@ -1,7 +1,0 @@
-{
-    "name":"ownerable",
-    "version":"1.1.1",
-    "dependencies": {
-        "quickmaths":"1.1.1"
-    }
-}

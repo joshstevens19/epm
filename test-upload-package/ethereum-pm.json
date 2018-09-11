@@ -1,11 +1,11 @@
 {
-    "name": "test-install-packages",
-    "version": "1.0.1",
+    "name": "test-install-packages-team",
+    "version": "1.0.0",
     "repository": "",
     "license": "",
     "github": "www.github.com",
     "private": false,
-    "team": null,
+    "team": "",
     "dependencies": {
         "quickmaths": "1.1.1",
         "ownerable": "1.1.1"
