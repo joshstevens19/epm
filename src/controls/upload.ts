@@ -12,7 +12,7 @@ export class Upload {
     ) { }
 
     /**
-     * Uploads a package 
+     * Uploads a package - (maybe change to publish)
      */
     public async uploadPackage(): Promise<void> {
         const executedLocation = process.cwd();
