@@ -1,4 +1,4 @@
-import { AuthenticationApi, PingApi, PackageApi, VersionApi, HttpRequest, ProfileApi } from "../api-wrappers";
+import { AuthenticationApi, PingApi, PackageApi, VersionApi, HttpRequest, ProfileApi, TeamApi } from "../api-wrappers";
 import { InitialiseControls } from "./initialise-controls";
 
 export class InitialiseApis {
@@ -8,6 +8,7 @@ export class InitialiseApis {
     private static _packageApi: PackageApi;
     private static _pingApi: PingApi;
     private static _profileApi: ProfileApi;
+    private static _teamApi: TeamApi;
     private static _versionApi: VersionApi;
 
     public static get authenticationApi(): AuthenticationApi {
@@ -40,6 +41,14 @@ export class InitialiseApis {
         }
 
         return InitialiseApis._profileApi = new ProfileApi(this.httpRequest);
+    }
+
+    public static get teamApi(): TeamApi {
+        if (InitialiseApis._teamApi) {
+            return InitialiseApis._teamApi;
+        }
+
+        return InitialiseApis._teamApi = new TeamApi(this.httpRequest);
     }
 
     public static get versionApi(): VersionApi {
