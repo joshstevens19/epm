@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-// import * as ProcessBar from "process";
-// import * as program from "commander";
-
 import * as program from "commander"
 import { PackageDescriptionsConsts } from "./consts/packages-descriptions.consts";
 import * as chalk from "chalk";
@@ -172,8 +169,8 @@ program
 program
   .command("upload")
   .description(PackageDescriptionsConsts.upload)
-  .action(() => {
-    InitialiseControls.uploadControl.uploadPackage();
+  .action(async () => {
+    await InitialiseControls.uploadControl.uploadPackage();
   });
 
 program
@@ -202,13 +199,69 @@ program
     }
   })
 
-  program
-    .command("whoami")
-    .description(PackageDescriptionsConsts.profile)
-    .action(async() => {
-      const profile = await InitialiseControls.profileControl.details()
-      console.log(profile);
-    })
+program
+  .command("whoami")
+  .description(PackageDescriptionsConsts.profile)
+  .action(async () => {
+    const profile = await InitialiseControls.profileControl.details()
+    console.log(profile);
+  })
+
+program
+  .command("createTeam <teamname> <isprivate>")
+  .description("Create a new team")
+  .action(async (teamname, isprivate) => {
+    try {
+      await InitialiseControls.teamControl.CreateTeam(teamname, isprivate)
+      console.log("Created team");
+    } catch (error) {
+      console.log(error);
+    }
+  })
+
+program
+  .command('addUser <teamname> <username> <isadmin>')
+  .alias('t')
+  .description('Adds a new user to a team')
+  .action(async (teamname, username, isadmin) => {
+    try {
+      await InitialiseControls.teamControl.AddUser(teamname, username, isadmin)
+      console.log("Added user to the team");
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+program
+  .command('addAdmin <packageName> <username>')
+  .alias('t')
+  .description('Adds a new user to a team')
+  .action(async (packageName, username) => {
+    console.log(packageName);
+    console.log(username);
+    try {
+      await InitialiseControls.packageControl.addAdmin(packageName, username)
+      console.log("Added admin user to the package");
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+
+// program
+//   .command('users <teamName>')
+//   .description('Gets all the users for a team')
+
+
+// good example below:
+
+// program
+// .command('addContact <firstame> <lastname> <phone> <email>')
+// .alias('a')
+// .description('Add a contact')
+// .action((firstname, lastname, phone, email) => {
+//   addContact({firstname, lastname, phone, email});
+// });
 
 //   // .action(() => {
 //   //   console.log(program.username);
