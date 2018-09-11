@@ -7,6 +7,7 @@ export class PackageApi {
     private static ENDPOINT = "/packages";
     private static OWNER_ENDPOINT = "/owner"
     private static IS_OWNER_ENDPOINT = "/isowner";
+    private static ADD_ADMIN_ENDPOINT = "/admin";
 
     constructor(
         private _httpRequest: HttpRequest,
@@ -61,6 +62,34 @@ export class PackageApi {
         return await this._httpRequest.get<boolean>(uri);
     }
 
+    /**
+     * Adds a admin user to a package (giving them admin permissions)
+     * @param packageName The package name
+     * @param username The username
+     */
+    public async addAdminToPackage(packageName: string, username: string): Promise<void> {
+        const endpoint: string = this.addAdminToPackageEndPoint();
+
+        const body = {
+            packageName,
+            username
+        }
+
+        return await this._httpRequest.postVoid(endpoint, body);
+    }
+
+    /**
+     * Builds the add admin to package endpoint
+     */
+    private addAdminToPackageEndPoint(): string {
+        const endpoint: string = `${PackageApi.ENDPOINT}${PackageApi.ADD_ADMIN_ENDPOINT}`;
+        return CommonApi.buildApiUrlEndpoint(endpoint);
+    }
+
+    /**
+     * 
+     * @param packageName 
+     */
     private ownerOfPackageEndPoint(packageName: string): string {
         const endpointPath: string = `${PackageApi.ENDPOINT}/${packageName}/${PackageApi.OWNER_ENDPOINT}`;
         return CommonApi.buildApiUrlEndpoint(endpointPath);
