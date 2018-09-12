@@ -12,6 +12,8 @@ const ProgressBar = require('progress');
 const co = require('co');
 const prompt = require('co-prompt');
 
+// REDESIGN THE CLI ONCE DONE ALL THE LOGIC 
+
 program
   .version("0.0.1")
   .description('Welcome to ethereum package manager...')
@@ -215,7 +217,7 @@ program
       await InitialiseControls.teamControl.CreateTeam(teamname, isprivate)
       console.log("Created team");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   })
 
@@ -228,7 +230,7 @@ program
       await InitialiseControls.teamControl.AddUser(teamname, username, isadmin)
       console.log("Added user to the team");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
@@ -237,16 +239,73 @@ program
   .alias('t')
   .description('Adds a new user to a team')
   .action(async (packageName, username) => {
-    console.log(packageName);
-    console.log(username);
     try {
       await InitialiseControls.packageControl.addAdmin(packageName, username)
       console.log("Added admin user to the package");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   });
 
+program
+  .command('deprecate <packageName>')
+  .description('Deprecates a package')
+  .action(async(packageName) => {
+    try {
+      await InitialiseControls.deprecateControl.deprecatePackage(packageName)
+      console.log("Successfully deprecated the package");
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+program
+  .command('undeprecate <packageName>')
+  .description('Undeprecates a package')
+  .action(async(packageName) => {
+    try {
+      await InitialiseControls.deprecateControl.undeprecatePackage(packageName);
+      console.log("Successfully undeprecated the package")
+    } catch(error) {
+      console.error(error);
+    }
+  });
+
+program
+  .command("star <packageName>")
+  .description("Stars a package")
+  .action(async(packageName) => {
+    try {
+      await InitialiseControls.starControl.starPackage(packageName);
+      console.log("Successfully starred the package")
+    } catch(error) {
+      console.error(error);
+    }
+  });
+
+program
+  .command("unstar <packageName>")
+  .description("Unstars a package")
+  .action(async(packageName) => {
+    try {
+      await InitialiseControls.starControl.unstarPackage(packageName);
+      console.log("Successfully unstarred the package")
+    } catch(error) {
+      console.error(error);
+    }
+  });
+
+program
+  .command("stars")
+  .description("Stars for a user")
+  .action(async(packageName) => {
+    try {
+      const stars = await InitialiseControls.starControl.getAllStars();
+      console.log(stars);
+    } catch(error) {
+      console.error(error);
+    }
+  });
 
 // program
 //   .command('users <teamName>')
