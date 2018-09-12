@@ -1,5 +1,6 @@
 export { Audit } from "./audit";
 export { Build } from "./build";
+export { Deprecate } from "./deprecate";
 export { EpmIgnore } from "./epm-ignore";
 export { EthereumPmJson } from "./ethereum-pm-json";
 export { EthereumModules } from "./ethereum-modules";
