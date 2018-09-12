@@ -8,6 +8,8 @@ export class PackageApi {
     private static OWNER_ENDPOINT = "/owner"
     private static IS_OWNER_ENDPOINT = "/isowner";
     private static ADD_ADMIN_ENDPOINT = "/admin";
+    private static DEPRECATE_ENDPOINT = "/deprecate";
+    private static UNDEPRECATE_ENDPOINT = "undeprecate";
 
     constructor(
         private _httpRequest: HttpRequest,
@@ -76,6 +78,50 @@ export class PackageApi {
         }
 
         return await this._httpRequest.postVoid(endpoint, body);
+    }
+
+    /**
+     * Deprecates the package
+     * @param packageName The package name
+     */
+    public async deprecatePackage(packageName: string): Promise<void> {
+        const endpoint: string = this.deprecateEndpoint();
+
+        const body = {
+            packageName,
+        }
+
+        return await this._httpRequest.postVoid(endpoint, body);
+    }
+
+     /**
+     * Undeprecates the package
+     * @param packageName The package name
+     */
+    public async undeprecatePackage(packageName: string): Promise<void> {
+        const endpoint: string = this.undeprecateEndpoint();
+
+        const body = {
+            packageName,
+        }
+
+        return await this._httpRequest.postVoid(endpoint, body);
+    }
+
+    /**
+     * Builds the deprecate endpoint
+     */
+    private deprecateEndpoint(): string {
+        const endpoint: string = `${PackageApi.ENDPOINT}${PackageApi.DEPRECATE_ENDPOINT}`;
+        return CommonApi.buildApiUrlEndpoint(endpoint);
+    }
+
+    /**
+     * Builds the undeprecate endpoint
+     */
+    private undeprecateEndpoint(): string {
+        const endpoint: string = `${PackageApi.ENDPOINT}${PackageApi.UNDEPRECATE_ENDPOINT}`;
+        return CommonApi.buildApiUrlEndpoint(endpoint);
     }
 
     /**
