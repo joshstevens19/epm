@@ -1,7 +1,7 @@
 import { 
         Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
         Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, Package, 
-        EthereumModules, LocalEpmFiles, Upload, Register, EpmIgnore, Team 
+        EthereumModules, LocalEpmFiles, Upload, Register, EpmIgnore, Team, Deprecate 
        } from "../controls";
 
 import { InitialiseApis } from "./initialise-apis";
@@ -10,6 +10,7 @@ import { Jwt } from "../controls/jwt";
 export class InitialiseControls {
     private static _auditControl: Audit;
     private static _buildControl: Build;
+    private static _deprecateControl: Deprecate;
     private static _epmIgnoreControl: EpmIgnore;
     private static _ethereumPmJson: EthereumPmJson;
     private static _ethereumModules: EthereumModules;
@@ -51,6 +52,14 @@ export class InitialiseControls {
         }
 
         return InitialiseControls._buildControl = new Build();
+    }
+
+    public static get deprecateControl(): Deprecate {
+        if (InitialiseControls._deprecateControl) {
+            return InitialiseControls._deprecateControl;
+        }
+
+        return InitialiseControls._deprecateControl = new Deprecate(InitialiseApis.packageApi);
     }
 
     public static get epmIgnoreControl(): EpmIgnore {
@@ -199,7 +208,7 @@ export class InitialiseControls {
             return InitialiseControls._starControl;
         }
 
-        return InitialiseControls._starControl = new Star();
+        return InitialiseControls._starControl = new Star(InitialiseApis.starApi);
     }
 
     public static get teamControl(): Team {
