@@ -214,7 +214,7 @@ program
   .description("Create a new team")
   .action(async (teamname, isprivate) => {
     try {
-      await InitialiseControls.teamControl.CreateTeam(teamname, isprivate)
+      await InitialiseControls.teamControl.createTeam(teamname, isprivate)
       console.log("Created team");
     } catch (error) {
       console.error(error);
@@ -227,7 +227,7 @@ program
   .description('Adds a new user to a team')
   .action(async (teamname, username, isadmin) => {
     try {
-      await InitialiseControls.teamControl.AddUser(teamname, username, isadmin)
+      await InitialiseControls.teamControl.addUser(teamname, username, isadmin)
       console.log("Added user to the team");
     } catch (error) {
       console.error(error);
