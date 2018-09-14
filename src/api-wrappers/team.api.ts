@@ -3,7 +3,9 @@ import { HttpRequest } from ".";
 
 export class TeamApi {
     public static ENDPOINT = "/teams";
-    private static ADD_USER_ENDPOINT = "/users";
+    private static USER_ENDPOINT = "/users";
+    private static ADMIN_USER_ENDPOINT = TeamApi.USER_ENDPOINT + "/admin";
+    private static TRANSFER_OWNER = "/transfer";
 
     constructor(
         private _httpRequest: HttpRequest,
@@ -31,7 +33,7 @@ export class TeamApi {
      * @param isAdmin If the new user should be added as a admin
      */
     public async addUser(teamName: string, newUser: string, isAdmin: boolean): Promise<void> {
-        const uri = this.addUserToTeamEndpoint;
+        const uri = this.userTeamEndpoint;
         const body = {
             teamName,
             newUser,
@@ -42,11 +44,88 @@ export class TeamApi {
     }
 
     /**
-     * Builds the add user to team endpoint
+     * Remove user from a team
+     * This will completey remove this user 
+     * @param teamName The team name
+     * @param username The username in which you want to remove
      */
-    private get addUserToTeamEndpoint(): string {
-        const endpointPath: string = `${TeamApi.ENDPOINT}${TeamApi.ADD_USER_ENDPOINT}`;
+    public async removeUser(teamName: string, username: string): Promise<void> {
+        const uri = this.userTeamEndpoint;
+        const body = {
+            teamName,
+            username,
+        }
+
+        await this._httpRequest.deleteVoid(uri, body);
+    }
+
+    /**
+     * Revoke admins permissions in a team
+     * @param teamName The team name
+     * @param username The username 
+     */
+    public async revokeAdminPermission(teamName: string, username: string): Promise<void> {
+        const uri = this.adminUserTeamEndpoint;
+        const body = {
+            teamName,
+            username
+        }
+
+        await this._httpRequest.deleteVoid(uri, body);
+    }
+
+    /**
+     * Gives a user admin permission
+     * @param teamName The team name
+     * @param username The username for the new admin user
+     */
+    public async giveAdminPermission(teamName: string, username: string): Promise<void> {
+        const uri = this.adminUserTeamEndpoint;
+        const body = {
+            teamName,
+            username
+        }
+
+        await this._httpRequest.postVoid(uri, body);
+    }
+
+    /**
+     * Transfers the owner of the team
+     * @param teamName The team name
+     * @param username The username for the new owner 
+     */
+    public async transferTeamOwner(teamName: string, username: string): Promise<void> {
+        const uri = this.transferTeamOwnerEndpoint;
+        const body = {
+            teamName,
+            username
+        }
+
+        await this._httpRequest.postVoid(uri, body);
+    }
+
+    /**
+     * Transfers the team owner 
+     */
+    private get transferTeamOwnerEndpoint(): string {
+        const endpointPath: string = `${TeamApi.ENDPOINT}${TeamApi.TRANSFER_OWNER}`;
+        return CommonApi.buildApiUrlEndpoint(endpointPath);
+    }
+
+    /**
+     * Builds the user to team endpoint
+     */
+    private get userTeamEndpoint(): string {
+        const endpointPath: string = `${TeamApi.ENDPOINT}${TeamApi.USER_ENDPOINT}`;
         return CommonApi.buildApiUrlEndpoint(endpointPath); 
+    }
+
+    /**
+     * Builds the admin user team endpoint
+     */
+    private get adminUserTeamEndpoint(): string {
+        const endpointPath: string = `${TeamApi.ENDPOINT}${TeamApi.ADMIN_USER_ENDPOINT}`;
+        return CommonApi.buildApiUrlEndpoint(endpointPath);
     }
 
 }
