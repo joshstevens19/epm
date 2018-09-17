@@ -126,7 +126,7 @@ export class HttpRequest {
      * Adds the bearer token to the options request
      * @param options 
      */
-    private async addAuthenicationToOptions(options: any): Promise<any> {
+    private async addAuthenticationToOptions(options: any): Promise<any> {
         const jwtToken = await this._jwtControl.getJwtToken();
 
         if (jwtToken) {
@@ -152,7 +152,7 @@ export class HttpRequest {
             options.qa = queryParameters;
         }
 
-        return await this.addAuthenicationToOptions(options);
+        return await this.addAuthenticationToOptions(options);
     }
 
     /**
@@ -169,7 +169,7 @@ export class HttpRequest {
             json: true,
         }
 
-        return await this.addAuthenicationToOptions(options);
+        return await this.addAuthenticationToOptions(options);
     }
 
     /**
@@ -186,7 +186,7 @@ export class HttpRequest {
             json: true,
         }
 
-        return await this.addAuthenicationToOptions(options);
+        return await this.addAuthenticationToOptions(options);
     }
 
     /**
@@ -203,7 +203,7 @@ export class HttpRequest {
             json: true,
         }
 
-        return await this.addAuthenicationToOptions(options);
+        return await this.addAuthenticationToOptions(options);
     }
 
     /**
@@ -220,6 +220,6 @@ export class HttpRequest {
             json: true,
         }
 
-        return await this.addAuthenicationToOptions(options);
+        return await this.addAuthenticationToOptions(options);
     }
 }
