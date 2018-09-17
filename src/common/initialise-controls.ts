@@ -1,7 +1,7 @@
 import { 
         Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
         Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, Package, 
-        EthereumModules, LocalEpmFiles, Publish, Register, EpmIgnore, Team, Deprecate 
+        EthereumModules, LocalEpmFiles, Publish, Register, EpmIgnore, Team, Deprecate, Token 
        } from "../controls";
 
 import { InitialiseApis } from "./initialise-apis";
@@ -31,6 +31,7 @@ export class InitialiseControls {
     private static _searchControl: Search;
     private static _starControl: Star;
     private static _teamControl: Team;
+    private static _tokenControl: Token;
     private static _uninstallControl: Uninstall;
     private static _updateControl: Update;
     private static _publishControl: Publish;
@@ -217,6 +218,14 @@ export class InitialiseControls {
         }
 
         return InitialiseControls._teamControl = new Team(InitialiseApis.teamApi);
+    }
+
+    public static get tokenControl(): Token {
+        if (InitialiseControls._tokenControl) {
+            return InitialiseControls._tokenControl;
+        }
+
+        return InitialiseControls._tokenControl = new Token(InitialiseControls.jwtControl);
     }
 
     public static get uninstallControl(): Uninstall {
