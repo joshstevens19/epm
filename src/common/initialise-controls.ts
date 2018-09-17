@@ -253,7 +253,7 @@ export class InitialiseControls {
             return InitialiseControls._versionControl;
         }
 
-        return InitialiseControls._versionControl = new Version();
+        return InitialiseControls._versionControl = new Version(this.ethereumPmJsonControl);
     }
 
     public static get lsControl(): LS {

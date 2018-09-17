@@ -6,6 +6,7 @@ import * as chalk from "chalk";
 import { InitialiseControls } from "./common/initialise-controls";
 import { IRegister } from "./interfaces/iregister";
 import { IUpdateProfileDetailsRequest } from "./interfaces/api-requests/iupdate-profile-details.request";
+import { VersionBump } from "./enums/version-bump";
 
 // find TS library as we want the entire library to be in TS
 const ProgressBar = require('progress');
@@ -250,7 +251,7 @@ program
 program
   .command('deprecate <packageName>')
   .description('Deprecates a package')
-  .action(async(packageName) => {
+  .action(async (packageName) => {
     try {
       await InitialiseControls.deprecateControl.deprecatePackage(packageName)
       console.log("Successfully deprecated the package");
@@ -262,11 +263,11 @@ program
 program
   .command('undeprecate <packageName>')
   .description('Undeprecates a package')
-  .action(async(packageName) => {
+  .action(async (packageName) => {
     try {
       await InitialiseControls.deprecateControl.undeprecatePackage(packageName);
       console.log("Successfully undeprecated the package")
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   });
@@ -274,11 +275,11 @@ program
 program
   .command("star <packageName>")
   .description("Stars a package")
-  .action(async(packageName) => {
+  .action(async (packageName) => {
     try {
       await InitialiseControls.starControl.starPackage(packageName);
       console.log("Successfully starred the package")
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   });
@@ -286,11 +287,11 @@ program
 program
   .command("unstar <packageName>")
   .description("Unstars a package")
-  .action(async(packageName) => {
+  .action(async (packageName) => {
     try {
       await InitialiseControls.starControl.unstarPackage(packageName);
       console.log("Successfully unstarred the package")
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   });
@@ -298,14 +299,43 @@ program
 program
   .command("stars")
   .description("Stars for a user")
-  .action(async(packageName) => {
+  .action(async (packageName) => {
     try {
       const stars = await InitialiseControls.starControl.getAllStars();
       console.log(stars);
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   });
+
+program
+  .command("version <versionBump>")
+  .description(PackageDescriptionsConsts.version)
+  .action(async (versionBump) => {
+    let versionBumpType = VersionBump.dynamic;
+    switch (versionBump) {
+      case VersionBump.major:
+        versionBumpType = VersionBump.major;
+        break;
+      case VersionBump.minor:
+        versionBumpType = VersionBump.minor;
+        break;
+      case VersionBump.patch:
+        versionBumpType = VersionBump.patch;
+        break;
+    }
+
+    try {
+      if (versionBumpType == VersionBump.dynamic) {
+        await InitialiseControls.versionControl.bumpVersion(versionBumpType, versionBump);
+      } else {
+        await InitialiseControls.versionControl.bumpVersion(versionBumpType);
+      }
+      console.log("Successfully upgraded project version")
+    } catch (error) {
+      console.error(error);
+    }
+  })
 
 // program
 //   .command('users <teamName>')
