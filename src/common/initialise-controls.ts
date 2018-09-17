@@ -1,7 +1,7 @@
 import { 
         Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
         Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, Package, 
-        EthereumModules, LocalEpmFiles, Upload, Register, EpmIgnore, Team, Deprecate 
+        EthereumModules, LocalEpmFiles, Publish, Register, EpmIgnore, Team, Deprecate 
        } from "../controls";
 
 import { InitialiseApis } from "./initialise-apis";
@@ -33,7 +33,7 @@ export class InitialiseControls {
     private static _teamControl: Team;
     private static _uninstallControl: Uninstall;
     private static _updateControl: Update;
-    private static _uploadControl: Upload;
+    private static _publishControl: Publish;
     private static _versionControl: Version;
 
     constructor() { }
@@ -238,12 +238,12 @@ export class InitialiseControls {
                                                             );
     }
 
-    public static get uploadControl(): Upload {
-        if (InitialiseControls._uploadControl) {
-            return InitialiseControls._uploadControl;
+    public static get publishControl(): Publish {
+        if (InitialiseControls._publishControl) {
+            return InitialiseControls._publishControl;
         }
 
-        return InitialiseControls._uploadControl = new Upload(this.ethereumPmJsonControl, 
+        return InitialiseControls._publishControl = new Publish(this.ethereumPmJsonControl, 
                                                               this.epmIgnoreControl,
                                                               InitialiseApis.packageApi);
     }

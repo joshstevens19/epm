@@ -4,7 +4,7 @@ import { EpmIgnore } from "./epm-ignore";
 import { IPackageFiles } from "../interfaces/ipackage-files";
 import { PackageApi } from "../api-wrappers";
 
-export class Upload {
+export class Publish {
     constructor(
         private _ethereumPmJsonControl: EthereumPmJson,
         private _epmIgnoreControl: EpmIgnore,
@@ -14,7 +14,7 @@ export class Upload {
     /**
      * Uploads a package - (maybe change to publish)
      */
-    public async uploadPackage(): Promise<void> {
+    public async publishPackage(): Promise<void> {
         const executedLocation = process.cwd();
 
         if (this._ethereumPmJsonControl.ethereumPmJsonExists()) {
@@ -44,9 +44,9 @@ export class Upload {
                     }
                 }
                 if (uploadableFiles.files.length) {
-                    await this._packageApi.uploadPackage(uploadableFiles);
+                    await this._packageApi.publishPackage(uploadableFiles);
                 } else {
-                    throw new Error("You have to have files which can be uploaded to create a package");
+                    throw new Error("You have to have files which can be published to create a package");
                 }
 
             } else {

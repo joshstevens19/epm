@@ -35,7 +35,7 @@ export class PackageApi {
      * Uploads a package 
      * @param packageFiles The package files
      */
-    public async uploadPackage(packageFiles: IPackageFiles): Promise<void> {
+    public async publishPackage(packageFiles: IPackageFiles): Promise<void> {
         const uri: string = this.rootPackageEndPoint;
         const body = {
             packageName: packageFiles.packageName,

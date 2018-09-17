@@ -21,6 +21,6 @@ export { Star } from "./star";
 export { Team } from "./team";
 export { Uninstall } from "./uninstall";
 export { Update } from "./update";
-export { Upload } from "./upload";
+export { Publish } from "./publish";
 export { Version } from "./version";
 export { LocalEpmFiles } from "./local-epm-files";

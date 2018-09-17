@@ -172,7 +172,7 @@ program
   .command("upload")
   .description(PackageDescriptionsConsts.upload)
   .action(async () => {
-    await InitialiseControls.uploadControl.uploadPackage();
+    await InitialiseControls.publishControl.publishPackage();
   });
 
 program
