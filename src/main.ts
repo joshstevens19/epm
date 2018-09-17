@@ -335,7 +335,23 @@ program
     } catch (error) {
       console.error(error);
     }
-  })
+  });
+
+program
+  .command("token")
+  .action(async () => {
+    const jwtToken = await InitialiseControls.tokenControl.getCurrentJwtToken();
+    console.log(jwtToken);
+
+    // split this up when i design the cli 
+    const unpackJwt = await InitialiseControls.tokenControl.getCurrentDecodedJwt();
+    console.log(unpackJwt);
+
+    // more to split up
+    const expiryDate = await InitialiseControls.tokenControl.getCurrentJwtTokenExpiryDate();
+    console.log(expiryDate);
+  });
+
 
 // program
 //   .command('users <teamName>')
