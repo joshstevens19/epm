@@ -22,30 +22,34 @@ export class Version {
 
         if (versionBumpType !== VersionBump.dynamic) {
             const semanticVersion: ISemanticVersion = this.parseSemanticVersion(ethereumPm.version);
-            
-            if (!semanticVersion) {
-                return;
-            }
-            
-            switch (versionBumpType) {
-                case VersionBump.major:
-                    semanticVersion.major++;
-                    break;
-                case VersionBump.minor:
-                    semanticVersion.minor++;
-                    break;
-                case VersionBump.patch:
-                    semanticVersion.patch++;
-                    break;
-            }
 
-            ethereumPm.version = this.buildSemanticVersionToString(semanticVersion);
+            if (this.isValidSemanticVersion(semanticVersion)) {
+                if (!semanticVersion) {
+                    return;
+                }
+
+                switch (versionBumpType) {
+                    case VersionBump.major:
+                        semanticVersion.major++;
+                        break;
+                    case VersionBump.minor:
+                        semanticVersion.minor++;
+                        break;
+                    case VersionBump.patch:
+                        semanticVersion.patch++;
+                        break;
+                }
+
+                ethereumPm.version = this.buildSemanticVersionToString(semanticVersion);
+            } else {
+                throw new Error("Your version number in ethereum-pm.json is not a valid version number, must be `major.minor.patch` i.e. 1.0.0");
+            }
         } else {
             const semanticVersion: ISemanticVersion = this.parseSemanticVersion(version as string);
             if (this.isValidSemanticVersion(semanticVersion)) {
                 ethereumPm.version = this.buildSemanticVersionToString(semanticVersion);
             } else {
-                return;
+                throw new Error("You did not supply a valid version number, must be `major.minor.patch` i.e. 1.0.0")
             }
         }
 
@@ -80,8 +84,8 @@ export class Version {
      * @param semanticVersion The semnatic version 
      */
     public isValidSemanticVersion(semanticVersion: ISemanticVersion): boolean {
-        return (!isNaN(semanticVersion.major) && 
-               !isNaN(semanticVersion.minor) && 
-               !isNaN(semanticVersion.patch))
+        return (!isNaN(semanticVersion.major) &&
+            !isNaN(semanticVersion.minor) &&
+            !isNaN(semanticVersion.patch))
     }
 }
