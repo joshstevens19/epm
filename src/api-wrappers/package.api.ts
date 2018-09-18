@@ -9,7 +9,8 @@ export class PackageApi {
     private static IS_OWNER_ENDPOINT = "/isowner";
     private static ADD_ADMIN_ENDPOINT = "/admin";
     private static DEPRECATE_ENDPOINT = "/deprecate";
-    private static UNDEPRECATE_ENDPOINT = "undeprecate";
+    private static UNDEPRECATE_ENDPOINT = "/undeprecate";
+    private static UNPUBLISH_ENDPOINT = "/unpubish";
 
     constructor(
         private _httpRequest: HttpRequest,
@@ -70,7 +71,7 @@ export class PackageApi {
      * @param username The username
      */
     public async addAdminToPackage(packageName: string, username: string): Promise<void> {
-        const endpoint: string = this.addAdminToPackageEndPoint();
+        const endpoint: string = this.addAdminToPackageEndPoint;
 
         const body = {
             packageName,
@@ -85,7 +86,7 @@ export class PackageApi {
      * @param packageName The package name
      */
     public async deprecatePackage(packageName: string): Promise<void> {
-        const endpoint: string = this.deprecateEndpoint();
+        const endpoint: string = this.deprecateEndpoint;
 
         const body = {
             packageName,
@@ -99,7 +100,7 @@ export class PackageApi {
      * @param packageName The package name
      */
     public async undeprecatePackage(packageName: string): Promise<void> {
-        const endpoint: string = this.undeprecateEndpoint();
+        const endpoint: string = this.undeprecateEndpoint;
 
         const body = {
             packageName,
@@ -109,9 +110,30 @@ export class PackageApi {
     }
 
     /**
+     * Unpublish a package
+     * @param packageName The package name 
+     */
+    public async unpublishPackage(packageName: string): Promise<void> {
+        const endpoint: string = this.unpublishEndpoint;
+        const body = {
+            packageName,
+        }
+
+        return await this._httpRequest.postVoid(endpoint, body);
+    }
+
+    /**
+     * Builds the unpublished endpoint
+     */
+    private get unpublishEndpoint(): string {
+        const endpoint: string = `${PackageApi.ENDPOINT}${PackageApi.UNPUBLISH_ENDPOINT}`;
+        return CommonApi.buildApiUrlEndpoint(endpoint);
+    }
+
+    /**
      * Builds the deprecate endpoint
      */
-    private deprecateEndpoint(): string {
+    private get deprecateEndpoint(): string {
         const endpoint: string = `${PackageApi.ENDPOINT}${PackageApi.DEPRECATE_ENDPOINT}`;
         return CommonApi.buildApiUrlEndpoint(endpoint);
     }
@@ -119,7 +141,7 @@ export class PackageApi {
     /**
      * Builds the undeprecate endpoint
      */
-    private undeprecateEndpoint(): string {
+    private get undeprecateEndpoint(): string {
         const endpoint: string = `${PackageApi.ENDPOINT}${PackageApi.UNDEPRECATE_ENDPOINT}`;
         return CommonApi.buildApiUrlEndpoint(endpoint);
     }
@@ -127,7 +149,7 @@ export class PackageApi {
     /**
      * Builds the add admin to package endpoint
      */
-    private addAdminToPackageEndPoint(): string {
+    private get addAdminToPackageEndPoint(): string {
         const endpoint: string = `${PackageApi.ENDPOINT}${PackageApi.ADD_ADMIN_ENDPOINT}`;
         return CommonApi.buildApiUrlEndpoint(endpoint);
     }
