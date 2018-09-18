@@ -1,3 +1,5 @@
+import { PackageApi } from "../api-wrappers";
+
 export { Audit } from "./audit";
 export { Build } from "./build";
 export { Deprecate } from "./deprecate";
@@ -21,6 +23,7 @@ export { Star } from "./star";
 export { Team } from "./team";
 export { Token } from "./token";
 export { Uninstall } from "./uninstall";
+export { Unpublish } from "./unpublish";
 export { Update } from "./update";
 export { Publish } from "./publish";
 export { Version } from "./version";
