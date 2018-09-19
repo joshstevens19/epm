@@ -3,7 +3,7 @@ import * as os from "os";
 
 export class Locations {
 
-    constructor() {}
+    constructor() { }
 
     /**
      * Gets the ethereum-pm.json location
