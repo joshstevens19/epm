@@ -1,4 +1,4 @@
-import { AuthenticationApi, PingApi, PackageApi, VersionApi, HttpRequest, ProfileApi, TeamApi, StarApi } from "../api-wrappers";
+import { AuthenticationApi, PingApi, PackageApi, VersionApi, HttpRequest, ProfileApi, TeamApi, StarApi, SearchApi } from "../api-wrappers";
 import { InitialiseControls } from "./initialise-controls";
 
 export class InitialiseApis {
@@ -9,6 +9,7 @@ export class InitialiseApis {
     private static _pingApi: PingApi;
     private static _profileApi: ProfileApi;
     private static _starApi: StarApi;
+    private static _searchApi: SearchApi;
     private static _teamApi: TeamApi;
     private static _versionApi: VersionApi;
 
@@ -50,6 +51,14 @@ export class InitialiseApis {
         }
 
         return InitialiseApis._starApi = new StarApi(this.httpRequest);
+    }
+
+    public static get searchApi(): SearchApi {
+        if( InitialiseApis._searchApi) {
+            return InitialiseApis._searchApi;
+        }
+
+        return InitialiseApis._searchApi = new SearchApi(this.httpRequest);
     }
 
     public static get teamApi(): TeamApi {
