@@ -1,7 +1,8 @@
 import { 
         Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
         Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, Package, 
-        EthereumModules, LocalEpmFiles, Publish, Register, EpmIgnore, Team, Deprecate, Token, Unpublish 
+        EthereumModules, LocalEpmFiles, Publish, Register, EpmIgnore, Team, Deprecate, Token, Unpublish,
+        Doctor 
        } from "../controls";
 
 import { InitialiseApis } from "./initialise-apis";
@@ -11,6 +12,7 @@ export class InitialiseControls {
     private static _auditControl: Audit;
     private static _buildControl: Build;
     private static _deprecateControl: Deprecate;
+    private static _doctorControl: Doctor;
     private static _epmIgnoreControl: EpmIgnore;
     private static _ethereumPmJson: EthereumPmJson;
     private static _ethereumModules: EthereumModules;
@@ -62,6 +64,14 @@ export class InitialiseControls {
         }
 
         return InitialiseControls._deprecateControl = new Deprecate(InitialiseApis.packageApi);
+    }
+
+    public static get doctorControl(): Doctor {
+        if (InitialiseControls._doctorControl) {
+            return InitialiseControls._doctorControl;
+        }
+
+        return InitialiseControls._doctorControl = new Doctor(this.versionControl, this.pingControl)
     }
 
     public static get epmIgnoreControl(): EpmIgnore {
