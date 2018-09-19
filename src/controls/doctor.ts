@@ -3,6 +3,8 @@ import { IDoctor } from "../interfaces/idoctor";
 import { EpmMetaData } from "../consts/epm-metadata";
 import { Version } from ".";
 import { Ping } from "./ping";
+import * as fs from "fs-extra";
+import { Locations } from "../common/locations";
 
 export class Doctor {
     constructor(
@@ -21,6 +23,12 @@ export class Doctor {
 
         const epmVersionData = this.epmVersion();
         doctorData.push(epmVersionData);
+
+        const canRead = await this.canReadUserPath();
+        doctorData.push(canRead);
+
+        const canWrite = await this.canWriteUserPath();
+        doctorData.push(canWrite);
 
         return doctorData;
     }
@@ -65,6 +73,46 @@ export class Doctor {
         return {
             check: "epm-v",
             value: `v${EpmMetaData.epmVersion}`,
+        } as IDoctor;
+    }
+
+    /**
+     * Can write to the user path
+     */
+    private async canWriteUserPath(): Promise<IDoctor> {
+        try {
+            await fs.access(Locations.homeDir, fs.constants.W_OK);
+        } catch(error) {
+            return {
+                check: "can write to user dir",
+                value: "not ok",
+                recommendation: "epm can not write to your home dir"
+            } as IDoctor;
+        }
+
+        return {
+            check: "can write to user dir",
+            value: "ok"
+        } as IDoctor;
+    }
+
+    /**
+     * Can read the user path
+     */
+    private async canReadUserPath(): Promise<IDoctor> {
+        try {
+            await fs.access(Locations.homeDir, fs.constants.R_OK);
+        } catch(error) {
+            return {
+                check: "can read user dir",
+                value: "not ok",
+                recommendation: "epm can not read from your home dir"
+            } as IDoctor;
+        }
+
+        return {
+            check: "can read user dir",
+            value: "ok"
         } as IDoctor;
     }
 }
