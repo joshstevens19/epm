@@ -1,5 +1,5 @@
 import { 
-        Audit, Build, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
+        Audit, EthereumPmJson, Init, LS, Install, Login, Logout, Outdated, 
         Owner, Ping, Profile, Repo, Search, Star, Uninstall, Update, Version, Package, 
         EthereumModules, LocalEpmFiles, Publish, Register, EpmIgnore, Team, Deprecate, Token, Unpublish,
         Doctor 
@@ -10,7 +10,6 @@ import { Jwt } from "../controls/jwt";
 
 export class InitialiseControls {
     private static _auditControl: Audit;
-    private static _buildControl: Build;
     private static _deprecateControl: Deprecate;
     private static _doctorControl: Doctor;
     private static _epmIgnoreControl: EpmIgnore;
@@ -48,14 +47,6 @@ export class InitialiseControls {
         }
 
         return InitialiseControls._auditControl = new Audit();
-    }
-
-    public static get buildControl(): Build {
-        if (InitialiseControls._buildControl) {
-            return InitialiseControls._buildControl;
-        }
-
-        return InitialiseControls._buildControl = new Build();
     }
 
     public static get deprecateControl(): Deprecate {
