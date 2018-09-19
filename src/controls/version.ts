@@ -64,11 +64,17 @@ export class Version {
         // for now expect a semantic full value
         // probably need to do some checks before release
         const versionSplit = version.split('.');
-        return {
+        const semanticVersion = {
             major: Number(versionSplit[0]),
             minor: Number(versionSplit[1]),
             patch: Number(versionSplit[2]),
         } as ISemanticVersion
+
+        if (!this.isValidSemanticVersion(semanticVersion)) {
+            throw new Error("The semantic version is invalid");
+        }
+
+        return semanticVersion;
     }
 
     /**
@@ -87,5 +93,23 @@ export class Version {
         return (!isNaN(semanticVersion.major) &&
             !isNaN(semanticVersion.minor) &&
             !isNaN(semanticVersion.patch))
+    }
+
+    /**
+     * Compares 1 version with another
+     * @param version The version 
+     * @param isBiggerVersion The version which should be bigger 
+     */
+    public isBiggerThenVersion(version: ISemanticVersion, biggerVersion: ISemanticVersion): boolean {
+        if (biggerVersion.major > version.major) return true;
+        if (biggerVersion.major < version.major) return false;
+
+        if (biggerVersion.minor > version.minor) return true;
+        if (biggerVersion.minor < version.minor) return false;
+
+        if (biggerVersion.patch > version.patch) return true;
+        if (biggerVersion.patch < version.patch) return false;
+
+        return false;
     }
 }
