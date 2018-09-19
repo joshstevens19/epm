@@ -352,6 +352,13 @@ program
     console.log(expiryDate);
   });
 
+program
+  .command("doctor")
+  .action(async () => {
+    const result = await InitialiseControls.doctorControl.checkEverythingIsAvailable();
+    console.log(result);
+  });
+
 
 // program
 //   .command('users <teamName>')
