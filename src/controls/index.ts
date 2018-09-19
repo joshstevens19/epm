@@ -3,6 +3,7 @@ import { PackageApi } from "../api-wrappers";
 export { Audit } from "./audit";
 export { Build } from "./build";
 export { Deprecate } from "./deprecate";
+export { Doctor } from "./doctor";
 export { EpmIgnore } from "./epm-ignore";
 export { EthereumPmJson } from "./ethereum-pm-json";
 export { EthereumModules } from "./ethereum-modules";
