@@ -39,7 +39,14 @@ export class Locations {
      * Gets the epm home dir location for the user
      */
     public static get epmUserHomeDir(): string {
-        return `${os.homedir()}\\.epm`;
+        return `${this.homeDir}\\.epm`;
+    }
+
+    /**
+     * Gets the home dir location
+     */
+    public static get homeDir(): string {
+        return os.homedir();
     }
 
     /**
