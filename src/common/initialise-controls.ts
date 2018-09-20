@@ -155,7 +155,7 @@ export class InitialiseControls {
             return InitialiseControls._ownerControl;
         }
 
-        return InitialiseControls._ownerControl = new Owner();
+        return InitialiseControls._ownerControl = new Owner(InitialiseApis.packageApi);
     }
 
     public static get packageControl(): Package {
