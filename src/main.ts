@@ -241,7 +241,7 @@ program
   .description('Adds a new user to a team')
   .action(async (packageName, username) => {
     try {
-      await InitialiseControls.packageControl.addAdmin(packageName, username)
+      await InitialiseControls.ownerControl.addAdmin(packageName, username)
       console.log("Added admin user to the package");
     } catch (error) {
       console.error(error);
