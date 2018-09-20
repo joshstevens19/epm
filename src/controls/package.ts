@@ -46,10 +46,20 @@ export class Package {
     }
 
     /**
-     * Add admin user to package
-     * @param packageName 
+     * Add a user to a package
+     * @param packageName The package name
+     * @param username The username
      */
-    public async addAdmin(packageName: string, username: string): Promise<void> {
-        return await this._packageApi.addAdminToPackage(packageName, username);
-    } 
+    public async addUserToPackage(packageName: string, username: string): Promise<void> {
+        return await this._packageApi.addUserToPackage(packageName, username);
+    }
+
+    /**
+     * Removes a user from the package
+     * @param packageName The package name
+     * @param username The username
+     */
+    public async removeUserFromPackage(packageName: string, username: string): Promise<void> {
+        return await this._packageApi.removeUserFromPackage(packageName, username);
+    }
 }
