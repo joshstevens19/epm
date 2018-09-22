@@ -1,0 +1,653 @@
+-----------------------------------------------------------------------------------------
+
+New controls i need to make 
+
+- audit controller - https://docs.npmjs.com/cli/audit - cli designed
+
+- organisation controller - cli designed 
+    - ability to create a org and create teams in that org 
+    - you create a new user in the org and give them permission for each team 
+
+- cache controller - https://docs.npmjs.com/cli/cache - cli designed
+    - ability to flush all the cache out of the file system 
+
+- access controller - https://docs.npmjs.com/cli/access - cli designed
+    - ability to manage access for packages 
+
+- bin controller - https://docs.npmjs.com/cli/bin - cli designed
+    - prints where epm stores all its files 
+
+- config controller - https://docs.npmjs.com/cli/config - can wait for v2
+    - prints ethereum-pm.json values out 
+
+- tag controller - https://docs.npmjs.com/cli/dist-tag - cli designed 
+    - tags a package with relevant stuff 
+
+- document controller - https://docs.npmjs.com/cli/docs - cli designed
+    - opens up read me for package 
+
+- help controller - https://docs.npmjs.com/cli/help
+    - open up help logic 
+
+- hook controller - https://docs.npmjs.com/cli/hook - cli designed 
+    - hooking into updates of projects etc 
+
+- build controller - https://docs.npmjs.com/cli/rebuild - can wait for v2
+    - will rebuild the entire project 
+
+- root controller - https://docs.npmjs.com/cli/root - cli designed 
+    - prints out where ethereum_modules are 
+
+- test controller - https://docs.npmjs.com/cli/test - cli designed 
+    - runs test if object is defined 
+
+- view controller - https://docs.npmjs.com/cli/view - can wait for v2
+    - cli to view info about a package 
+
+----------------------------------------------------------------------------------------
+
+access: 
+
+    public:
+
+    epm access public [<packageName>]
+
+    - all usages 
+    epm access public - makes the current package you are on public 
+    epm access public <packageName> - makes the package name supplied public 
+
+    private:
+
+    epm access private [<packageName]
+
+    - all usages 
+    epm access private - make the current package private 
+                          - only if published 24 hours ago 
+                          - will make any other public version stay public 
+                          - so any old version will always stay public 
+    epm access private <packageName> - same as above 
+
+    grant: 
+
+    epm access grant <readonly | read-write> <@org/teamName> [<packageName]
+
+    - all usages 
+    epm access grant <readonly | read-write> <@org/teamName> - set access for the current package in working tree  
+    epm access grant <readonly | read-write> <@org/teamName> <packageName> - gives access to a defined package
+
+    revoke:
+
+    epm access revoke <@org/teamName> [<package>]
+
+    - all usages 
+    epm access revoke <org/teamName> - set access for the current package in working tree
+    epm access revoke <org/teamName> <packageName> - sets access for the package supplied 
+
+    list packages:
+
+    epm access ls-packages [<user>|<org>|<org:teamName>]
+
+    - all usages 
+    epm access ls-packages <user> - list all the packages a user has permission to 
+    epm access ls-packages <org> - list all the packages in a org 
+    epm access ls-packages <org:teamName> - list all the packages in this team 
+
+
+audit: 
+
+    epm audit [fix] [<packageName>]
+
+    - all usages 
+    epm audit - prints out a audit report for the current working tree 
+    epm audit <packageName> - prints out a audit report for a package name 
+    epm audit fix - fixes all the issues in the audit report (where it can)
+    epm audit fix <packageName> - fixes just a packages audit report
+
+bin:
+
+    epm bin [-g]
+
+    - all usages 
+    epm bin - prints the current location 
+    epm bin -g - will print where we execute and save cached packages
+
+build: 
+
+    CAN WAIT FOR V2 
+
+cache: 
+
+    epm cache clean 
+
+    - all usages 
+    epm cache clean - removes all the cached packages 
+
+config:
+
+    CAN WAIT FOR V2 I THINK 
+
+
+deprecate:
+
+  epm deprecate <packageName>[@<version>] <message> [--help]
+
+  - packageName - string
+  - version - string
+  - message - string 
+
+- all usages 
+   epm deprecate <packageName>@<version> <message> 
+   epm deprecate <packageName> <message> 
+   epm deprecate <packageName>@<version> <message>
+
+doctor: 
+ 
+   epm doctor 
+
+   - all usages 
+      epm doctor - returns a response that epm can be downloaded 
+
+document:
+
+    epm document [<packageName>]
+
+    - all usages 
+    epm document - open up working tree readme 
+    epm document <packageName> open up readme for package 
+
+hook: 
+
+    list: 
+
+    epm hook ls [packageName]
+
+    - all usages 
+    epm hook ls - lists all the hooks on the current working tree 
+    epm hook ls <packageName> - lists all the hooks on a supplied package name 
+
+    add: 
+
+    epm hook add <url> <secret> 
+
+    - usages 
+    epm hook add <url> <secret> 
+
+    update: 
+
+    epm hook update <id> <url> [secret]
+
+    - all usages 
+    epm hook update <id> <url> 
+    epm hook update <id> <url> <secret> 
+
+    remove: 
+
+    epm hook rm <id> 
+
+    - all usages 
+    epm hook rm <id> 
+
+login: 
+
+epm login <username> <password> 
+
+    - username - string
+    - password - string 
+
+- all 
+
+ignore: 
+
+ epm ignore [--list]/[-l] [--help]/[-h]
+
+ - all usages 
+   epm ignore - generates a just .epmignore file 
+   epm ignore --list - lists all the files in the epm ignore 
+
+init: 
+
+  epm init [<teamName>] [--complete] [-c]
+
+  - all usages 
+    epm init - generates a epm project and asks you questions
+    epm init <teamName> - generates a epm project for a team and asks you questions 
+    epm init --complete - does not ask you questions 
+    epm init <teamName> --complete - does not ask you questions 
+    epm init -c - does not ask you any questions 
+    epm init <teamName> -c - does not ask you any questions
+
+install:
+
+   epm install [<packageName>[@<version>]] 
+
+   - all usages 
+     epm install - installs the packages from package.json file
+     epm install <packageName> - installed the lastest package 
+     epm install <packageName>@<version> - installed a verion of that package 
+
+login: 
+
+    epm login [<username>] [<password>]
+
+    - all usages 
+    epm login <username> <password> 
+    epm login <username> <password> --rememberMe ?? not sure if remember me is safe yet! 
+
+    could be better to give input boxes 
+
+    flow 
+
+    epm login > username box > password box 
+                                            > incorrect > enter again x 3  
+                                            > correct > message 
+
+ls:
+
+    epm ls [<packageName>][@<version]
+
+    alias - TBC
+
+    - all usages 
+    epm ls - returns all the dependencies of the project 
+    epm ls <packageName>@<version> - get the list of dependencies of a package 
+    epm ls <packageName> - get the list of dependencies of a package
+
+organisation controller 
+
+    create: 
+
+    epm org create <orgName> 
+
+    - all usages 
+    epm org create <orgName> 
+
+    destroy: 
+
+    epm org destroy <orgName>
+
+    - all usages 
+    epm org destroy 
+
+    add user: 
+
+    epm org add user <username> 
+
+    - all usages 
+    epm org add user <username> 
+
+    remove user:
+
+    epm org rm user <username> 
+
+    - all usages 
+    epm org rm user <username> 
+
+    - add team:
+
+    epm org add team <teamName> 
+
+    - all usages 
+    epm org add team <teamName> 
+
+    - remove team:
+
+    epm org rm team <teamName> 
+
+    - all usages 
+    epm org rm team <teamName> 
+
+    - list users 
+
+    epm org ls users 
+
+    - all usages 
+    epm org ls users 
+
+    - list teams 
+    epm org ls teams 
+
+    - all usages 
+    epm org ls teams 
+
+    - edit org 
+    epm org edit 
+
+    - all usages 
+    epm org edit 
+
+
+outdated: 
+
+    epm outdated [<packageName][@<version>] 
+
+    alias - TBC
+
+    - all usages 
+    epm outdated - gets the outdated packages for the current project you are in
+    epm outdated <packageName> - gets the outdated packages for a packageName 
+    epm outdated <packageName>@<version> - gets the outdated package for the version package 
+
+owner: 
+
+    list: 
+    epm owner ls [<packageName>]
+
+    alias - TBC
+
+    - all usages 
+    epm owner ls - gets the admin user for the current project 
+    epm owner ls <packageName> - gets 
+
+    add: 
+    epm owner add <username> [<packageName>]
+
+    alias - TBC
+
+    - all usages 
+    epm owner add <username> - adds a user to the current project you are in
+    epm owner add <username> <packageName> - adds a user to a supplied package
+
+    remove: 
+    epm owner rm <username> [<packageName] --remove-permission
+
+    alias - TBC
+
+    - all usages
+    epm owner rm <username> - remove a admin user from the current project 
+    epm owner rm <username> --remove-permission - removes a admin users permission from the current project
+    epm owner rm <username> <packageName> - remove a admin user from a package 
+    epm owner rm <username> <packageName> --remove-permission - remove a admin users permission from supplied package packageName
+
+
+ping: 
+
+    epm ping [<packageName>]
+
+    alias - TBC 
+
+    - all usages 
+    epm ping - pings the epm server to see if it is awake 
+    epm ping <packageName> - pings the packageName location, if private and you are not authorized it will fail
+
+profile: 
+
+    get:
+
+    epm profile get [<property>]
+
+    alias - TBC 
+
+    - all usages 
+    epm profile get - gets all the details for a profile
+    epm profile get <property> - gets a single property of the profile 
+    
+    set: 
+
+    epm profile set [<json>] [<property> <value>]
+
+    alias - TBC 
+
+    - all usages 
+    epm profile set <json> - sets the profile passing in a json string 
+    epm profile set <property> <value> - sets just a single property
+
+    set password: 
+
+    epm profile set password 
+
+    - toggles a password box with a confirm password 
+
+publish:   
+
+    epm publish [<location>] [--tag <tag>] [--access <public | private>]
+
+    alias - TBC
+
+    - all usages 
+    epm publish - publishes the package from the current location 
+    epm publish --tag <tag> - publishes a package with a tag 
+    epm publish --access <public | private> - publishes a package with a access defined
+    epm publish --tag <tag> --access <public | private> - publishes a package with a access defined and a tag 
+    epm publish <location> - publishes the package from a location 
+    epm publish <location> --tag <tag> - publishes a package from a location with a tag against it
+    epm publish <location> --access <public | private> - publishes a package from a location with a access defined 
+    epm publish <location> --tag <tag> --access <publish | private> - publishes a package from a location with a access defined + tag
+
+register:
+
+    epm register <json> 
+
+    alias - TBC 
+
+    - all usages
+    epm register <json> - register for epm 
+
+root: 
+
+    epm root [-g]
+
+    alias - TBC 
+
+    - all usages 
+    epm root - will print out the ethereum_modules location 
+    epm root -g - will print where the global ethereum_modules are installed 
+
+star: 
+
+    epm star [<packageName>] 
+
+    alias - TBC 
+
+    - all usages 
+    epm star - will star a package if you git cloned it and contains a ethereum-permission
+    epm star <packageName> - will star a package from a package name
+
+stars: 
+
+    epm stars [<username>]
+
+    alias - TBC
+
+    -all usages 
+    epm stars - will return your star if logged in
+    epm stars <username> - will return that username stars 
+
+******** need to finish dev first *********
+
+search: 
+
+    epm search 
+
+******* end *******************************   
+
+tag: 
+
+    add:
+
+    epm tag add [<packageName> | <packageName>@<version>] <tag> 
+
+    - all usages 
+    epm tag add <tag> - adds a tag to the current working project (latest version)
+    epm tag add <packageName> <tag> - adds a tag to the defined package name
+    epm tag add <packageName>@<version> <tag> - tags a package version 
+
+    remove:
+
+    epm tag rm [<packageName> | <packageName>@<version>] <tag> 
+
+    - all usages 
+    epm tag rm <tag> - removes tag for current working project
+    epm tag rm <packageName> <tag> - removes a tag from the defined package 
+    epm tag rm <packageName>@<version> <tag> - remove a tag from a package version 
+
+    list:
+
+    epm tag list [<packageName> | <packageName>@<version>]
+
+    - all usages 
+    epm tag list - lists all the tags from the current working file
+    epm tag list <packageName> - list all tags from the package defined 
+    epm tag list <packageName>@<version> - list all the tags from a package and version 
+
+
+team: 
+
+    create: 
+
+    epm team create <org:teamName> 
+    
+    alias - TBC 
+
+    - all usages 
+    epm team create <org:teamName> 
+
+    destroy: 
+
+    epm team destroy <org:teamName> 
+
+    alias - TBC 
+
+    - all usages 
+    epm team destroy <org:teamName> 
+
+    team add: 
+
+    epm team add <org:teamName> <username> 
+
+    alias -TBC 
+
+    - all usages 
+    epm team add <org:teamName> <username> 
+
+    team remove:
+
+    epm team rm <org:teamName> 
+
+    alias - TBC 
+    
+    - all usages 
+    epm team rm <org:teamName> 
+
+    list:
+
+    epm team ls <org:teamName> 
+
+    alias - TBC 
+
+    - all usages 
+    epm team ls <org:teamName> 
+
+    edit: 
+
+    epm team edit <org:teamName> 
+
+    alias - TBC 
+
+    - all usages 
+    epm team edit <org:teamName> <json> [<property> <value>]
+
+    - all usages 
+    epm team edit <org:teamName> <json> 
+    epm team edit <org:teamName> <property> <value> 
+
+    packages:
+
+    epm team packages ls <org:teamName> 
+
+    alias - TBC 
+
+    - all usages 
+    epm team packages ls <org:teamName> 
+
+test: 
+
+    epm test 
+
+    - all usages 
+    epm test - runs test on current working tree if there is any 
+
+
+
+unstar: 
+
+    epm unstar [<packageName]
+
+    alias - TBC
+
+    - all usages 
+    epm unstar - will unstar a package if you are in it currently 
+    epm unstar <packageName> - will unstar a package by its name 
+
+token: 
+
+    TBC 
+
+uninstall:
+
+    epm uninstall [@<org>/<teamName>] <packageName>[@<version>] 
+
+    alias - TBC 
+
+    - all usages 
+    epm uninstall <packageName> - uninstall package from current project 
+    epm uninstall <packageName>@<version> - uninstall a direct package version
+    epm uninstall <@org/<teamName>/<packageName> - uninstall installed team package
+
+unpublish 
+
+    epm unpublish [@<org/teamName/]<packageName>[@<version>]
+
+    alias - TBC 
+
+    - all usages 
+    epm unpublish <packageName> - will try to unpublish the last version 
+    epm unpublish <packageName>@<version> - will unpublish a version 
+    epm unpublish @<org/teamName/<packageName> - will unpublish a teams latest package 
+    epm unpublish @<org/teamName/<packageName>@<version> - will unpublish a version 
+
+update 
+
+    epm update <packageName> 
+
+    alias - TBC 
+
+    - all usages 
+    epm update - updates the dependencies on the project you are in 
+    epm update <packageName> - updates the package to the latest version 
+
+
+version 
+
+    epm version [<newVersion | major | minor | patch>]
+
+    alias - TBC 
+
+    epm version <newVersion> - updates the current project you are in to a new version 
+    epm version major - updates the major version number 
+    epm version minor - updates the minor version number 
+    epm version patch - updates the patch version number 
+
+view: 
+
+    CAN COME V2 
+
+
+
+
+
+
+    
+
+
+
+
+    
+
+
+
+ 
+
+
+
+
+
