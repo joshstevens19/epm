@@ -5,6 +5,7 @@
   "repository": "https://github.com/joshstevens19/ethereumPM.git",
   "license": "MIT",
   "dependencies": {
+    "ascii-table": "0.0.9",
     "chalk": "^2.4.1",
     "co": "^4.6.0",
     "co-prompt": "^1.0.0",
