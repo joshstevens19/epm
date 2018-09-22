@@ -12,15 +12,38 @@ import { VersionBump } from "./enums/version-bump";
 const ProgressBar = require('progress');
 const co = require('co');
 const prompt = require('co-prompt');
+const asciiTable = require('ascii-table');
+
+// var table = new asciiTable('A Title')
+// table
+//   .setHeading('', 'Test', 'Test')
+//   .addRow(1, 'Test', 53)
+//   .addRow(2, 'Test', 33)
+//   .addRow(3, 'Test', 83)
+ 
+// console.log(table.toString())
 
 // REDESIGN THE CLI ONCE DONE ALL THE LOGIC 
 
 program
   .version("0.0.1")
-  .description('Welcome to ethereum package manager...')
-  .option('-p, --', '')
-  .usage("epm [arguments] [options]")
+  .description('These are command EPM commands: .. NEED TO NAME ALL THE COMMANDS LAST')
+  .usage("epm [--version] [--help] <command> [<args>]")
   .parse(process.argv);
+
+// deprecated CLI
+program
+  .command('deprecate <packageName>[@<version>] <message>')
+  .description(`This command will update the epm package and mark it as deprecated. 
+                This will provider a deprecated warning to anyone who installs.`)
+  .action(async (packageName) => {
+    try {
+      await InitialiseControls.deprecateControl.deprecatePackage(packageName)
+      console.log("Successfully deprecated the package");
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
 program
   .command('init')
@@ -248,17 +271,7 @@ program
     }
   });
 
-program
-  .command('deprecate <packageName>')
-  .description('Deprecates a package')
-  .action(async (packageName) => {
-    try {
-      await InitialiseControls.deprecateControl.deprecatePackage(packageName)
-      console.log("Successfully deprecated the package");
-    } catch (error) {
-      console.error(error);
-    }
-  });
+
 
 program
   .command('undeprecate <packageName>')
