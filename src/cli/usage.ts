@@ -50,6 +50,17 @@ export class Usage {
             "epm hook rm <id>",
         ]
 
+    private static readonly ignoreCommands: string[] =
+        [
+            "epm ignore [--list]",
+        ]
+
+    private static readonly loginCommands: string[] =
+        [
+
+        ];
+
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -99,12 +110,26 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.doctorCommands, filter);
-        case CommandTypes.hook:
+            case CommandTypes.hook:
                 if (!filter) {
                     return this.buildUsageString(this.hookCommands);
                 }
 
                 return this.buildUsageStringByFilter(this.hookCommands, filter);
+            case CommandTypes.ignore:
+                if (!filter) {
+                    return this.buildUsageString(this.ignoreCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.ignoreCommands, filter);
+            case CommandTypes.login:
+                if (!filter) {
+                    return this.buildUsageString(this.loginCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.loginCommands, filter);
+
+
             default:
                 // should never be default maybe throw a error
                 return "";

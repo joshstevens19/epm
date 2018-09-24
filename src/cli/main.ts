@@ -253,12 +253,48 @@ program
     }
   });
 
+
+program
+  .command("ignore")
+  .option("-l, --list", "Print out epm list")
+  .usage("command - generate and read epm ignore file")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.ignore))
+  .action(async (dir) => {
+    if (typeof (dir) !== "object") {
+      LogHandler.logGenericError(CommandTypes.ignore, true);
+      return LogHandler.logUsages(CommandTypes.ignore);
+    }
+    
+    // write control logic 
+  });
+
+
 program
   .command("init")
   .description(PackageDescriptionsConsts.init)
   .action(() => {
     InitialiseControls.initControl.initialiseProject();
   });
+
+
+/****** MAKE THIS USER CO-PROMPT TO DO **********/
+program
+  .command("login")
+  .description(PackageDescriptionsConsts.login)
+  .option("--username <username>", "The username to authenticate")
+  .option("--password <password>", "The user\"s password")
+  .action((dir, cmd) => {
+    const username = dir.username;
+    const password = dir.password;
+
+    if (username && password) {
+      InitialiseControls.loginControl.authenticate(username, password)
+        .catch(err => console.log(err));
+    } else {
+      console.log("please supply and username or password")
+    }
+  });
+/***************************************************/
 
 program
   .command("ls")
@@ -342,22 +378,7 @@ program
       .catch(err => console.error(err))
   });
 
-program
-  .command("login")
-  .description(PackageDescriptionsConsts.login)
-  .option("--username <username>", "The username to authenticate")
-  .option("--password <password>", "The user\"s password")
-  .action((dir, cmd) => {
-    const username = dir.username;
-    const password = dir.password;
 
-    if (username && password) {
-      InitialiseControls.loginControl.authenticate(username, password)
-        .catch(err => console.log(err));
-    } else {
-      console.log("please supply and username or password")
-    }
-  });
 
 program
   .command("register")

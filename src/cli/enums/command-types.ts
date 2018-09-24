@@ -7,4 +7,6 @@ export enum CommandTypes {
     doctor = "doctor",
     document = "document",
     hook = "hook",
+    login = "login",
+    ignore = "ignore",
 }
