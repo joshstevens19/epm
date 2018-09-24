@@ -8,50 +8,33 @@ import { IRegister } from "../interfaces/iregister";
 import { IUpdateProfileDetailsRequest } from "../interfaces/api-requests/iupdate-profile-details.request";
 import { VersionBump } from "../enums/version-bump";
 import { Usage } from "./usage";
-
-// trying yargs instead 
-import * as yargs from "yargs";
-import { CommandTypes } from "./enums/command-types";
-import { AccessTypes } from "./enums/access-types";
+import { AccessTypes, CommandTypes, HookTypes } from "./enums";
 import { LogHandler } from "./log-handler";
 
 // find TS library as we want the entire library to be in TS
-const ProgressBar = require('progress');
-const co = require('co');
-const prompt = require('co-prompt');
-const asciiTable = require('ascii-table');
+// use later on
+import ProgressBar = require("progress");
+const co = require("co");
+const prompt = require("co-prompt");
+const asciiTable = require("ascii-table");
 
-// var table = new asciiTable('A Title')
+// var table = new asciiTable("A Title")
 // table
-//   .setHeading('', 'Test', 'Test')
-//   .addRow(1, 'Test', 53)
-//   .addRow(2, 'Test', 33)
-//   .addRow(3, 'Test', 83)
+//   .setHeading("", "Test", "Test")
+//   .addRow(1, "Test", 53)
+//   .addRow(2, "Test", 33)
+//   .addRow(3, "Test", 83)
 
 // console.log(table.toString())
 
-// REDESIGN THE CLI ONCE DONE ALL THE LOGIC 
-// yargs
-// .usage('epm <command>')
-// .command('access public [package]', chalk.yellow('set package to be public'), (yargs: yargs.Argv) => {
-//   return yargs.positional('package', {
-//     type: "string",
-//     describe: 'The package name'
-//   })
-// }, (argv: yargs.Arguments) => {
-//   console.log(argv);
-//   console.log('hello', argv.package, 'welcome to yargs!')
-// })
-// .argv
-
 program
   .version("0.0.1")
-  .description('These are command EPM commands: .. NEED TO NAME ALL THE COMMANDS LAST')
+  .description("These are command EPM commands: .. NEED TO NAME ALL THE COMMANDS LAST")
   .usage("epm [--version] [--help] <command> [<args>]")
   .parse(process.argv);
 
 program
-  .command('access <private|public|grant|revoke|ls> [$1] [$2] [$3]')
+  .command("access <private|public|grant|revoke|ls> [$1] [$2] [$3]")
   .usage("command - used to set access levels")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.access))
   .action(async (accessLevel: string, $1: string, $2: string, $3: string) => {
@@ -84,7 +67,7 @@ program
         }
 
         if (grantMissingArguments.length > 0) {
-          LogHandler.logMissingRequiredArgument(grantMissingArguments);
+          LogHandler.logMissingRequiredArguments(grantMissingArguments);
           return LogHandler.logUsages(CommandTypes.access, AccessTypes.grant);
         }
 
@@ -97,7 +80,7 @@ program
       case AccessTypes.revoke:
 
         if (!$1) {
-          LogHandler.logMissingRequiredArgument(["<org:team>"]);
+          LogHandler.logMissingRequiredArguments(["<org:team>"]);
           return LogHandler.logUsages(CommandTypes.access, AccessTypes.revoke);
         }
 
@@ -108,7 +91,7 @@ program
   });
 
 program
-  .command('audit [fix]')
+  .command("audit [fix]")
   .usage("command - use perform audits on packages")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.audit))
   .action(async (fix) => {
@@ -121,8 +104,8 @@ program
   });
 
 program
-  .command('bin')
-  .option('-g, --global', 'Will print the global folder')
+  .command("bin")
+  .option("-g, --global", "Will print the global folder")
   .usage("command - prints the folder where epm will install executables")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.bin))
   .action(async (dir) => {
@@ -137,7 +120,7 @@ program
   });
 
 program
-  .command('cache clean')
+  .command("cache clean")
   .usage("command - removes all the cached packages")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.cache))
   .action(async (clean) => {
@@ -151,8 +134,8 @@ program
 
 // deprecated CLI
 program
-  .command('deprecate <package|package@version> <message>')
-  .usage('command - deprecate a package')
+  .command("deprecate <package|package@version> <message>")
+  .usage("command - deprecate a package")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.deprecate))
   .action(async (_package, message) => {
 
@@ -167,11 +150,11 @@ program
   });
 
 program
-  .command('doctor')
-  .usage('command - check the health of epm')
+  .command("doctor")
+  .usage("command - check the health of epm")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.doctor))
   .action(async (dir) => {
-    if (typeof(dir) !== "object") {
+    if (typeof (dir) !== "object") {
       LogHandler.logGenericError(CommandTypes.doctor, true);
       return LogHandler.logUsages(CommandTypes.doctor);
     }
@@ -181,11 +164,11 @@ program
   });
 
 program
-  .command('doctor')
-  .usage('command - check the health of epm')
+  .command("doctor")
+  .usage("command - check the health of epm")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.doctor))
   .action(async (dir) => {
-    if (typeof(dir) !== "object") {
+    if (typeof (dir) !== "object") {
       LogHandler.logGenericError(CommandTypes.doctor, true);
       return LogHandler.logUsages(CommandTypes.doctor);
     }
@@ -195,22 +178,93 @@ program
   });
 
 program
-  .command('document [package]')
-  .usage('command - load document up for a project')
+  .command("document [package]")
+  .usage("command - load document up for a project")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.document))
   .action(async (_package) => {
     // write control logic 
   });
 
 program
-  .command('init')
+  .command("hook <ls|add|update|rm> [$1] [$2] [$3]")
+  .usage("command - hook events on packages")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.hook))
+  .action(async (hookAction, $1, $2, $3) => {
+    if (hookAction !== HookTypes.add &&
+      hookAction !== HookTypes.ls &&
+      hookAction !== HookTypes.rm &&
+      hookAction !== HookTypes.update) {
+      return LogHandler.logCommandError("hook command needs a hook action", CommandTypes.hook);
+    }
+
+    switch (hookAction) {
+      case HookTypes.add:
+        const packageName: string | undefined = $1;
+
+        // write control logic
+
+        break;
+      case HookTypes.ls:
+
+        const hookListMissingArguments = [];
+
+        if (!$1) {
+          hookListMissingArguments.push("<url>");
+        }
+
+        if (!$2) {
+          hookListMissingArguments.push("<secret>");
+        }
+
+        if (hookListMissingArguments.length > 0) {
+          LogHandler.logMissingRequiredArguments(hookListMissingArguments);
+          return LogHandler.logUsages(CommandTypes.hook, HookTypes.ls);
+        }
+
+        // write logic for control
+
+        break;
+      case HookTypes.rm:
+        if (!$1) {
+          LogHandler.logMissingRequiredArguments(["<id>"]);
+          return LogHandler.logUsages(CommandTypes.hook, HookTypes.rm);
+        }
+
+        // write logic for control
+
+        break;
+      case HookTypes.update:
+        const hookUpdateMissingArguments = [];
+
+        if (!$1) {
+          hookUpdateMissingArguments.push("<id>");
+        }
+
+        if (!$2) {
+          hookUpdateMissingArguments.push("<url>");
+        }
+
+        if (hookUpdateMissingArguments.length > 0) {
+          LogHandler.logMissingRequiredArguments(hookUpdateMissingArguments);
+          return LogHandler.logUsages(CommandTypes.hook, HookTypes.update);
+        }
+        
+        break;
+    }
+
+
+
+  });
+
+program
+  .command("init")
   .description(PackageDescriptionsConsts.init)
   .action(() => {
     InitialiseControls.initControl.initialiseProject();
   });
 
 program
-  .command('ls')
+  .command("ls")
   .description(PackageDescriptionsConsts.ls)
   .action(() => {
     InitialiseControls.lsControl.installedDependencies()
@@ -219,8 +273,8 @@ program
   });
 
 program
-  .command('install [packageName]')
-  .alias('i')
+  .command("install [packageName]")
+  .alias("i")
   .description(PackageDescriptionsConsts.install)
   .action((packageName: string) => {
     if (packageName) {
@@ -237,8 +291,8 @@ program
   });
 
 program
-  .command('uninstall [packageName]')
-  .alias('u')
+  .command("uninstall [packageName]")
+  .alias("u")
   .description(PackageDescriptionsConsts.uninstall)
   .action((packageName: string) => {
     if (!packageName) {
@@ -252,9 +306,9 @@ program
   });
 
 program
-  .command('update [packageName]')
-  .alias('up')
-  .alias('upgrade')
+  .command("update [packageName]")
+  .alias("up")
+  .alias("upgrade")
   .description(PackageDescriptionsConsts.update)
   .action((packageName: string) => {
     if (!packageName) {
@@ -268,7 +322,7 @@ program
   });
 
 program
-  .command('outdated')
+  .command("outdated")
   .description(PackageDescriptionsConsts.outdated)
   .action(() => {
     InitialiseControls.outdatedControl.checkForOutdatedPackages()
@@ -277,13 +331,13 @@ program
   });
 
 program
-  .command('ping')
+  .command("ping")
   .description(PackageDescriptionsConsts.ping)
   .action(() => {
     InitialiseControls.pingControl.alive()
       .then(result => {
         if (result) {
-          console.log('server is alive')
+          console.log("server is alive")
         } else {
           console.error("no response from the server.. it could be down")
         }
@@ -294,8 +348,8 @@ program
 program
   .command("login")
   .description(PackageDescriptionsConsts.login)
-  .option('--username <username>', 'The username to authenticate')
-  .option('--password <password>', 'The user\'s password')
+  .option("--username <username>", "The username to authenticate")
+  .option("--password <password>", "The user\"s password")
   .action((dir, cmd) => {
     const username = dir.username;
     const password = dir.password;
@@ -311,11 +365,11 @@ program
 program
   .command("register")
   .description(PackageDescriptionsConsts.register)
-  .option('--username <username>', 'The username to sign in with')
-  .option('--password <password>', 'The users password')
-  .option('--firstName <firstName>', 'The users first name')
-  .option('--lastName <lastName>', 'The users lastname')
-  .option('--introduction <introudction>', 'The users introduction to show on the profile')
+  .option("--username <username>", "The username to sign in with")
+  .option("--password <password>", "The users password")
+  .option("--firstName <firstName>", "The users first name")
+  .option("--lastName <lastName>", "The users lastname")
+  .option("--introduction <introudction>", "The users introduction to show on the profile")
   .action((dir, cmd) => {
     const username = dir.username;
     const password = dir.password;
@@ -358,9 +412,9 @@ program
 
 program
   .command("profile")
-  .option('--firstName <firstName>', 'The users first name')
-  .option('--lastName <lastName>', 'The users lastname')
-  .option('--introduction <introudction>', 'The users introduction to show on the profile')
+  .option("--firstName <firstName>", "The users first name")
+  .option("--lastName <lastName>", "The users lastname")
+  .option("--introduction <introudction>", "The users introduction to show on the profile")
   .description(PackageDescriptionsConsts.profile)
   .action(async (dir, cmd) => {
 
@@ -403,9 +457,9 @@ program
   })
 
 program
-  .command('addUser <teamname> <username> <isadmin>')
-  .alias('t')
-  .description('Adds a new user to a team')
+  .command("addUser <teamname> <username> <isadmin>")
+  .alias("t")
+  .description("Adds a new user to a team")
   .action(async (teamname, username, isadmin) => {
     try {
       await InitialiseControls.teamControl.addUser(teamname, username, isadmin)
@@ -416,9 +470,9 @@ program
   });
 
 program
-  .command('addAdmin <packageName> <username>')
-  .alias('t')
-  .description('Adds a new user to a team')
+  .command("addAdmin <packageName> <username>")
+  .alias("t")
+  .description("Adds a new user to a team")
   .action(async (packageName, username) => {
     try {
       await InitialiseControls.ownerControl.addAdmin(packageName, username)
@@ -431,8 +485,8 @@ program
 
 
 program
-  .command('undeprecate <packageName>')
-  .description('Undeprecates a package')
+  .command("undeprecate <packageName>")
+  .description("Undeprecates a package")
   .action(async (packageName) => {
     try {
       await InitialiseControls.deprecateControl.undeprecatePackage(packageName);
@@ -523,16 +577,16 @@ program
   });
 
 // program
-//   .command('users <teamName>')
-//   .description('Gets all the users for a team')
+//   .command("users <teamName>")
+//   .description("Gets all the users for a team")
 
 
 // good example below:
 
 // program
-// .command('addContact <firstame> <lastname> <phone> <email>')
-// .alias('a')
-// .description('Add a contact')
+// .command("addContact <firstame> <lastname> <phone> <email>")
+// .alias("a")
+// .description("Add a contact")
 // .action((firstname, lastname, phone, email) => {
 //   addContact({firstname, lastname, phone, email});
 // });
@@ -541,8 +595,8 @@ program
 //   //   console.log(program.username);
 //   //   co(function *() {
 //   //     console.log(program.username);
-//   //     var username = yield prompt('username: ');
-//   //     var password = yield prompt.password('password: ');
+//   //     var username = yield prompt("username: ");
+//   //     var password = yield prompt.password("password: ");
 //   //     console.log(password);
 //   //     console.log(chalk.bold.cyan(username));
 
@@ -552,7 +606,7 @@ program
 //   //       clear: true
 //   //     };
 
-//   //     const bar = new ProgressBar('Authenticating [:bar] :percent :etas', barOpts);
+//   //     const bar = new ProgressBar("Authenticating [:bar] :percent :etas", barOpts);
 
 //   //     // setInterval(() => bar.tick(10), 100);
 

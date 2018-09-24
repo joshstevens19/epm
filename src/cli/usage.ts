@@ -42,6 +42,14 @@ export class Usage {
             "epm document [<packageName>]",
         ]
 
+    private static readonly hookCommands: string[] =
+        [
+            "epm hook ls [<package>]",
+            "epm hook add <url> <secret>",
+            "epm hook update <id> <url> [secret]",
+            "epm hook rm <id>",
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -91,6 +99,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.doctorCommands, filter);
+        case CommandTypes.hook:
+                if (!filter) {
+                    return this.buildUsageString(this.hookCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.hookCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";

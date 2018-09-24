@@ -6,4 +6,5 @@ export enum CommandTypes {
     deprecate = "deprecate",
     doctor = "doctor",
     document = "document",
+    hook = "hook",
 }
