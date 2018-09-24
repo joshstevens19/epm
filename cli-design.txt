@@ -95,13 +95,11 @@ access:
 
 audit: 
 
-    epm audit [fix] [<packageName>]
+    epm audit [fix]
 
     - all usages 
     epm audit - prints out a audit report for the current working tree 
-    epm audit <packageName> - prints out a audit report for a package name 
     epm audit fix - fixes all the issues in the audit report (where it can)
-    epm audit fix <packageName> - fixes just a packages audit report
 
 bin:
 
@@ -126,7 +124,6 @@ config:
 
     CAN WAIT FOR V2 I THINK 
 
-
 deprecate:
 
   epm deprecate <packageName>[@<version>] <message> [--help]
@@ -138,7 +135,6 @@ deprecate:
 - all usages 
    epm deprecate <packageName>@<version> <message> 
    epm deprecate <packageName> <message> 
-   epm deprecate <packageName>@<version> <message>
 
 doctor: 
  
