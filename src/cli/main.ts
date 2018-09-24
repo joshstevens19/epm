@@ -277,7 +277,7 @@ program
   });
 
 
-/****** MAKE THIS USER CO-PROMPT TO DO **********/
+/****** MAKE THIS USE CO-PROMPT **********/
 program
   .command("login")
   .description(PackageDescriptionsConsts.login)
