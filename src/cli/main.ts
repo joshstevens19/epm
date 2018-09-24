@@ -248,12 +248,9 @@ program
           LogHandler.logMissingRequiredArguments(hookUpdateMissingArguments);
           return LogHandler.logUsages(CommandTypes.hook, HookTypes.update);
         }
-        
+
         break;
     }
-
-
-
   });
 
 program
