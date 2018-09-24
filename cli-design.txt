@@ -194,7 +194,7 @@ epm login <username> <password>
 
 ignore: 
 
- epm ignore [--list]/[-l] [--help]/[-h]
+ epm ignore [--list]/[-l]
 
  - all usages 
    epm ignore - generates a just .epmignore file 
