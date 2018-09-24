@@ -12,10 +12,8 @@ export class Usage {
 
     private static readonly auditCommands: string[] =
         [
-            "epm audit",
-            "epm audit <package>",
-            "epm audit fix",
-            "epm audit fix <package>",
+            "epm audit [<package>]",
+            "epm audit fix [<package>]",
         ];
 
     private static readonly binCommands: string[] =
@@ -32,12 +30,16 @@ export class Usage {
     private static readonly deprecateCommands: string[] =
         [
             "epm deprecate <package>[@<version>] <message>",
-            "epm deprecate <package> <message>",
         ];
 
     private static readonly doctorCommands: string[] =
         [
             "epm doctor",
+        ]
+
+    private static readonly documentCommands: string[] =
+        [
+            "epm document [<packageName>]",
         ]
 
     /**
@@ -80,6 +82,12 @@ export class Usage {
             case CommandTypes.doctor:
                 if (!filter) {
                     return this.buildUsageString(this.doctorCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.doctorCommands, filter);
+            case CommandTypes.document:
+                if (!filter) {
+                    return this.buildUsageString(this.documentCommands);
                 }
 
                 return this.buildUsageStringByFilter(this.doctorCommands, filter);

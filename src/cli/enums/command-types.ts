@@ -5,4 +5,5 @@ export enum CommandTypes {
     cache = "cache",
     deprecate = "deprecate",
     doctor = "doctor",
+    document = "document",
 }

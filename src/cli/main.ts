@@ -195,6 +195,14 @@ program
   });
 
 program
+  .command('document [package]')
+  .usage('command - load document up for a project')
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.document))
+  .action(async (_package) => {
+    // write control logic 
+  });
+
+program
   .command('init')
   .description(PackageDescriptionsConsts.init)
   .action(() => {
