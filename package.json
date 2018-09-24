@@ -15,18 +15,14 @@
     "jwt-decode": "^2.2.0",
     "progress": "^2.0.0",
     "request": "^2.88.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "shelljs": "^0.8.2",
+    "yargs": "^12.0.2"
   },
-  "scripts": {
-    "start": "node ./dist/main.js --help",
-    "init": "node ./dist/main.js init",
-    "ls": "node ./dist/main.js ls",
-    "install": "NO SCRIPT",
-    "login": "node ./dist/main.js login"
-  },
+  "scripts": {},
   "preferGlobal": true,
   "bin": {
-    "ethereumpm": "./dist/main.js"
+    "epm": "./dist/cli/main.js"
   },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
@@ -36,6 +32,7 @@
     "@types/node": "^10.5.1",
     "@types/progress": "^2.0.1",
     "@types/request-promise": "^4.1.42",
+    "@types/yargs": "^12.0.0",
     "typescript": "^2.9.2",
     "webpack": "^4.15.1"
   }
