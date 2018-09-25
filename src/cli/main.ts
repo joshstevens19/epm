@@ -476,6 +476,25 @@ program
     }
   });
 
+// ------------------- TO DO OWNER LAST ---------------------------------
+
+program
+  .command("ping [package]")
+  .usage("command - ping the server or the package server")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.ping))
+  .action(async (_package) => {
+    if (_package) {
+      const alive = await InitialiseControls.pingControl.alive();
+      if (alive) {
+        LogHandler.log("server is alive");
+      } else {
+        LogHandler.log("no response from the server.. it could be down")
+      }
+    } else {
+      // write control logic 
+    }
+  });
+
 program
   .command("uninstall [packageName]")
   .alias("u")
@@ -509,20 +528,7 @@ program
 
 
 
-program
-  .command("ping")
-  .description(PackageDescriptionsConsts.ping)
-  .action(() => {
-    InitialiseControls.pingControl.alive()
-      .then(result => {
-        if (result) {
-          console.log("server is alive")
-        } else {
-          console.error("no response from the server.. it could be down")
-        }
-      })
-      .catch(err => console.error(err))
-  });
+
 
 
 

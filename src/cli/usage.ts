@@ -99,6 +99,16 @@ export class Usage {
             "epm outdated <package>@<version>",
         ]
 
+    private static readonly ownerCommands: string[] =
+        [
+
+        ]
+
+    private static readonly pingCommands: string[] =
+        [
+            "epm ping [package]",
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -196,6 +206,14 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.outdatedCommands, filter);
+            case CommandTypes.owner:
+                break;
+            case CommandTypes.ping:
+                if (!filter) {
+                    return this.buildUsageString(this.pingCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.pingCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";
