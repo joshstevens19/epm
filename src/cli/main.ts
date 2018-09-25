@@ -14,6 +14,7 @@ import { LogHandler } from "./log-handler";
 // find TS library as we want the entire library to be in TS
 // use later on
 import ProgressBar = require("progress");
+import { Helpers } from "../common/helpers";
 const co = require("co");
 const prompt = require("co-prompt");
 const asciiTable = require("ascii-table");
@@ -465,6 +466,26 @@ program
   });
 
 program
+  .command("outdated [<package>|<package@version>")
+  .usage("command - outdated logic")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.outdated))
+  .action(async () => {
+
+    try {
+      const packages = await InitialiseControls.outdatedControl.checkForOutdatedPackages()
+      const outdatedTable = new asciiTable("outdated packages")
+      outdatedTable.setHeading("latest version", "package name")
+      for (let l = 0; l < packages.length; l++) {
+        outdatedTable.addRow(packages[l].version, packages[l].name)
+      }
+
+      LogHandler.log(outdatedTable.toString());
+    } catch (err) {
+      LogHandler.logError(err);
+    }
+  });
+
+program
   .command("uninstall [packageName]")
   .alias("u")
   .description(PackageDescriptionsConsts.uninstall)
@@ -495,14 +516,7 @@ program
     }
   });
 
-program
-  .command("outdated")
-  .description(PackageDescriptionsConsts.outdated)
-  .action(() => {
-    InitialiseControls.outdatedControl.checkForOutdatedPackages()
-      .then(res => console.log(res))
-      .catch(err => console.error(err));
-  });
+
 
 program
   .command("ping")

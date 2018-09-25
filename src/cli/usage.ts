@@ -92,6 +92,13 @@ export class Usage {
             "epm org edit <org>",
         ]
 
+    private static readonly outdatedCommands: string[] =
+        [
+            "epm outdated",
+            "epm outdated <package>",
+            "epm outdated <package>@<version>",
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -183,6 +190,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.orgCommands, filter);
+            case CommandTypes.outdated:
+                if (!filter) {
+                    return this.buildUsageString(this.outdatedCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.outdatedCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";

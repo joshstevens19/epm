@@ -13,4 +13,5 @@ export enum CommandTypes {
     login = "login",
     ls = "ls",
     org = "org",
+    outdated = "outdated",
 }
