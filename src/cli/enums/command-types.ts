@@ -10,4 +10,5 @@ export enum CommandTypes {
     login = "login",
     ignore = "ignore",
     init = "init",
+    install = "install",
 }

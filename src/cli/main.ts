@@ -110,7 +110,7 @@ program
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.bin))
   .action(async (dir) => {
     if (typeof (dir) !== "object") {
-      LogHandler.logGenericError(CommandTypes.bin, true);
+      LogHandler.logGenericInvalidCommandError(CommandTypes.bin, true);
       return LogHandler.logUsages(CommandTypes.bin);
     }
 
@@ -155,7 +155,7 @@ program
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.doctor))
   .action(async (dir) => {
     if (typeof (dir) !== "object") {
-      LogHandler.logGenericError(CommandTypes.doctor, true);
+      LogHandler.logGenericInvalidCommandError(CommandTypes.doctor, true);
       return LogHandler.logUsages(CommandTypes.doctor);
     }
 
@@ -169,7 +169,7 @@ program
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.doctor))
   .action(async (dir) => {
     if (typeof (dir) !== "object") {
-      LogHandler.logGenericError(CommandTypes.doctor, true);
+      LogHandler.logGenericInvalidCommandError(CommandTypes.doctor, true);
       return LogHandler.logUsages(CommandTypes.doctor);
     }
 
@@ -261,7 +261,7 @@ program
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.ignore))
   .action(async (dir) => {
     if (typeof (dir) !== "object") {
-      LogHandler.logGenericError(CommandTypes.ignore, true);
+      LogHandler.logGenericInvalidCommandError(CommandTypes.ignore, true);
       return LogHandler.logUsages(CommandTypes.ignore);
     }
 
@@ -278,14 +278,38 @@ program
     console.log(dir);
 
     if (typeof (dir) !== "object") {
-      LogHandler.logGenericError(CommandTypes.init, true);
+      LogHandler.logGenericInvalidCommandError(CommandTypes.init, true);
       return LogHandler.logUsages(CommandTypes.init);
     }
 
     const autoComplete = dir.complete;
-    
+
+    // complete questions etc
 
     InitialiseControls.initControl.initialiseProject();
+  });
+
+program
+  .command("install [package|package@version]")
+  .usage("command - installs packages")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.install))
+  .action(async (_package: string) => {
+
+    // finish logic with package@version
+    
+    if (_package) {
+      try {
+        await InitialiseControls.installControl.installPackage(_package)
+      } catch (err) {
+        LogHandler.log(chalk.bold.redBright(err.message));
+      }
+    } else {
+      try {
+        await InitialiseControls.installControl.installPackages()
+      } catch (err) {
+        LogHandler.log(chalk.bold.redBright(err.message));
+      }
+    }
   });
 
 
@@ -315,24 +339,6 @@ program
     InitialiseControls.lsControl.installedDependencies()
       .then(d => console.log(JSON.stringify(d)))
       .catch(err => console.error(err));
-  });
-
-program
-  .command("install [packageName]")
-  .alias("i")
-  .description(PackageDescriptionsConsts.install)
-  .action((packageName: string) => {
-    if (packageName) {
-      InitialiseControls.installControl.installPackage(packageName)
-        .catch(err => {
-          console.log(chalk.bold.redBright(err.message));
-        });
-    } else {
-      InitialiseControls.installControl.installPackages()
-        .catch(err => {
-          console.log(chalk.bold.redBright(err.message));
-        });
-    }
   });
 
 program

@@ -55,7 +55,7 @@ export class LogHandler {
      * @param commandType Command type
      * @param addLineBreaks If a line break should render 
      */
-    public static logGenericError(commandType: CommandTypes, addLineBreaks = false): void {
+    public static logGenericInvalidCommandError(commandType: CommandTypes, addLineBreaks = false): void {
         if (addLineBreaks) {
             this.break();
         }
@@ -65,6 +65,14 @@ export class LogHandler {
         if (addLineBreaks) {
             this.break();
         }
+    }
+
+    /**
+     * Generic log 
+     * @param message The message you want to log to the console
+     */
+    public static log(message: string) {
+        console.log(message);
     }
 
     /**

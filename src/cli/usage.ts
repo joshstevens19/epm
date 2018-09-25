@@ -60,6 +60,12 @@ export class Usage {
             "epm init [<team>] [-c|--complete]"
         ]
 
+    private static readonly installCommands: string[] =
+        [
+            "epm install <package>",
+            "epm install <package>@<version>"
+        ]
+
     private static readonly loginCommands: string[] =
         [
 
@@ -133,7 +139,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.initCommands, filter);
+            case CommandTypes.install:
+                if (!filter) {
+                    return this.buildUsageString(this.installCommands);
+                }
 
+                return this.buildUsageStringByFilter(this.installCommands, filter);
             case CommandTypes.login:
                 if (!filter) {
                     return this.buildUsageString(this.loginCommands);
