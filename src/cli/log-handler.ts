@@ -43,7 +43,7 @@ export class LogHandler {
             this.break();
         }
 
-        this.logWithPadding(error);
+        this.logWithPadding("error: " + error);
 
         if (addLineBreaks) {
             this.break();

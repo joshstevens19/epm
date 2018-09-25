@@ -79,6 +79,18 @@ export class Usage {
             "epm ls <package>@<version>",
         ]
 
+    private static readonly orgCommands: string[] =
+        [
+            "epm org create",
+            "epm org destroy <org>",
+            "epm org adduser <org> <username>",
+            "epm org rmuser <org> <username>",
+            "epm org lsusers <org>",
+            "epm org addteam <org>",
+            "epm org rmteam <org> <team>",
+            "epm org lsteams <org>",
+            "epm org edit <org>",
+        ]
 
     /**
      * Gets the usage for command type
@@ -165,7 +177,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.lsCommands, filter);
+            case CommandTypes.org:
+                if (!filter) {
+                    return this.buildUsageString(this.orgCommands);
+                }
 
+                return this.buildUsageStringByFilter(this.orgCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";

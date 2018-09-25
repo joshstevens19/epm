@@ -8,7 +8,7 @@ import { IRegister } from "../interfaces/iregister";
 import { IUpdateProfileDetailsRequest } from "../interfaces/api-requests/iupdate-profile-details.request";
 import { VersionBump } from "../enums/version-bump";
 import { Usage } from "./usage";
-import { AccessTypes, CommandTypes, HookTypes } from "./enums";
+import { AccessTypes, CommandTypes, HookTypes, OrgActionType } from "./enums";
 import { LogHandler } from "./log-handler";
 
 // find TS library as we want the entire library to be in TS
@@ -356,6 +356,111 @@ program
 
     } catch (err) {
       LogHandler.log(err);
+    }
+  });
+
+program
+  .command("org <create|destroy|edit|adduser|rmuser|lsusers|addteam|rmteam|lsteams| [$1] [$2]")
+  .usage("command - organisation logic")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.org))
+  .action(async (orgActionType, $1, $2) => {
+    // i think there is a much nicer way to do this
+    // but as i have no internet most the time i write this 
+    // it can make do 
+    if (orgActionType !== OrgActionType.addteam &&
+      orgActionType !== OrgActionType.adduser &&
+      orgActionType !== OrgActionType.create &&
+      orgActionType !== OrgActionType.destroy &&
+      orgActionType !== OrgActionType.edit &&
+      orgActionType !== OrgActionType.lsteams &&
+      orgActionType !== OrgActionType.lsusers &&
+      orgActionType !== OrgActionType.rmteam &&
+      orgActionType !== OrgActionType.rmuser) {
+      LogHandler.logError("please supply valid org action type", true);
+      return LogHandler.logUsages(CommandTypes.org);
+    }
+
+    switch (orgActionType) {
+      case OrgActionType.addteam:
+        // show co-prompt to generate a new team
+        break;
+      case OrgActionType.adduser:
+        const addUserMissingArguments = [];
+        if (!$1) {
+          addUserMissingArguments.push("<org>");
+        }
+
+        if (!$2) {
+          addUserMissingArguments.push("<username>")
+        }
+
+        if (addUserMissingArguments.length > 0) {
+          LogHandler.logMissingRequiredArguments(addUserMissingArguments);
+          return LogHandler.logUsages(CommandTypes.org, OrgActionType.adduser);
+        }
+
+        // write control logic
+        break;
+      case OrgActionType.create:
+        // show co-prompt to generate a new org
+        break;
+      case OrgActionType.destroy:
+        if (!$1) {
+          LogHandler.logMissingRequiredArguments(["<org>"]);
+          return LogHandler.logUsages(CommandTypes.org, OrgActionType.destroy);
+        }
+
+        // show a are you sure?! 
+        break;
+      case OrgActionType.edit:
+        if (!$1) {
+          LogHandler.logMissingRequiredArguments(["<org>"]);
+          return LogHandler.logUsages(CommandTypes.org, OrgActionType.edit);
+        }
+
+        // write control logic
+        break;
+      case OrgActionType.lsteams:
+        if (!$1) {
+          LogHandler.logMissingRequiredArguments(["<org>"]);
+          return LogHandler.logUsages(CommandTypes.org, OrgActionType.lsteams);
+        }
+
+        // write control logic
+        break;
+      case OrgActionType.lsusers:
+        if (!$1) {
+          LogHandler.logMissingRequiredArguments(["<org>"]);
+          return LogHandler.logUsages(CommandTypes.org, OrgActionType.lsusers);
+        }
+
+        // write control logic
+        break;
+      case OrgActionType.rmteam:
+        const removeTeamMissingArguments = [];
+        if (!$1) {
+          removeTeamMissingArguments.push("<org>");
+        }
+
+        if (!$2) {
+          removeTeamMissingArguments.push("<team>")
+        }
+
+        if (removeTeamMissingArguments.length > 0) {
+          LogHandler.logMissingRequiredArguments(removeTeamMissingArguments);
+          return LogHandler.logUsages(CommandTypes.org, OrgActionType.rmteam);
+        }
+
+        // write control logic
+        break;
+      case OrgActionType.rmuser:
+        if (!$1) {
+          LogHandler.logMissingRequiredArguments(["<org>"]);
+          return LogHandler.logUsages(CommandTypes.org, OrgActionType.rmuser);
+        }
+
+        // write control logic
+        break;
     }
   });
 
