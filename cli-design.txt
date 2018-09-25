@@ -252,10 +252,10 @@ organisation controller
 
     create: 
 
-    epm org create <orgName> 
+    epm org create 
 
     - all usages 
-    epm org create <orgName> 
+    epm org create 
 
     destroy: 
 
@@ -280,10 +280,10 @@ organisation controller
 
     - add team:
 
-    epm org add team <teamName> 
+    epm org add team 
 
     - all usages 
-    epm org add team <teamName> 
+    epm org add team
 
     - remove team:
 
