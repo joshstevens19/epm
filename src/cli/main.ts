@@ -296,7 +296,7 @@ program
   .action(async (_package: string) => {
 
     // finish logic with package@version
-    
+
     if (_package) {
       try {
         await InitialiseControls.installControl.installPackage(_package)
@@ -333,12 +333,30 @@ program
 /***************************************************/
 
 program
-  .command("ls")
-  .description(PackageDescriptionsConsts.ls)
-  .action(() => {
-    InitialiseControls.lsControl.installedDependencies()
-      .then(d => console.log(JSON.stringify(d)))
-      .catch(err => console.error(err));
+  .command("ls [package|package@version]")
+  .usage("command - lists dependencies for a project")
+  .option("-f, --full", "Get dependencies for dependencies")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.ls))
+  .action(async (_package, dir) => {
+    console.log(_package);
+    try {
+      const response = await InitialiseControls.lsControl.installedDependencies();
+
+      if (!dir.full) {
+        const table = new asciiTable("project dependencies")
+        table.setHeading("version", "package name")
+        for (let l = 0; l < response.length; l++) {
+          table.addRow(response[l].version, response[l].packageName)
+        }
+
+        LogHandler.log(table.toString());
+      } else {
+        console.log("do the nice tree shizzle.......");
+      }
+
+    } catch (err) {
+      LogHandler.log(err);
+    }
   });
 
 program

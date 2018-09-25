@@ -62,6 +62,7 @@ export class Usage {
 
     private static readonly installCommands: string[] =
         [
+            "epm install",
             "epm install <package>",
             "epm install <package>@<version>"
         ]
@@ -70,6 +71,13 @@ export class Usage {
         [
 
         ];
+
+    private static readonly lsCommands: string[] =
+        [
+            "epm ls",
+            "epm ls <package>",
+            "epm ls <package>@<version>",
+        ]
 
 
     /**
@@ -151,7 +159,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.loginCommands, filter);
+            case CommandTypes.ls:
+                if (!filter) {
+                    return this.buildUsageString(this.lsCommands);
+                }
 
+                return this.buildUsageStringByFilter(this.lsCommands, filter);
 
             default:
                 // should never be default maybe throw a error
