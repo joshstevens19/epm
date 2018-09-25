@@ -19,15 +19,6 @@ const co = require("co");
 const prompt = require("co-prompt");
 const asciiTable = require("ascii-table");
 
-// var table = new asciiTable("A Title")
-// table
-//   .setHeading("", "Test", "Test")
-//   .addRow(1, "Test", 53)
-//   .addRow(2, "Test", 33)
-//   .addRow(3, "Test", 83)
-
-// console.log(table.toString())
-
 program
   .version("0.0.1")
   .description("These are command EPM commands: .. NEED TO NAME ALL THE COMMANDS LAST")
