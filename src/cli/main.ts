@@ -264,15 +264,27 @@ program
       LogHandler.logGenericError(CommandTypes.ignore, true);
       return LogHandler.logUsages(CommandTypes.ignore);
     }
-    
+
     // write control logic 
   });
 
-
 program
-  .command("init")
-  .description(PackageDescriptionsConsts.init)
-  .action(() => {
+  .command("init [team]")
+  .option("-c, --complete", "Auto completes the initialise, populates with default values")
+  .usage("command - initialise a new epm project")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.init))
+  .action((team, dir) => {
+    console.log(team);
+    console.log(dir);
+
+    if (typeof (dir) !== "object") {
+      LogHandler.logGenericError(CommandTypes.init, true);
+      return LogHandler.logUsages(CommandTypes.init);
+    }
+
+    const autoComplete = dir.complete;
+    
+
     InitialiseControls.initControl.initialiseProject();
   });
 

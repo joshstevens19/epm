@@ -9,4 +9,5 @@ export enum CommandTypes {
     hook = "hook",
     login = "login",
     ignore = "ignore",
+    init = "init",
 }

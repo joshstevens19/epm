@@ -52,7 +52,12 @@ export class Usage {
 
     private static readonly ignoreCommands: string[] =
         [
-            "epm ignore [--list]",
+            "epm ignore [-l|--list]",
+        ]
+
+    private static readonly initCommands: string[] =
+        [
+            "epm init [<team>] [-c|--complete]"
         ]
 
     private static readonly loginCommands: string[] =
@@ -122,6 +127,13 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.ignoreCommands, filter);
+            case CommandTypes.init:
+                if (!filter) {
+                    return this.buildUsageString(this.initCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.initCommands, filter);
+
             case CommandTypes.login:
                 if (!filter) {
                     return this.buildUsageString(this.loginCommands);
