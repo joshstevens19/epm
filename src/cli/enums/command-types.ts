@@ -17,4 +17,5 @@ export enum CommandTypes {
     owner = "owner",
     ping = "ping",
     profile = "profile",
+    publish = "publish",
 }

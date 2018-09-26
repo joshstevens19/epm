@@ -117,6 +117,11 @@ export class Usage {
             "epm profile set password",
         ]
 
+    private static readonly publishCommands: string[] =
+        [
+            "epm publish [location]"
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -228,6 +233,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.profileCommands, filter);
+            case CommandTypes.publish:
+                if (!filter) {
+                    return this.buildUsageString(this.publishCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.publishCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";

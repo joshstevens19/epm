@@ -8,7 +8,7 @@ import { IRegister } from "../interfaces/iregister";
 import { IUpdateProfileDetailsRequest } from "../interfaces/api-requests/iupdate-profile-details.request";
 import { VersionBump } from "../enums/version-bump";
 import { Usage } from "./usage";
-import { AccessTypes, CommandTypes, HookTypes, OrgActionType, ProfileActionTypes } from "./enums";
+import { AccessTypes, CommandTypes, HookTypes, OrgActionType, ProfileActionTypes, PublicAccessTypes } from "./enums";
 import { LogHandler } from "./log-handler";
 
 // find TS library as we want the entire library to be in TS
@@ -543,6 +543,29 @@ program
 
     //   await InitialiseControls.profileControl.updateDetails(newProfileDetails);
     // }
+
+  })
+
+program
+  .command("publish [location]")
+  .usage("command - set and gets the profile details")
+  .option("-t, --tag <tag>", "tag for the package")
+  .option("-a, --access <public|private>", "what access level the package should be")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.publish))
+  .action(async (location, cmd) => {
+    const tags = cmd.tag;
+    const access = cmd.access;
+
+    if (access) {
+      if (access !== PublicAccessTypes.public &&
+          access !== PublicAccessTypes.private) {
+            LogHandler.logError("please supply an valid 'access' type", true);
+            return LogHandler.logUsages(CommandTypes.publish);
+          }
+    }
+
+    // write control logic 
+    // await InitialiseControls.publishControl.publishPackage();
   });
 
 program
@@ -621,13 +644,6 @@ program
   .description(PackageDescriptionsConsts.logout)
   .action(() => {
     InitialiseControls.logoutControl.unauthenticate();
-  });
-
-program
-  .command("upload")
-  .description(PackageDescriptionsConsts.upload)
-  .action(async () => {
-    await InitialiseControls.publishControl.publishPackage();
   });
 
 program
