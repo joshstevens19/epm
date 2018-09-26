@@ -18,4 +18,5 @@ export enum CommandTypes {
     ping = "ping",
     profile = "profile",
     publish = "publish",
+    star = "star",
 }

@@ -548,7 +548,7 @@ program
 
 program
   .command("publish [location]")
-  .usage("command - set and gets the profile details")
+  .usage("command - publish packages")
   .option("-t, --tag <tag>", "tag for the package")
   .option("-a, --access <public|private>", "what access level the package should be")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.publish))
@@ -558,53 +558,17 @@ program
 
     if (access) {
       if (access !== PublicAccessTypes.public &&
-          access !== PublicAccessTypes.private) {
-            LogHandler.logError("please supply an valid 'access' type", true);
-            return LogHandler.logUsages(CommandTypes.publish);
-          }
+        access !== PublicAccessTypes.private) {
+        LogHandler.logError("please supply an valid 'access' type", true);
+        return LogHandler.logUsages(CommandTypes.publish);
+      }
     }
 
     // write control logic 
     // await InitialiseControls.publishControl.publishPackage();
   });
 
-program
-  .command("uninstall [packageName]")
-  .alias("u")
-  .description(PackageDescriptionsConsts.uninstall)
-  .action((packageName: string) => {
-    if (!packageName) {
-      console.error("please supply a package name to uninstall")
-    } else {
-      InitialiseControls.uninstallControl.uninstallPackage(packageName)
-        .catch(err => {
-          console.log(chalk.bold.redBright(err.message));
-        });
-    }
-  });
-
-program
-  .command("update [packageName]")
-  .alias("up")
-  .alias("upgrade")
-  .description(PackageDescriptionsConsts.update)
-  .action((packageName: string) => {
-    if (!packageName) {
-      console.error("please supply a package name to update")
-    } else {
-      InitialiseControls.updateControl.updatePackage(packageName)
-        .catch(err => {
-          console.log(chalk.bold.redBright(err.message));
-        });
-    }
-  });
-
-
-
-
-
-
-
+/*** REWRITE THE REGISTER LOGIC FOR CO PROMPT */
 program
   .command("register")
   .description(PackageDescriptionsConsts.register)
@@ -638,6 +602,60 @@ program
     }
 
   })
+
+program
+  .command("root")
+  .usage("command - prints out root ethereum modules locations")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.profile))
+  .action(async (cmd) => {
+    const global = cmd.global;
+  });
+
+program
+  .command("star [package]")
+  .usage("command - star a package")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.star))
+  .action(async (_package) => {
+    console.log(_package);
+    try {
+      await InitialiseControls.starControl.starPackage(_package);
+      console.log("Successfully starred the package")
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+
+program
+  .command("uninstall [packageName]")
+  .alias("u")
+  .description(PackageDescriptionsConsts.uninstall)
+  .action((packageName: string) => {
+    if (!packageName) {
+      console.error("please supply a package name to uninstall")
+    } else {
+      InitialiseControls.uninstallControl.uninstallPackage(packageName)
+        .catch(err => {
+          console.log(chalk.bold.redBright(err.message));
+        });
+    }
+  });
+
+program
+  .command("update [packageName]")
+  .alias("up")
+  .alias("upgrade")
+  .description(PackageDescriptionsConsts.update)
+  .action((packageName: string) => {
+    if (!packageName) {
+      console.error("please supply a package name to update")
+    } else {
+      InitialiseControls.updateControl.updatePackage(packageName)
+        .catch(err => {
+          console.log(chalk.bold.redBright(err.message));
+        });
+    }
+  });
 
 program
   .command("logout")
@@ -701,18 +719,6 @@ program
     try {
       await InitialiseControls.deprecateControl.undeprecatePackage(packageName);
       console.log("Successfully undeprecated the package")
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
-program
-  .command("star <packageName>")
-  .description("Stars a package")
-  .action(async (packageName) => {
-    try {
-      await InitialiseControls.starControl.starPackage(packageName);
-      console.log("Successfully starred the package")
     } catch (error) {
       console.error(error);
     }

@@ -122,6 +122,10 @@ export class Usage {
             "epm publish [location]"
         ]
 
+    private static readonly starCommands: string[] =
+        [
+            "epm star [package]",
+        ]
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -239,6 +243,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.publishCommands, filter);
+            case CommandTypes.star:
+                if (!filter) {
+                    return this.buildUsageString(this.starCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.starCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";
