@@ -19,4 +19,5 @@ export enum CommandTypes {
     profile = "profile",
     publish = "publish",
     star = "star",
+    stars = "stars",
 }

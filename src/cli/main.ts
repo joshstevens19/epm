@@ -625,6 +625,19 @@ program
     }
   });
 
+program
+  .command("stars [username]")
+  .usage("command - stars for a username")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.stars))
+  .action(async (username) => {
+    try {
+      const stars = await InitialiseControls.starControl.getAllStars();
+      console.log(stars);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
 
 program
   .command("uninstall [packageName]")
@@ -731,18 +744,6 @@ program
     try {
       await InitialiseControls.starControl.unstarPackage(packageName);
       console.log("Successfully unstarred the package")
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
-program
-  .command("stars")
-  .description("Stars for a user")
-  .action(async (packageName) => {
-    try {
-      const stars = await InitialiseControls.starControl.getAllStars();
-      console.log(stars);
     } catch (error) {
       console.error(error);
     }
