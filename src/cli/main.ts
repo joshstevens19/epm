@@ -8,7 +8,7 @@ import { IRegister } from "../interfaces/iregister";
 import { IUpdateProfileDetailsRequest } from "../interfaces/api-requests/iupdate-profile-details.request";
 import { VersionBump } from "../enums/version-bump";
 import { Usage } from "./usage";
-import { AccessTypes, CommandTypes, HookTypes, OrgActionType } from "./enums";
+import { AccessTypes, CommandTypes, HookTypes, OrgActionType, ProfileActionTypes } from "./enums";
 import { LogHandler } from "./log-handler";
 
 // find TS library as we want the entire library to be in TS
@@ -477,6 +477,7 @@ program
   });
 
 // ------------------- TO DO OWNER LAST ---------------------------------
+// ********************************************************************//
 
 program
   .command("ping [package]")
@@ -493,6 +494,55 @@ program
     } else {
       // write control logic 
     }
+  });
+
+program
+  .command("profile <set|get> [$1] [$2]")
+  .usage("command - set and gets the profile details")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.profile))
+  .action(async (profileActionType, $1, $2) => {
+    if (profileActionType !== ProfileActionTypes.get &&
+      profileActionType !== ProfileActionTypes.set) {
+      LogHandler.logError("please supply valid profile action type", true);
+      return LogHandler.logUsages(CommandTypes.profile);
+    }
+
+    if ($1 === "password") {
+      // do logic for setting new password
+    } else {
+      switch (profileActionType) {
+        case ProfileActionTypes.get:
+          // write control logic 
+          break;
+        case ProfileActionTypes.set:
+          if (!$1) {
+            LogHandler.logMissingRequiredArguments(["<json>"]);
+            return LogHandler.logUsages(CommandTypes.profile, ProfileActionTypes.set);
+          }
+
+          // write control logic
+
+          break;
+      }
+    }
+
+    // old code
+    // const firstName: string = dir.firstName || null;
+    // const lastName: string = dir.lastName || null;
+    // const introduction: string = dir.introduction || null;
+
+    // if (!firstName && !lastName && !introduction) {
+    //   const profile = await InitialiseControls.profileControl.details()
+    //   console.log(profile);
+    // } else {
+    //   const newProfileDetails: IUpdateProfileDetailsRequest = {
+    //     firstName,
+    //     lastName,
+    //     introduction
+    //   }
+
+    //   await InitialiseControls.profileControl.updateDetails(newProfileDetails);
+    // }
   });
 
 program
@@ -579,32 +629,6 @@ program
   .action(async () => {
     await InitialiseControls.publishControl.publishPackage();
   });
-
-program
-  .command("profile")
-  .option("--firstName <firstName>", "The users first name")
-  .option("--lastName <lastName>", "The users lastname")
-  .option("--introduction <introudction>", "The users introduction to show on the profile")
-  .description(PackageDescriptionsConsts.profile)
-  .action(async (dir, cmd) => {
-
-    const firstName: string = dir.firstName || null;
-    const lastName: string = dir.lastName || null;
-    const introduction: string = dir.introduction || null;
-
-    if (!firstName && !lastName && !introduction) {
-      const profile = await InitialiseControls.profileControl.details()
-      console.log(profile);
-    } else {
-      const newProfileDetails: IUpdateProfileDetailsRequest = {
-        firstName,
-        lastName,
-        introduction
-      }
-
-      await InitialiseControls.profileControl.updateDetails(newProfileDetails);
-    }
-  })
 
 program
   .command("whoami")

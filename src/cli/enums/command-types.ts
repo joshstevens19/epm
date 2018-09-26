@@ -16,4 +16,5 @@ export enum CommandTypes {
     outdated = "outdated",
     owner = "owner",
     ping = "ping",
+    profile = "profile",
 }

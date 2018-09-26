@@ -109,6 +109,14 @@ export class Usage {
             "epm ping [package]",
         ]
 
+    private static readonly profileCommands: string[] =
+        [
+            "epm profile get [property]",
+            "epm profile set <json>",
+            "epm profile set <property> <value>",
+            "epm profile set password",
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -214,10 +222,19 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.pingCommands, filter);
+            case CommandTypes.profile:
+                if (!filter) {
+                    return this.buildUsageString(this.profileCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.profileCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";
         }
+
+        // remove later as this is not cool
+        return "";
     }
 
     private static buildUsageString(commands: string[]): string {
