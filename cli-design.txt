@@ -485,7 +485,6 @@ tag:
     epm tag ls <packageName> - list all tags from the package defined 
     epm tag ls <packageName>@<version> - list all the tags from a package and version 
 
-
 team: 
 
     create: 
@@ -561,8 +560,6 @@ test:
 
     - all usages 
     epm test - runs test on current working tree if there is any 
-
-
 
 unstar: 
 

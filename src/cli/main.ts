@@ -639,7 +639,7 @@ program
   });
 
 /** WRITE SEARCH LOGIC */
-//..............
+//....................///
 
 program
   .command("tag <add|rm|ls> [$1] [$2]")
@@ -677,6 +677,16 @@ program
     }
   })
 
+/** WRITE TEAM LOGIC */
+//....................///
+
+program
+  .command("test")
+  .usage("command - runs test for project")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.test))
+  .action(async () => {
+    // write control logic 
+  });
 
 program
   .command("uninstall [packageName]")

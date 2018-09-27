@@ -22,4 +22,6 @@ export enum CommandTypes {
     stars = "stars",
     search = "search",
     tag = "tag",
+    team = "team",
+    test = "test",
 }

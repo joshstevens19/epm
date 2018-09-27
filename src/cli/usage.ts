@@ -147,7 +147,17 @@ export class Usage {
             "epm tag rm <package>@<version> <tag>",
             "epm tag ls",
             "epm tag ls <package>",
-            "epm tag ls <package>@<version>"
+            "epm tag ls <package>@<version>",
+        ]
+
+    private static readonly teamCommands: string[] =
+        [
+
+        ]
+
+    private static readonly testCommands: string[] =
+        [
+            "epm test",
         ]
 
     /**
@@ -285,6 +295,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.tagCommands, filter);
+            case CommandTypes.test:
+                if (!filter) {
+                    return this.buildUsageString(this.testCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.testCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";
