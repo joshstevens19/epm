@@ -688,11 +688,11 @@ program
     // write control logic 
   });
 
-program 
+program
   .command("unstar [package]")
   .usage("command - unstars a package")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.unstar))
-  .action(async(_package) => {
+  .action(async (_package) => {
     try {
       await InitialiseControls.starControl.unstarPackage(_package);
       console.log("Successfully unstarred the package")
@@ -702,6 +702,20 @@ program
   });
 
 /** WRITE TOKEN LOGIC ONCE CLI DESIGNED*/
+program
+  .command("token")
+  .action(async () => {
+    const jwtToken = await InitialiseControls.tokenControl.getCurrentJwtToken();
+    console.log(jwtToken);
+
+    // split this up when i design the cli 
+    const unpackJwt = await InitialiseControls.tokenControl.getCurrentDecodedJwt();
+    console.log(unpackJwt);
+
+    // more to split up
+    const expiryDate = await InitialiseControls.tokenControl.getCurrentJwtTokenExpiryDate();
+    console.log(expiryDate);
+  });
 //....................///
 
 program
@@ -829,21 +843,6 @@ program
     } catch (error) {
       console.error(error);
     }
-  });
-
-program
-  .command("token")
-  .action(async () => {
-    const jwtToken = await InitialiseControls.tokenControl.getCurrentJwtToken();
-    console.log(jwtToken);
-
-    // split this up when i design the cli 
-    const unpackJwt = await InitialiseControls.tokenControl.getCurrentDecodedJwt();
-    console.log(unpackJwt);
-
-    // more to split up
-    const expiryDate = await InitialiseControls.tokenControl.getCurrentJwtTokenExpiryDate();
-    console.log(expiryDate);
   });
 
 // program
