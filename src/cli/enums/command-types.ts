@@ -24,4 +24,5 @@ export enum CommandTypes {
     tag = "tag",
     team = "team",
     test = "test",
+    unstar = "unstar",
 }

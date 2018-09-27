@@ -160,6 +160,12 @@ export class Usage {
             "epm test",
         ]
 
+    private static readonly unstarCommands: string[] =
+        [
+            "epm unstar",
+            "epm unstar <package>",
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -301,6 +307,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.testCommands, filter);
+            case CommandTypes.unstar:
+                if (!filter) {
+                    return this.buildUsageString(this.unstarCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.unstarCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";

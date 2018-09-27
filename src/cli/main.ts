@@ -22,7 +22,7 @@ const asciiTable = require("ascii-table");
 program
   .version("0.0.1")
   .description("These are command EPM commands: .. NEED TO NAME ALL THE COMMANDS LAST")
-  .usage("epm [--version] [--help] <command> [<args>]")
+  .usage("helper command")
   .parse(process.argv);
 
 program
@@ -688,6 +688,19 @@ program
     // write control logic 
   });
 
+program 
+  .command("unstar [package]")
+  .usage("command - unstars a package")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.unstar))
+  .action(async(_package) => {
+    try {
+      await InitialiseControls.starControl.unstarPackage(_package);
+      console.log("Successfully unstarred the package")
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
 program
   .command("uninstall [packageName]")
   .alias("u")
@@ -781,18 +794,6 @@ program
     try {
       await InitialiseControls.deprecateControl.undeprecatePackage(packageName);
       console.log("Successfully undeprecated the package")
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
-program
-  .command("unstar <packageName>")
-  .description("Unstars a package")
-  .action(async (packageName) => {
-    try {
-      await InitialiseControls.starControl.unstarPackage(packageName);
-      console.log("Successfully unstarred the package")
     } catch (error) {
       console.error(error);
     }
