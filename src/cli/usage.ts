@@ -131,6 +131,25 @@ export class Usage {
         [
             "epm stars [username]",
         ]
+
+    private static readonly searchCommands: string[] =
+        [
+
+        ]
+
+    private static readonly tagCommands: string[] =
+        [
+            "epm tag add <tag>",
+            "epm tag add <package> <tag>",
+            "epm tag add <package>@<version> <tag>",
+            "epm tag rm <tag>",
+            "epm tag rm <package> <tag>",
+            "epm tag rm <package>@<version> <tag>",
+            "epm tag ls",
+            "epm tag ls <package>",
+            "epm tag ls <package>@<version>"
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -260,6 +279,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.starsCommands, filter);
+            case CommandTypes.tag:
+                if (!filter) {
+                    return this.buildUsageString(this.tagCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.tagCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";

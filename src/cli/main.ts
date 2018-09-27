@@ -8,7 +8,7 @@ import { IRegister } from "../interfaces/iregister";
 import { IUpdateProfileDetailsRequest } from "../interfaces/api-requests/iupdate-profile-details.request";
 import { VersionBump } from "../enums/version-bump";
 import { Usage } from "./usage";
-import { AccessTypes, CommandTypes, HookTypes, OrgActionType, ProfileActionTypes, PublicAccessTypes } from "./enums";
+import { AccessTypes, CommandTypes, HookTypes, OrgActionType, ProfileActionTypes, PublicAccessTypes, TagActionTypes } from "./enums";
 import { LogHandler } from "./log-handler";
 
 // find TS library as we want the entire library to be in TS
@@ -637,6 +637,45 @@ program
       console.error(error);
     }
   });
+
+/** WRITE SEARCH LOGIC */
+//..............
+
+program
+  .command("tag <add|rm|ls> [$1] [$2]")
+  .usage("command - tag packages and see tags for packages")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.tag))
+  .action(async (tagActionType, $1, $2) => {
+    if (tagActionType !== TagActionTypes.add &&
+      tagActionType !== TagActionTypes.ls &&
+      tagActionType !== TagActionTypes.rm) {
+      LogHandler.logError("please supply valid tag action type", true);
+      return LogHandler.logUsages(CommandTypes.tag);
+    }
+
+    switch (tagActionType) {
+      case TagActionTypes.add:
+        if (!$1) {
+          LogHandler.logMissingRequiredArguments(["<tag>"]);
+          return LogHandler.logUsages(CommandTypes.tag, TagActionTypes.add);
+        }
+
+        // write control logic 
+
+        break;
+      case TagActionTypes.ls:
+        // write control logic 
+        break;
+      case TagActionTypes.rm:
+        if (!$1) {
+          LogHandler.logMissingRequiredArguments(["<tag>"]);
+          return LogHandler.logUsages(CommandTypes.tag, TagActionTypes.rm);
+        }
+
+        // write control logic 
+        break;
+    }
+  })
 
 
 program

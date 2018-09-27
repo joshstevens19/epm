@@ -20,4 +20,6 @@ export enum CommandTypes {
     publish = "publish",
     star = "star",
     stars = "stars",
+    search = "search",
+    tag = "tag",
 }

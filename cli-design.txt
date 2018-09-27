@@ -478,12 +478,12 @@ tag:
 
     list:
 
-    epm tag list [<packageName> | <packageName>@<version>]
+    epm tag ls [<packageName> | <packageName>@<version>]
 
     - all usages 
-    epm tag list - lists all the tags from the current working file
-    epm tag list <packageName> - list all tags from the package defined 
-    epm tag list <packageName>@<version> - list all the tags from a package and version 
+    epm tag ls - lists all the tags from the current working file
+    epm tag ls <packageName> - list all tags from the package defined 
+    epm tag ls <packageName>@<version> - list all the tags from a package and version 
 
 
 team: 
