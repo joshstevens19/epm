@@ -701,6 +701,9 @@ program
     }
   });
 
+/** WRITE TOKEN LOGIC ONCE CLI DESIGNED*/
+//....................///
+
 program
   .command("uninstall [packageName]")
   .alias("u")
