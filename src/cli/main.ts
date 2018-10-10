@@ -756,21 +756,6 @@ program
 
   });
 
-// program
-//   .command("uninstall [packageName]")
-//   .alias("u")
-//   .description(PackageDescriptionsConsts.uninstall)
-//   .action((packageName: string) => {
-//     if (!packageName) {
-//       console.error("please supply a package name to uninstall")
-//     } else {
-//       InitialiseControls.uninstallControl.uninstallPackage(packageName)
-//         .catch(err => {
-//           console.log(chalk.bold.redBright(err.message));
-//         });
-//     }
-//   });
-
 program
   .command("update [packageName]")
   .alias("up")
