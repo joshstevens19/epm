@@ -25,4 +25,6 @@ export enum CommandTypes {
     team = "team",
     test = "test",
     unstar = "unstar",
+    token = "token",
+    uninstall = "uninstall",
 }
