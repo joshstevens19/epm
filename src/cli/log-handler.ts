@@ -61,7 +61,7 @@ export class LogHandler {
         }
 
         this.logWithPadding(`error: not a valid command for ${commandType}`);
-    
+
         if (addLineBreaks) {
             this.break();
         }
@@ -71,8 +71,16 @@ export class LogHandler {
      * Generic log 
      * @param message The message you want to log to the console
      */
-    public static log(message: string) {
-        console.log(message);
+    public static log(message: string, breakLines: boolean = false) {
+        if (breakLines) {
+            this.break();
+        }
+        
+        this.logWithPadding(message);
+
+        if (breakLines) {
+            this.break();
+        }
     }
 
     /**
