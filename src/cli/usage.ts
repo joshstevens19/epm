@@ -166,6 +166,18 @@ export class Usage {
             "epm unstar <package>",
         ]
 
+    private static readonly tokenCommands: string[] =
+        [
+
+        ]
+
+    private static readonly uninstallCommands: string[] =
+        [
+            "epm uninstall <package>",
+            "epm uninstall <package>@<version>",
+            "epm uninstall <org>/<team> <package>",
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -313,6 +325,14 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.unstarCommands, filter);
+            case CommandTypes.token:
+                break;
+            case CommandTypes.uninstall:
+                if (!filter) {
+                    return this.buildUsageString(this.uninstallCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.uninstallCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";

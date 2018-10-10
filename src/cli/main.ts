@@ -719,19 +719,57 @@ program
 //....................///
 
 program
-  .command("uninstall [packageName]")
-  .alias("u")
-  .description(PackageDescriptionsConsts.uninstall)
-  .action((packageName: string) => {
-    if (!packageName) {
-      console.error("please supply a package name to uninstall")
-    } else {
-      InitialiseControls.uninstallControl.uninstallPackage(packageName)
-        .catch(err => {
-          console.log(chalk.bold.redBright(err.message));
-        });
+  .command("uninstall [$1]")
+  .usage("command - uninstalls a for package")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.uninstall))
+  .action(async ($1: string) => {
+    if (!$1) {
+      LogHandler.log("missing first parameter", true);
+      return LogHandler.logUsages(CommandTypes.uninstall);
     }
+
+    if ($1[0] === "@") {
+      // then it is an org install 
+      // write logic
+      return;
+    }
+
+    if ($1.includes("@")) {
+      // this is a version install 
+      // write logic
+
+      // do something with these later
+      const packageAndVersion = $1.split("@");
+      const packageName = packageAndVersion[0];
+      const packageVersion = packageAndVersion[1];
+
+      return;
+    }
+
+    // if none of those then it is a general install 
+
+    try {
+      await InitialiseControls.uninstallControl.uninstallPackage($1);
+    } catch (error) {
+      return LogHandler.logError("could not uninstall the package, please try again later");
+    }
+
   });
+
+// program
+//   .command("uninstall [packageName]")
+//   .alias("u")
+//   .description(PackageDescriptionsConsts.uninstall)
+//   .action((packageName: string) => {
+//     if (!packageName) {
+//       console.error("please supply a package name to uninstall")
+//     } else {
+//       InitialiseControls.uninstallControl.uninstallPackage(packageName)
+//         .catch(err => {
+//           console.log(chalk.bold.redBright(err.message));
+//         });
+//     }
+//   });
 
 program
   .command("update [packageName]")
