@@ -186,7 +186,15 @@ export class Usage {
     private static readonly updateCommands: string[] =
         [
             "epm update",
-            "epm update <package>"
+            "epm update <package>",
+        ]
+
+    private static readonly versionCommands: string[] =
+        [
+            "epm version <newVersion>",
+            "epm version major",
+            "epm version minor",
+            "epm version pacth",
         ]
 
     /**
@@ -356,6 +364,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.updateCommands, filter);
+            case CommandTypes.version:
+                if (!filter) {
+                    return this.buildUsageString(this.versionCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.versionCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";

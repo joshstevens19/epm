@@ -5,10 +5,10 @@ import * as chalkImport from "chalk";
 const chalk = chalkImport.default;
 import { InitialiseControls } from "../common/initialise-controls";
 import { IRegister } from "../interfaces/iregister";
-import { IUpdateProfileDetailsRequest } from "../interfaces/api-requests/iupdate-profile-details.request";
 import { VersionBump } from "../enums/version-bump";
 import { Usage } from "./usage";
-import { AccessTypes, CommandTypes, HookTypes, OrgActionType, ProfileActionTypes, PublicAccessTypes, TagActionTypes } from "./enums";
+import { AccessTypes, CommandTypes, HookTypes, OrgActionType, 
+         ProfileActionTypes, PublicAccessTypes, TagActionTypes } from "./enums";
 import { LogHandler } from "./log-handler";
 
 // find TS library as we want the entire library to be in TS
@@ -773,13 +773,43 @@ program
     } else {
       try {
         await InitialiseControls.updateControl.updatePackage(_package);
-      } catch(error) {
+      } catch (error) {
         return LogHandler.logError("could not update the package");
       }
     }
-    console.log(_package);
   });
-  
+
+program
+  .command("version <newVersion|major|minor|patch>")
+  .usage("command - update version for package in ethereum-pm.json")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.version))
+  .action(async (versionBump) => {
+    let versionBumpType = VersionBump.dynamic;
+    switch (versionBump) {
+      case VersionBump.major:
+        versionBumpType = VersionBump.major;
+        break;
+      case VersionBump.minor:
+        versionBumpType = VersionBump.minor;
+        break;
+      case VersionBump.patch:
+        versionBumpType = VersionBump.patch
+        break;
+    }
+
+    try {
+      if (versionBumpType === VersionBump.dynamic) {
+        await InitialiseControls.versionControl.bumpVersion(versionBumpType, versionBump);
+      } else {
+        await InitialiseControls.versionControl.bumpVersion(versionBumpType);
+      }
+    } catch (error) {
+      return LogHandler.logError("could not update version for the package");
+    }
+  });
+
+/************************** END OF REWRITE SO FAR  ***************************************************/
+
 program
   .command("logout")
   .description(PackageDescriptionsConsts.logout)
@@ -842,35 +872,6 @@ program
     try {
       await InitialiseControls.deprecateControl.undeprecatePackage(packageName);
       console.log("Successfully undeprecated the package")
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
-program
-  .command("version <versionBump>")
-  .description(PackageDescriptionsConsts.version)
-  .action(async (versionBump) => {
-    let versionBumpType = VersionBump.dynamic;
-    switch (versionBump) {
-      case VersionBump.major:
-        versionBumpType = VersionBump.major;
-        break;
-      case VersionBump.minor:
-        versionBumpType = VersionBump.minor;
-        break;
-      case VersionBump.patch:
-        versionBumpType = VersionBump.patch;
-        break;
-    }
-
-    try {
-      if (versionBumpType == VersionBump.dynamic) {
-        await InitialiseControls.versionControl.bumpVersion(versionBumpType, versionBump);
-      } else {
-        await InitialiseControls.versionControl.bumpVersion(versionBumpType);
-      }
-      console.log("Successfully upgraded project version")
     } catch (error) {
       console.error(error);
     }

@@ -29,4 +29,5 @@ export enum CommandTypes {
     uninstall = "uninstall",
     unpublish = "unpublish",
     update = "update",
+    version = "version",
 }
