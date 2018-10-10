@@ -178,6 +178,17 @@ export class Usage {
             "epm uninstall <org>/<team> <package>",
         ]
 
+    private static readonly unpublishCommands: string[] =
+        [
+
+        ]
+
+    private static readonly updateCommands: string[] =
+        [
+            "epm update",
+            "epm update <package>"
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -333,6 +344,18 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.uninstallCommands, filter);
+            case CommandTypes.unpublish:
+                if (!filter) {
+                    return this.buildUsageString(this.unpublishCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.unpublishCommands, filter);
+            case CommandTypes.update:
+                if (!filter) {
+                    return this.buildUsageString(this.updateCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.updateCommands, filter);
             default:
                 // should never be default maybe throw a error
                 return "";

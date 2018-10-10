@@ -756,6 +756,30 @@ program
 
   });
 
+
+/********************* WRITE UNPUBLISH LOGIC HERE *********************/
+
+
+
+/**********************************************************************/
+
+program
+  .command("update [package]")
+  .usage("command - update a package")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.uninstall))
+  .action(async (_package: string) => {
+    if (!_package) {
+      // update all package in the ethereum-pm.json
+    } else {
+      try {
+        await InitialiseControls.updateControl.updatePackage(_package);
+      } catch(error) {
+        return LogHandler.logError("could not update the package");
+      }
+    }
+    console.log(_package);
+  });
+
 program
   .command("update [packageName]")
   .alias("up")
