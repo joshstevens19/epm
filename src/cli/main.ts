@@ -779,23 +779,7 @@ program
     }
     console.log(_package);
   });
-
-program
-  .command("update [packageName]")
-  .alias("up")
-  .alias("upgrade")
-  .description(PackageDescriptionsConsts.update)
-  .action((packageName: string) => {
-    if (!packageName) {
-      console.error("please supply a package name to update")
-    } else {
-      InitialiseControls.updateControl.updatePackage(packageName)
-        .catch(err => {
-          console.log(chalk.bold.redBright(err.message));
-        });
-    }
-  });
-
+  
 program
   .command("logout")
   .description(PackageDescriptionsConsts.logout)
