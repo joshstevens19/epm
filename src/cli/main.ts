@@ -815,57 +815,16 @@ program
     }
   });
 
-/************************** END OF REWRITE SO FAR  ***************************************************/
-
 
 
 program
   .command("whoami")
-  .description(PackageDescriptionsConsts.profile)
+  .usage("command - returns who the logged in user is")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.whoami))
   .action(async () => {
     const profile = await InitialiseControls.profileControl.details()
-    console.log(profile);
+    console.log(profile); // write better response
   })
-
-program
-  .command("createTeam <teamname> <isprivate>")
-  .description("Create a new team")
-  .action(async (teamname, isprivate) => {
-    try {
-      await InitialiseControls.teamControl.createTeam(teamname, isprivate)
-      console.log("Created team");
-    } catch (error) {
-      console.error(error);
-    }
-  })
-
-program
-  .command("addUser <teamname> <username> <isadmin>")
-  .alias("t")
-  .description("Adds a new user to a team")
-  .action(async (teamname, username, isadmin) => {
-    try {
-      await InitialiseControls.teamControl.addUser(teamname, username, isadmin)
-      console.log("Added user to the team");
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
-program
-  .command("addAdmin <packageName> <username>")
-  .alias("t")
-  .description("Adds a new user to a team")
-  .action(async (packageName, username) => {
-    try {
-      await InitialiseControls.ownerControl.addAdmin(packageName, username)
-      console.log("Added admin user to the package");
-    } catch (error) {
-      console.error(error);
-    }
-  });
-
-
 
 program
   .command("undeprecate <packageName>")
@@ -878,6 +837,8 @@ program
       console.error(error);
     }
   });
+
+/************************** END OF REWRITE SO FAR  ***************************************************/
 
 // program
 //   .command("users <teamName>")

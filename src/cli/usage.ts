@@ -203,6 +203,11 @@ export class Usage {
             "epm version pacth",
         ]
 
+    private static readonly whoAmI: string[] =
+        [
+            "epm whoami",
+        ]
+
     /**
      * Gets the usage for command type
      * @param commandType 
@@ -382,6 +387,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.versionCommands, filter);
+            case CommandTypes.whoami:
+                if (!filter) {
+                    return this.buildUsageString(this.whoAmI);
+                }
+
+                return this.buildUsageStringByFilter(this.whoAmI, filter);
             default:
                 // should never be default maybe throw a error
                 return "";
