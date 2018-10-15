@@ -7,8 +7,10 @@ import { InitialiseControls } from "../common/initialise-controls";
 import { IRegister } from "../interfaces/iregister";
 import { VersionBump } from "../enums/version-bump";
 import { Usage } from "./usage";
-import { AccessTypes, CommandTypes, HookTypes, OrgActionType, 
-         ProfileActionTypes, PublicAccessTypes, TagActionTypes } from "./enums";
+import {
+  AccessTypes, CommandTypes, HookTypes, OrgActionType,
+  ProfileActionTypes, PublicAccessTypes, TagActionTypes
+} from "./enums";
 import { LogHandler } from "./log-handler";
 
 // find TS library as we want the entire library to be in TS
@@ -326,9 +328,14 @@ program
 
 program
   .command("logout")
-  .description(PackageDescriptionsConsts.logout)
-  .action(() => {
-    InitialiseControls.logoutControl.unauthenticate();
+  .usage("command - logout of packages")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.logout))
+  .action(async () => {
+    try {
+      await InitialiseControls.logoutControl.unauthenticate();
+    } catch(error) {
+      LogHandler.logError("Could not logout please try again later", true);
+    }
   });
 
 program
