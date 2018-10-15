@@ -72,6 +72,12 @@ export class Usage {
 
         ];
 
+
+    private static readonly logoutCommands: string[] =
+        [
+            "epm logout",
+        ]
+
     private static readonly lsCommands: string[] =
         [
             "epm ls",
@@ -276,6 +282,12 @@ export class Usage {
                 }
 
                 return this.buildUsageStringByFilter(this.loginCommands, filter);
+            case CommandTypes.logout:
+                if (!filter) {
+                    return this.buildUsageString(this.logoutCommands);
+                }
+
+                return this.buildUsageStringByFilter(this.logoutCommands, filter);
             case CommandTypes.ls:
                 if (!filter) {
                     return this.buildUsageString(this.lsCommands);

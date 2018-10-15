@@ -325,6 +325,13 @@ program
 /***************************************************/
 
 program
+  .command("logout")
+  .description(PackageDescriptionsConsts.logout)
+  .action(() => {
+    InitialiseControls.logoutControl.unauthenticate();
+  });
+
+program
   .command("ls [package|package@version]")
   .usage("command - lists dependencies for a project")
   .option("-f, --full", "Get dependencies for dependencies")
@@ -758,9 +765,6 @@ program
 
 
 /********************* WRITE UNPUBLISH LOGIC HERE *********************/
-
-
-
 /**********************************************************************/
 
 program
@@ -810,12 +814,7 @@ program
 
 /************************** END OF REWRITE SO FAR  ***************************************************/
 
-program
-  .command("logout")
-  .description(PackageDescriptionsConsts.logout)
-  .action(() => {
-    InitialiseControls.logoutControl.unauthenticate();
-  });
+
 
 program
   .command("whoami")
