@@ -137,9 +137,9 @@ program
 
     try {
       await InitialiseControls.deprecateControl.deprecatePackage(_package)
-      console.log("Successfully deprecated the package");
+      LogHandler.log("Successfully deprecated the package");
     } catch (error) {
-      console.error(error);
+      LogHandler.logError("Could not deprecate the package, please try again later.")
     }
   });
 
@@ -154,6 +154,7 @@ program
     }
 
     const result = await InitialiseControls.doctorControl.checkEverythingIsAvailable();
+    // use ascii table for this
     console.log(result);
   });
 
@@ -268,9 +269,6 @@ program
   .usage("command - initialise a new epm project")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.init))
   .action((team, dir) => {
-    console.log(team);
-    console.log(dir);
-
     if (typeof (dir) !== "object") {
       LogHandler.logGenericInvalidCommandError(CommandTypes.init, true);
       return LogHandler.logUsages(CommandTypes.init);
@@ -344,7 +342,6 @@ program
   .option("-f, --full", "Get dependencies for dependencies")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.ls))
   .action(async (_package, dir) => {
-    console.log(_package);
     try {
       const response = await InitialiseControls.lsControl.installedDependencies();
 
@@ -630,12 +627,11 @@ program
   .usage("command - star a package")
   .description(Usage.getUsageForCommandTypeUsage(CommandTypes.star))
   .action(async (_package) => {
-    console.log(_package);
     try {
       await InitialiseControls.starControl.starPackage(_package);
-      console.log("Successfully starred the package")
+      LogHandler.log("Successfully starred the package")
     } catch (error) {
-      console.error(error);
+      LogHandler.logError("Could not star the package, please try again later");
     }
   });
 
@@ -648,7 +644,7 @@ program
       const stars = await InitialiseControls.starControl.getAllStars();
       console.log(stars);
     } catch (error) {
-      console.error(error);
+      LogHandler.logError("Could get stars for username, please try again later");
     }
   });
 
