@@ -208,6 +208,12 @@ export class Usage {
             "epm whoami",
         ]
 
+    private static readonly undeprecateCommands: string[] =
+        [
+            "epm undeprecate <package>",
+            "epm undeprecate <package>@<version>",
+        ];
+
     /**
      * Gets the usage for command type
      * @param commandType 

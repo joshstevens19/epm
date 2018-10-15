@@ -827,14 +827,15 @@ program
   })
 
 program
-  .command("undeprecate <packageName>")
-  .description("Undeprecates a package")
-  .action(async (packageName) => {
+  .command("undeprecate <package|package@version>")
+  .usage("command - undeprecate the package")
+  .description(Usage.getUsageForCommandTypeUsage(CommandTypes.undeprecate))
+  .action(async (_package) => {
     try {
-      await InitialiseControls.deprecateControl.undeprecatePackage(packageName);
-      console.log("Successfully undeprecated the package")
+      await InitialiseControls.deprecateControl.undeprecatePackage(_package);
+      LogHandler.log("Successfully undeprecated the package")
     } catch (error) {
-      console.error(error);
+      LogHandler.logError("Could not undeprecate the package, please try again later");
     }
   });
 

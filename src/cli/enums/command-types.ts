@@ -32,4 +32,5 @@ export enum CommandTypes {
     update = "update",
     version = "version",
     whoami = "whoami",
+    undeprecate = "undeprecate",
 }
